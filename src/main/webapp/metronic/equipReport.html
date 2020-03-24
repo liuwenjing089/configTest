@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+<script src="./js/echarts.min.js"></script>
+<style type="text/css">
+.container{
+        width:1000px;height:400px;
+        display:table;         /*table布局*/
+    }
+    .left{
+        width:500px; height:100%;;
+        display:table-cell;
+    }
+    .right{
+        width:500px;height:100%;;
+        display: table-cell;
+    }
+
+</style>
+<title>模具一览</title>
+</head>
+<body>
+<!-- <button type="button" onclick="ceshi()">测试关闭</button> -->
+<div class="page-container" style="padding-bottom:100px;">
+
+	
+	<div class="text-c" >
+		<legend>设备维修统计分析表</legend>
+	</div>
+    
+	<div class="mt-20">
+
+				<table class="table table-border table-bordered table-responsive table-bg">
+					<thead>
+						<tr class="text-c">
+							<th style="width:5%;">序号</th>
+							<th>设备名称</th>
+							<th>平均间隔时间</th>
+							<th>维修时间</th>
+							<th>平均维修时间</th>
+						</tr>
+					</thead>
+				  <tbody id="equipReportList">
+
+				  </tbody>
+				</table>
+
+	</div>
+
+
+
+	<div class="text-c" style="padding-top: 50px">
+		<legend>生产线设备故障模式统计分析表</legend>
+	</div>
+
+	<div class="mt-20">
+
+				<table class="table table-border table-bordered table-responsive table-bg">
+				  <thead>
+				    <tr class="text-c">
+				      <th rowspan="2" style="width:4%;">故障项目</th>
+				      <th rowspan="2" style="width:15%;">报修年</th>
+				      <th rowspan="2" style="width:7%;">报修月</th>
+				      <th rowspan="2" style="width:9%;">编号\线体</th>
+				      <th rowspan="2" style="width:7%;">影响稼动故障件数（件）</th>
+				      <th rowspan="2" style="width:7%;">未影响稼动故障件数（件）</th>
+				      <th rowspan="2" style="width:7%;">故障件数总计</th>
+				      <th rowspan="2" style="width:7%;">影响稼动维修时间（H）</th>
+				      <th rowspan="2" style="width:7%;">未影响稼动维修时间（H）</th>
+				      <th rowspan="2" style="width:7%;">维修时间总计</th>
+				      <th rowspan="2" style="width:7%;">长时停止件数（件）</th>
+				      <th rowspan="2" style="width:7%;">长时停止时间（H）</th>
+				      <th colspan="4" style="width:10%;">故障分类（件）</th>
+				      <th colspan="4" style="width:10%;">维修用时分类（H）</th>
+				    </tr>
+				    <tr class="text-c">
+				    	
+				    	
+				    	<th><nobr>设计不良</nobr></th>
+				    	<th><nobr>操作不良</nobr></th>
+				    	<th><nobr>清扫不良</nobr></th>
+				    	<th><nobr>老化</nobr></th>
+				    	<th><nobr>查找故障</nobr></th>
+				    	<th><nobr>维修用时</nobr></th>
+				    	<th><nobr>备品用时</nobr></th>
+				    	<th><nobr>作业不便</nobr></th>
+				    <tr/> 
+				  </thead>
+				  <tbody id="lineReportList">
+<!-- 				    <tr class="text-c">
+				      <td rowspan="3">生产故障</td>
+				      <td>1#生产线</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				    </tr>
+				    <tr class="text-c">
+				      
+				      <td>2#生产线</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				    </tr>
+				    <tr class="text-c">
+				      
+				      <td>COAaawww生产线</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>2.433</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>0</td>
+				      <td>2.433</td>
+				      <td>0</td>
+				      <td>2.433</td>
+				      <td>0</td>
+				      <td>2.433</td>
+				      <td>0</td>
+				      <td>0</td>
+				    </tr> -->
+				  </tbody>
+				</table>
+
+	</div>
+	
+	
+	<div class= "container" style="padding-top: 100px">
+			<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="productionFaultClassification" style="width: 500px;height:400px;" class="left"></div>
+	        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="productionMaintenanceTimeClassification" style="width: 500px;height:400px;" class="right"></div>
+	</div>
+
+	<div class= "container" style="padding-top: 100px">
+	        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="formingFaultClassification" style="width: 500px;height:400px;" class="left"></div>
+	        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="formingMaintenanceTimeClassification" style="width: 500px;height:400px;" class="right"></div>
+	</div>    
+
+	<div class= "container" style="padding-top: 100px">
+	        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="totalFaultClassification" style="width: 500px;height:400px;" class="left"></div>
+	        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	    <div id="totalMaintenanceTimeClassification" style="width: 500px;height:400px;" class="right"></div>
+	</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="./js/webJs/equipReport.js"></script>
+<script type="text/javascript" src="./js/webJs/echarsReport.js"></script>
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+</body>
+</html>

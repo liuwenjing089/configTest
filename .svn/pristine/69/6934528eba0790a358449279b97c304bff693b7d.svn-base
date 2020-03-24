@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.SupplierDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Supplier">
+        <result property="supID" column="SUP_ID" />
+        <result property="midSupID" column="MID_SUP_ID" />
+        <result property="supNum" column="SUP_NUM" />
+        <result property="supName" column="SUP_NAME" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isDelete" column="ISDELETE" />
+        <result property="remarks" column="REMARKS" />
+    </resultMap>
+
+    <!--新建供应商-->
+    <insert id="insert" parameterType="com.andon.bean.Supplier" useGeneratedKeys="true" keyProperty="supID">
+        INSERT INTO supplier(
+          SUP_NUM,
+          SUP_NAME,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISDELETE,
+          REMARKS
+        )
+        VALUES (
+          #{supNum},
+          #{supName},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isDelete},
+          #{remarks}
+        )
+    </insert>
+
+    <!--查询所有供应商-->
+    <select id="selectSupplier" resultType="com.andon.bean.Supplier"
+            parameterType="com.andon.bean.dto.SupplierInput">
+        SELECT
+        s.SUP_ID AS supID,
+        s.SUP_NUM AS supNum,
+        s.SUP_NAME AS supName,
+        s.REMARKS AS remarks
+        FROM
+        supplier s
+        WHERE
+          1=1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--分页用  查询供应商数量-->
+    <select id="selectSupplierCount" resultType="int"
+            parameterType="com.andon.bean.dto.SupplierInput">
+        SELECT
+        COUNT(*)
+        FROM
+        supplier
+        WHERE
+          1=1
+    </select>
+
+    <!--根据供应商编号，名称 查询供应商-->
+    <select id="selectSupByNum" resultType="com.andon.bean.Supplier"
+            parameterType="com.andon.bean.dto.SupplierInput">
+        SELECT
+        s.SUP_ID AS supID,
+        s.SUP_NUM AS supNum,
+        s.SUP_NAME AS supName,
+        s.REMARKS AS remarks
+        FROM
+        supplier s
+        WHERE
+        1=1
+        <if test="supNum!=null and supNum!=''">
+            AND s.SUP_NUM  like"%"#{supNum}"%"
+        </if>
+        <if test="supName!=null and supName!=''">
+            AND s.SUP_NAME like"%"#{supName}"%"
+        </if>
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--分页用    根据供应商编号，名称 查询供应商数量-->
+    <select id="selectSupByNumCount" resultType="int"
+            parameterType="com.andon.bean.dto.SupplierInput">
+        SELECT
+        COUNT(*)
+        FROM
+        supplier s
+        WHERE
+        1=1
+        <if test="supNum!=null and supNum!=''">
+            AND s.SUP_NUM  like"%"#{supNum}"%"
+        </if>
+        <if test="supName!=null and supName!=''">
+            AND s.SUP_NAME like"%"#{supName}"%"
+        </if>
+    </select>
+
+    <!--根据供应商ID 查询供应商-->
+    <select id="selectSupplierByID" resultType="com.andon.bean.Supplier"
+            parameterType="com.andon.bean.dto.SupplierInput">
+        SELECT
+        s.SUP_ID AS supID,
+        s.SUP_NUM AS supNum,
+        s.SUP_NAME AS supName,
+        s.REMARKS AS remarks
+        FROM
+        supplier s
+        WHERE
+          1=1
+        AND s.SUP_ID = #{supID}
+    </select>
+
+    <!--修改供应商信息-->
+    <update id="update" parameterType="com.andon.bean.Supplier">
+        UPDATE
+        supplier s
+        SET
+        s.SUP_NUM = #{supNum},
+        s.SUP_NAME = #{supName},
+        s.REMARKS = #{remarks}
+        WHERE
+        s.SUP_ID = #{supID}
+    </update>
+
+    <!-- 查询所有供应商  下拉框 -->
+    <select id="selectSupplierToComBox" resultType="com.andon.bean.Supplier">
+
+        SELECT
+            s.SUP_ID AS supID,
+	        s.SUP_NUM AS supNum,
+	        s.SUP_NAME AS supName
+        FROM
+        	supplier s
+        WHERE
+			s.ISDELETE = #{isDelete}
+    </select>
+</mapper>

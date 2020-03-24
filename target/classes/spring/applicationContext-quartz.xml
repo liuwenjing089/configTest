@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <!-- 定时追加当天行情 只能部署在一台服务器中  -->
+    <bean id="membersTouchBonusJob"
+        class="com.andon.service.impl.quartzJob.MembersTouchBonusJob" />
+    <bean id="addMembersTouchBonus"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject" ref="membersTouchBonusJob" />
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod" value="addMembersTouchBonus" />
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="membersTouchBonusTrigger"
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="addMembersTouchBonus" />
+        <!-- 测试用 每隔5分钟执行一次 
+        <property name="cronExpression" value="10 0/1 * * * ?" />-->
+        <!-- 每日2点触发 --> 
+        <property name="cronExpression" value="0 40 15 * * ?" />
+        <!--   每日早晨10 40分点触发 
+        <property name="cronExpression" value="0 40 10 ? * *" /> -->
+    </bean>
+   <!--  总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序
+    如果lazy-init='true',则需要实例化该bean才能执行调度程序 -->
+    <bean name="startQuertz" lazy-init="false" autowire="no"
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                 <ref bean="membersTouchBonusTrigger" />
+            </list>
+        </property>
+        <property name="quartzProperties">  
+	        <props>
+	        	<prop key="org.quartz.scheduler.skipUpdateCheck">false</prop>   
+	            <prop key="org.quartz.scheduler.instanceName">andon</prop>
+	            <prop key="org.quartz.threadPool.threadCount">2</prop>  
+	            <prop key="org.quartz.plugin.shutdownhook.class">org.quartz.plugins.management.ShutdownHookPlugin</prop>
+	            <prop key="org.quartz.plugin.shutdownhook.cleanShutdown">true</prop>
+	            <prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">true</prop>
+	        </props>  
+	    </property> 
+    </bean>		
+
+
+</beans>  

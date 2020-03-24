@@ -1,0 +1,133 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+<title>保全人员</title>
+<style>
+.btn-inverse {
+    color: #D3D3D3;
+    background-color: #FCFCFC;
+    border-color: #EBEBEB;
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+	<input type="text" id="loginuser" name="loginuser" style="display: none" class="input-text">
+	<input type="text" id="userType" name="userType" style="display: none" class="input-text">
+	<div class="text-c" id="searchfirm">
+	  <span id="typeSpan">
+		类型：
+		<span class="select-box inline">
+			<select name="" id="type" class="select">
+				<option value="9">请选择</option>
+				<option value="1">设备</option>
+				<option value="2">模具</option>
+			</select>
+		</span>
+	  </span>
+		状态：
+		<span class="select-box inline">
+			<select name="" id="state" class="select">
+				<option value="9">请选择</option>
+				<option value="1">未修理</option>
+				<option value="2">修理中</option>
+				<option value="3">修理完了</option>
+				<option value="4">班长确认完了</option>
+				<option value="5">系长确认完了</option>
+				<option value="6">科长确认完了</option>
+			</select>
+		</span>
+
+		报修时间开始:
+		<input type="date" id="beginTime" name="beginTime" style="width: 150px" class="input-text">
+		结束:
+		<input type="date" id="endTime" name="endTime" style="width: 150px" class="input-text">
+		
+	</div>
+	
+	<div class="text-c" style="margin-top:1%;">
+        作业者：
+		<span class="select-box inline">
+			<select name="" class="select" id="worker">
+				<option value="">请选择</option>
+			</select>
+		</span>
+		<button name="search" id="search" class="btn btn-success radius" onclick="search(0, 1)"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
+
+    </div>
+    
+
+	<div class="mt-20">
+
+	<table class="table table-border table-bordered table-responsive table-bg">
+		<thead>
+			<tr class="text-c">
+				<th><nobr>序号</nobr></th>
+				<th id="repairNum">报修编号</th>
+				<th id="repairType"><nobr>类型</nobr></th>
+				<th>状态</th>
+				<th><nobr>报修者</nobr></th>
+				<th>报修时间</th>
+				<th>作业者</th>
+				<th>车种</th>
+				<th id="repairEquipName">设备名称/模具名称</th>
+				<th id="repairLineName">线别</th>
+				<th id="repairAppearance">描述</th>
+				<th style="width:22%;">操作</th>
+			</tr>
+		</thead>
+		<tbody id="stateList">
+		</tbody>
+	</table>
+	
+	
+
+	</div>
+	
+		<div class="row cl">
+			<div id="Pagination" class="pagination text-c"></div>
+		</div>
+
+    
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_分页-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/webJs/servicemanPrevention.js"></script>
+
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

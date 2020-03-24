@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldPartsInfoDao">
+
+    <!--获取部品分类-->
+    <select id="selectMouldPartsInfoToPartsType" resultType="com.andon.bean.MouldPartsInfo" parameterType="com.andon.bean.MouldPartsInfo">
+	    SELECT
+			m.PARTS_TYPE AS partsType
+		FROM
+			mould_parts_info m
+		WHERE
+			m.ISACTIVE= #{isActive}	
+		GROUP BY
+			m.PARTS_TYPE
+    </select>
+    
+    <!--根据部品分类获取部品名称-->
+    <select id="selectMouldPartsInfoToPartsName" resultType="com.andon.bean.MouldPartsInfo" parameterType="com.andon.bean.MouldPartsInfo">
+		SELECT
+			m.PARTS_NAME AS partsName
+		FROM
+			mould_parts_info m
+		WHERE 
+			m.ISACTIVE= #{isActive}	
+		AND	
+		    m.PARTS_TYPE = #{partsType}
+		GROUP BY
+			m.PARTS_NAME
+    </select>
+    
+    <!--根据部品分类和部品名称获取部品品番或型号-->
+    <select id="selectMouldPartsInfoToPartsNum" resultType="com.andon.bean.MouldPartsInfo" parameterType="com.andon.bean.MouldPartsInfo">
+		SELECT
+		  m.UUID AS uuid,
+		  m.PARTS_TYPE AS partsType,
+		  m.PARTS_NAME AS partsName,
+		  m.PARTS_NUM  AS partsNum
+		  
+		FROM
+			mould_parts_info m
+		WHERE 
+		  m.ISACTIVE = #{isActive}	
+		AND
+		  m.PARTS_TYPE = #{partsType}
+		AND 
+		  m.PARTS_NAME = #{partsName}
+    </select>
+
+    <!--根据部品分类和部品名称获取部品品番或型号-->
+    <select id="selectMouldFaultPartsDetail" resultType="com.andon.bean.MouldFaultParts">
+		SELECT
+		  m.ID AS id,
+		  m.RE_ID AS reId,
+		  m.MOULD_PARTS_INFO_UUID AS mouldPartsInfoUuid,
+		  m.CONTENT  AS content,
+		  m.QUANTITY AS quantity,
+		  m.PARTS_TYPE AS partsType,
+		  m.PARTS_NAME  AS partsName,
+		  m.PARTS_NUM  AS partsNum,
+		  m.CODE_NAME AS contentName
+		  
+		FROM
+			view_mould_fault_parts_detail m
+		WHERE 
+            m.RE_ID = #{reId}
+    </select>
+</mapper>

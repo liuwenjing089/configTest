@@ -1,0 +1,189 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+
+<title>保全人员</title>
+</head>
+<body>
+<div class="page-container" style="padding-bottom:100px;">
+
+<div class="row cl form form-horizontal">
+	<input type="text" id="beginTime" name="beginTime" style="display: none" class="input-text">
+	<input type="text" id="urlDate" name="urlDate" style="display: none" class="input-text">
+		<input type="text" id="id" name="id" style="display: none" class="input-text">
+		<input type="text" id="mouldId" name="mouldId" style="display: none" class="input-text">
+		<input type="text" id="cycle" name="cycle" style="display: none" class="input-text">
+		<input type="text" id="userType" name="userType" style="display: none" class="input-text">
+		<input type="text" id="loginuser" name="loginuser" style="display: none" class="input-text">
+        <input type="text" id="length" name="length" style="display: none" class="input-text">
+        
+			<label class="form-label col-md-1 col-sm-1"><nobr>图号</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="figureNumber" name="figureNumber" class="input-text" disabled="disabled">
+			</div>
+			
+			<label class="form-label col-md-1 col-sm-1"><nobr>名称</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="vehicleType" name="vehicleType" class="input-text" disabled="disabled">
+			</div>
+			<label class="form-label col-md-1 col-sm-1"><nobr>点检保全者</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="spotMan" name="spotMan" class="input-text" disabled="disabled">
+			</div>
+			<span id="timeApp" style="display: none">
+			<label class="form-label col-md-1 col-sm-1"><nobr>点检时间</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+		        <input type="date" id="spotDate" name='spotDate' class='input-text'>
+			</div>
+			</span>
+</div>
+
+
+<!-- 	<div class="text-c">
+		<input type="text" id="id" name="id" style="display: none" class="input-text">
+		<input type="text" id="mouldId" name="mouldId" style="display: none" class="input-text">
+		<input type="text" id="cycle" name="cycle" style="display: none" class="input-text">
+		<input type="text" id="userType" name="userType" style="display: none" class="input-text">
+		<input type="text" id="loginuser" name="loginuser" style="display: none" class="input-text">
+        <input type="text" id="length" name="length" style="display: none" class="input-text">
+		图号：
+		<input type="text" id="figureNumber" name="figureNumber" style="width: 160px" class="input-text" disabled="disabled">
+		名称：
+		<input type="text" id="vehicleType" name="vehicleType" style="width: 160px" class="input-text" disabled="disabled">
+		点检保全者：
+		<input type="text" id="spotMan" name="spotMan" style="width: 160px" class="input-text" disabled="disabled">
+        <span id="timeApp" style="display: none">
+        点检时间：
+        <input type="date" id="spotDate" name='spotDate' class='input-text' style="width: 160px">
+        </span>
+		<button id="btnSave" style="display: none" onClick="save();" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+		<button id="btnConfirm" class='btn btn-primary radius' style="display: none" onclick='confirm();'>确认</button>
+		<button id="btnClassConfirm" class='btn btn-primary radius' style="display: none" onclick='classConfirm();'>确认</button>
+	</div> -->
+<div class="row cl form form-horizontal" style="margin-top:6px;">
+			<label class="form-label col-md-1 col-sm-1"><nobr>系长确认</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="confirmCommander" name="username" class="input-text" disabled="disabled">
+			</div>
+			
+			<label class="form-label col-md-1 col-sm-1"><nobr>系长确认时间</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="confirmCommanderTime" name="username" class="input-text" disabled="disabled">
+			</div>
+			<label class="form-label col-md-1 col-sm-1"><nobr>科长确认</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="confirmChief" name="username" class="input-text" disabled="disabled">
+			</div>
+			<label class="form-label col-md-1 col-sm-1"><nobr>科长确认时间</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+		        <input type="text" id="confirmChiefTime" name="username" class="input-text" disabled="disabled">
+			</div>
+</div>
+<div class="row cl form form-horizontal" style="margin-top:6px">
+			<label class="form-label col-md-1 col-sm-1"><nobr>班长确认</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="classConfirmMan" name="classConfirmMan" class="input-text" disabled="disabled">
+				
+			</div>
+			<label class="form-label col-md-1 col-sm-1"><nobr>班长确认时间</nobr></label>
+			<div class="formControls col-md-2 col-sm-2">
+				<input type="text" id="classConfirmTime" name="classConfirmTime" class="input-text" disabled="disabled">
+				
+			</div>
+			
+			
+			
+			
+			<label class="form-label col-md-1 col-sm-1"><nobr></nobr></label>
+			<div class="formControls col-md-2 col-sm-2 col-md-offset-6 col-sm-offset-6" style="text-align:right;">
+				<button id="btnSave" style="display: none" onClick="save();" class="btn btn-primary radius">保存</button>
+				<button onClick="javascript:history.back(-1);" class="btn btn-danger radius">返回</button>
+				<button id="btnConfirm" class='btn btn-primary radius' style="display: none" onclick='confirm();'>确认</button>
+				<button id="btnClassConfirm" class='btn btn-primary radius' style="display: none" onclick='classConfirm();'>确认</button>
+			</div>
+
+</div>
+<!-- 	<div class="text-c">
+		系长确认：
+		<input type="text" id="confirmCommander" name="username" style="width: 160px" class="input-text" disabled="disabled">
+		系长确认时间：
+		<input type="text" id="confirmCommanderTime" name="username" style="width: 160px" class="input-text" disabled="disabled">
+		科长确认：
+		<input type="text" id="confirmChief" name="username" style="width: 160px" class="input-text" disabled="disabled">
+		科长确认时间：
+		<input type="text" id="confirmChiefTime" name="username" style="width: 160px" class="input-text" disabled="disabled">
+		班长确认：
+		<input type="text" id="classConfirmMan" name="classConfirmMan" style="width: 160px" class="input-text" disabled="disabled">
+		<input type="text" id="classConfirmTime" name="classConfirmTime" style="display: none" class="input-text" disabled="disabled">
+	</div> -->
+
+	<div class="mt-20">
+
+		<table class="table table-border table-bordered table-responsive" style="width:100%" id="table1">
+			<tr class="text-c">
+				<td style="width:4%">序号</td>
+				<td>点检类型</td>
+				<td>点检部位</td>
+				<td>点检基准</td>
+				<td>检查项目</td>
+				<td>检查方法</td>
+				<td>有无异常</td>
+				<td>异常内容</td>
+				<td>有无修正</td>
+				<td>修正内容</td>
+				<td id="dianDate" style="width:8%">实施日期</td>
+				<td>备注</td>
+				<td style="width:10%">规则图片</td>
+				<td id="upPic" style="width:10%">上传图片</td>
+				<td style="width:10%">上传图片预览</td>
+			</tr>
+			<tbody id="checkList">
+			</tbody>
+		</table>
+
+		<table class="table table-border table-bordered table-responsive" style="width:100%" id="table2">
+			<!--<tr class="text-c">-->
+				<!--<td>重点部位点检样式图</td>-->
+			<!--</tr>-->
+			<tbody id="checkList1">
+			</tbody>
+		</table>
+
+		<table class="table table-border table-bordered table-responsive" style="width:100%" id="table3">
+			<tbody id="checkList2">
+			</tbody>
+		</table>
+</div>
+</div>
+
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/webJs/spotCheckMould.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldRepairDao">
+    <resultMap id="ResultMap" type="com.andon.bean.MouldRepair">
+        <result property="id" column="ID" />
+        <result property="reId" column="RE_ID" />
+        <result property="mouldUser" column="MOULD_USER" />
+        <result property="shiftLeader" column="SHIFT_LEADER" />
+        <result property="preservationDepartment" column="PRESERVATION_DEPARTMENT" />
+        <result property="preservationSectionChief" column="PRESERVATION_SECTION_CHIEF" />       
+        <result property="maintenanceDependencyDep" column="MAINTENANCE_DEPENDENCY_DEP" />
+        <result property="maintenanceDependencyUse" column="MAINTENANCE_DEPENDENCY_USE" />
+        <result property="warehouseTimeStart" column="WAREHOUSE_TIME_START" />
+        <result property="warehouseTimeEnd" column="WAREHOUSE_TIME_END" />
+        <result property="failurePeriod" column="FAILURE_PERIOD" />
+        <result property="phenomenalDescription" column="PHENOMENAL_DESCRIPTION" />
+        <result property="appearance" column="APPEARANCE" />
+        <result property="reason" column="REASON" />
+        <result property="emergencyDisposal" column="EMERGENCY_DISPOSAL" />
+        <result property="permanentGame" column="PERMANENT_GAME" />
+        <result property="faultLocationUrl" column="FAULT_LOCATION_URL" />
+        <result property="productUrl" column="PRODUCT_URL" />
+        <result property="formingMachineUrl" column="FORMING_MACHINE_URL" />
+        <result property="maintenanceCompletedUrl" column="MAINTENANCE_COMPLETED_URL" />
+        <result property="faultType" column="FAULT_TYPE" />
+        <result property="faultParts" column="FAULT_PARTS" />
+        <result property="faultReason" column="FAULT_REASON" />
+        <result property="line" column="LINE" />
+
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+	<sql id="Base_Column_List">
+	      ID,
+          RE_ID,
+          MOULD_USER,
+          SHIFT_LEADER,
+          PRESERVATION_DEPARTMENT,
+          PRESERVATION_SECTION_CHIEF,
+          MAINTENANCE_DEPENDENCY_DEP,
+          MAINTENANCE_DEPENDENCY_USE,
+          WAREHOUSE_TIME_START,
+          WAREHOUSE_TIME_END,
+          FAILURE_PERIOD,
+          PHENOMENAL_DESCRIPTION,
+          APPEARANCE,
+          REASON,
+          EMERGENCY_DISPOSAL,
+          PERMANENT_GAME,
+          FAULT_LOCATION_URL,
+          PRODUCT_URL,
+          FORMING_MACHINE_URL,
+          MAINTENANCE_COMPLETED_URL,
+          FAULT_TYPE,
+          FAULT_PARTS,
+          FAULT_REASON,
+          FAULT_PARTS_NUM,
+          LINE
+	</sql>
+
+    <!--新建模具维修-->
+    <insert id="insertMouldRepair" parameterType="com.andon.bean.MouldRepair" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mould_repair(
+          RE_ID,
+          MOULD_USER,
+          SHIFT_LEADER,
+          PRESERVATION_DEPARTMENT,
+          PRESERVATION_SECTION_CHIEF,
+          MAINTENANCE_DEPENDENCY_DEP,
+          MAINTENANCE_DEPENDENCY_USE,
+          WAREHOUSE_TIME_START,
+          WAREHOUSE_TIME_END,
+          FAILURE_PERIOD,
+          PHENOMENAL_DESCRIPTION,
+          APPEARANCE,
+          REASON,
+          EMERGENCY_DISPOSAL,
+          PERMANENT_GAME,
+          FAULT_LOCATION_URL,
+          PRODUCT_URL,
+          FORMING_MACHINE_URL,
+          MAINTENANCE_COMPLETED_URL,
+          FAULT_TYPE,
+          FAULT_PARTS,
+          FAULT_REASON,
+          LINE,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{reId},
+          #{mouldUser},
+          #{shiftLeader},
+          #{preservationDepartment},
+          #{preservationSectionChief},
+          #{maintenanceDependencyDep},
+          #{maintenanceDependencyUse},
+          #{warehouseTimeStart},
+          #{warehouseTimeEnd},
+          #{failurePeriod},
+          #{phenomenalDescription},
+          #{appearance},
+          #{reason},
+          #{emergencyDisposal},
+          #{permanentGame},
+          #{faultLocationUrl},
+          #{productUrl},
+          #{formingMachineUrl},
+          #{maintenanceCompletedUrl},
+          #{faultType},
+          #{faultParts},
+          #{faultReason},
+          #{line},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+    
+    <!--根据id查询一条模具维修表记录-->
+    <select id="selectMouldRepairById" resultType="com.andon.bean.MouldRepair" >
+            
+		SELECT
+		  r.reportRepairTime,
+		  r.orderTime,
+		  r.applicant,
+		  r.beginTime,
+		  r.endTime,
+		  r.confirmationTime,
+		  r.qualityMonitorTime,
+		  r.preDepChiefConTime,
+		  r.preSecChiefConTime,
+		  r.mouldId,
+		  r.figureNumber,
+		  r.model,
+		  r.anotherName,
+		  r.id,
+		  r.reId,
+		  r.mouldUser,
+		  r.shiftLeader,
+		  r.preservationDepartment,
+		  r.preservationSectionChief,
+		  r.failurePeriod,
+		  r.phenomenalDescription,
+		  r.reason,
+		  r.emergencyDisposal,
+		  r.permanentGame,
+		  r.faultLocationUrl,
+		  r.productUrl,
+		  r.formingMachineUrl,
+		  r.maintenanceCompletedUrl,
+		  r.faultType,
+		  r.faultParts,
+		  r.faultReason,
+		  r.line,
+		  r.appearance,
+		  r.shiftLeaderView,
+		  r.mouldUserView,
+		  r.preservationDepartmentView,
+		  r.preservationSectionChiefView,
+		  r.repairNumber,
+		  r.warehouseTimeStart,
+		  r.warehouseTimeEnd
+		FROM
+			view_mould_repair_detail r
+		WHERE
+			r.repairId = #{id}
+    </select>
+
+    <!--修改模具维修表-->
+    <update id="updateMouldRepairById" parameterType="com.andon.bean.MouldRepair">
+        UPDATE
+        	mould_repair m
+        SET
+        
+          <if test="mouldUser!=null and mouldUser!=''">
+		  	m.MOULD_USER = #{mouldUser},
+		  </if>		
+		        
+          <if test="shiftLeader!=null and shiftLeader!=''">
+		  	m.SHIFT_LEADER = #{shiftLeader},
+		  </if>
+		  
+		  <if test="preservationDepartment!=null and preservationDepartment!=''">
+		  	m.PRESERVATION_DEPARTMENT = #{preservationDepartment},
+		  </if>
+
+		  <if test="preservationSectionChief!=null and preservationSectionChief!=''">
+		  	m.PRESERVATION_SECTION_CHIEF = #{preservationSectionChief},
+		  </if>		
+		        
+          <if test="maintenanceDependencyDep!=null and maintenanceDependencyDep!=''">
+		  	m.MAINTENANCE_DEPENDENCY_DEP = #{maintenanceDependencyDep},
+		  </if>	
+		  
+		  <if test="maintenanceDependencyUse!=null and maintenanceDependencyUse!=''">
+		  	m.MAINTENANCE_DEPENDENCY_USE = #{maintenanceDependencyUse},
+		  </if>
+		  		      
+          <if test="warehouseTimeStart!=null and warehouseTimeStart!=''">
+		  	m.WAREHOUSE_TIME_START = #{warehouseTimeStart},
+		  </if>
+		  	
+		  <if test="warehouseTimeEnd!=null and warehouseTimeEnd!=''">
+		  	m.WAREHOUSE_TIME_END = #{warehouseTimeEnd},
+		  </if>
+		  		      
+          <if test="failurePeriod!=null and failurePeriod!=''">
+		  	m.FAILURE_PERIOD = #{failurePeriod},
+		  </if>
+		  	
+		  <if test="phenomenalDescription!=null and phenomenalDescription!=''">
+		  	m.PHENOMENAL_DESCRIPTION = #{phenomenalDescription},
+		  </if>
+
+          <if test="appearance!=null and appearance!=''">
+            m.APPEARANCE = #{appearance},
+          </if>
+
+          <if test="reason!=null and reason!=''">
+		  	m.REASON = #{reason},
+		  </if>
+		  
+		  <if test="emergencyDisposal!=null and emergencyDisposal!=''">
+		  	m.EMERGENCY_DISPOSAL = #{emergencyDisposal},
+		  </if>	
+		  
+		  <if test="permanentGame!=null and permanentGame!=''">
+		  	m.PERMANENT_GAME = #{permanentGame},
+		  </if>	
+		  
+		  <if test="faultLocationUrl!=null">
+		  	m.FAULT_LOCATION_URL = #{faultLocationUrl},
+		  </if>
+		  
+		  <if test="productUrl!=null">
+		  	m.PRODUCT_URL = #{productUrl},
+		  </if>		
+		  
+		  <if test="formingMachineUrl!=null">
+		  	m.FORMING_MACHINE_URL = #{formingMachineUrl},
+		  </if>
+		  <if test="formingMachineUrl!=null">
+		  	m.MAINTENANCE_COMPLETED_URL = #{maintenanceCompletedUrl},
+		  </if>
+            m.FAULT_TYPE = #{faultType},
+          <if test="faultReason!=null and faultReason!=''">
+            m.FAULT_REASON = #{faultReason},
+          </if>
+        <if test="faultParts!=null and faultParts!=''">
+            m.FAULT_PARTS = #{faultParts},
+        </if>
+          m.UPDATE_TIME = #{updateTime},
+          m.UPDATE_USER = #{updateUser}
+        WHERE
+        	m.ID = #{id}
+        AND 
+            m.ISACTIVE = #{isActive}
+    </update>
+    
+        <!--修改模具维修表-->
+    <update id="MouldRepairConfirm" parameterType="com.andon.bean.MouldRepair">
+        UPDATE
+        	mould_repair m
+        SET
+          <if test="mouldUser!=null and mouldUser!=''">
+		  	m.MOULD_USER = #{mouldUser},	  		
+		  </if>
+          <if test="shiftLeader!=null and shiftLeader!=''">
+		  	m.SHIFT_LEADER = #{shiftLeader},	  		
+		  </if>
+		  <if test="preservationDepartment!=null and preservationDepartment!=''">
+		  	m.PRESERVATION_DEPARTMENT = #{preservationDepartment},	  		
+		  </if> 
+		  <if test="preservationSectionChief!=null and preservationSectionChief!=''">
+		  	m.PRESERVATION_SECTION_CHIEF = #{preservationSectionChief},	  		
+		  </if>      
+		    					  
+          m.UPDATE_TIME = #{updateTime},
+          m.UPDATE_USER = #{updateUser}
+        WHERE
+        	m.RE_ID = #{reId}
+        AND 
+            m.ISACTIVE = #{isActive}
+    </update>
+
+    <!--获取生产线名称 原因-->
+    <select id="selectLineReason" resultType="com.andon.bean.MouldRepair" >
+		SELECT
+		  m.PHENOMENAL_DESCRIPTION AS appearance,
+		  b.BELTLINE_NAME AS lineName
+		FROM
+			mould_repair m
+		LEFT JOIN beltline b
+        ON m.LINE = b.ID
+		WHERE
+			m.RE_ID = #{id}
+		AND m.ISACTIVE = 1
+		AND b.ISACTIVE = 1
+    </select>
+    
+        <!--根据id查询一条模具维修表记录-->
+    <select id="selectMouldRepairByIds" resultType="com.andon.bean.dto.TestMouldRepair" >
+    SELECT
+		`r`.`ID` AS repairId,
+		`r`.`REPAIR_NUMBER` AS repairNumber,
+		`r`.`REPORT_REPAIR_TIME` AS reportRepairTime,
+		`r`.`STATE` AS state,
+		`m`.`FIGURE_NUMBER` AS figureNumber,
+		`m`.`VEHICLE_TYPE` AS vehicleType,
+		`mr`.`PHENOMENAL_DESCRIPTION` AS phenomenalDescription,
+		`u1`.`EMPLOYEE_NAME` AS `applicantName`,
+		 b.BELTLINE_NAME AS lineName
+
+	FROM
+		(
+			(
+				(
+					(
+						(
+							`repair` `r`
+							LEFT JOIN `mould` `m` ON (
+								(
+									(`r`.`DETAIL_ID` = `m`.`ID`)
+									AND (`m`.`ISACTIVE` = #{isActive})
+								)
+							)
+						)
+						LEFT JOIN `mould_repair` `mr` ON (
+							(
+								(`r`.`ID` = `mr`.`RE_ID`)
+								AND (`mr`.`ISACTIVE` = #{isActive})
+							)
+						)
+					)
+					LEFT JOIN `user` `u1` ON (
+						(
+							(
+								`r`.`APPLICANT` = `u1`.`USERNAME`
+							)
+							AND (`u1`.`ISACTIVE` = #{isActive})
+						)
+					)
+				   LEFT JOIN `beltline` `b` ON (
+						(
+							(
+								`mr`.`LINE` = `b`.`ID`
+							)
+							AND (`b`.`ISACTIVE` = #{isActive})
+						)
+					)
+				)
+
+			)
+
+		)
+	WHERE
+		r.id = #{id}
+	AND
+	
+		(`r`.`ISACTIVE` = #{isActive})
+    </select>
+    
+    
+            <!--根据id查询一条模具维修表记录-->
+    <select id="selectMouldRepairByIdsFromPrevention" resultType="com.andon.bean.dto.TestMouldRepair" >
+    SELECT
+		`r`.`UUID` AS repairIdString,
+		`r`.`REPAIR_NUMBER` AS repairNumber,
+		`r`.`REPORT_REPAIR_TIME` AS reportRepairTime,
+		`r`.`STATE` AS state,
+		`m`.`FIGURE_NUMBER` AS figureNumber,
+		`m`.`VEHICLE_TYPE` AS vehicleType,
+		`mr`.`PHENOMENAL_DESCRIPTION` AS phenomenalDescription,
+		`u1`.`EMPLOYEE_NAME` AS `applicantName`,
+		 b.BELTLINE_NAME AS lineName
+
+	FROM
+		(
+			(
+				(
+					(
+						(
+							`mould_prevention_repair` `r`
+							LEFT JOIN `mould` `m` ON (
+								(
+									(`r`.`DETAIL_ID` = `m`.`ID`)
+									AND (`m`.`ISACTIVE` = #{isActive})
+								)
+							)
+						)
+						LEFT JOIN `mould_repair` `mr` ON (
+							(
+								(`r`.`UUID` = `mr`.`RE_ID`)
+								AND (`mr`.`ISACTIVE` = #{isActive})
+							)
+						)
+					)
+					LEFT JOIN `user` `u1` ON (
+						(
+							(
+								`r`.`APPLICANT` = `u1`.`USERNAME`
+							)
+							AND (`u1`.`ISACTIVE` = #{isActive})
+						)
+					)
+				   LEFT JOIN `beltline` `b` ON (
+						(
+							(
+								`mr`.`LINE` = `b`.`ID`
+							)
+							AND (`b`.`ISACTIVE` = #{isActive})
+						)
+					)
+				)
+
+			)
+
+		)
+	WHERE
+		r.UUID = #{deId}
+	AND
+	
+		(`r`.`ISACTIVE` = #{isActive})
+    </select>
+    
+    
+    <!--根据id查询一条模具维修表记录 (预防再发)-->
+    <select id="selectMouldRepairPreventionById" resultType="com.andon.bean.MouldRepair" >
+            
+		SELECT
+		  r.reportRepairTime,
+		  r.orderTime,
+		  r.applicant,
+		  r.beginTime,
+		  r.endTime,
+		  r.confirmationTime,
+		  r.qualityMonitorTime,
+		  r.preDepChiefConTime,
+		  r.preSecChiefConTime,
+		  r.mouldId,
+		  r.figureNumber,
+		  r.model,
+		  r.anotherName,
+		  r.id,
+		  r.reId,
+		  r.mouldUser,
+		  r.shiftLeader,
+		  r.preservationDepartment,
+		  r.preservationSectionChief,
+		  r.failurePeriod,
+		  r.phenomenalDescription,
+		  r.reason,
+		  r.emergencyDisposal,
+		  r.permanentGame,
+		  r.faultLocationUrl,
+		  r.productUrl,
+		  r.formingMachineUrl,
+		  r.maintenanceCompletedUrl,
+		  r.faultType,
+		  r.faultParts,
+		  r.faultReason,
+		  r.line,
+		  r.appearance,
+		  r.shiftLeaderView,
+		  r.mouldUserView,
+		  r.preservationDepartmentView,
+		  r.preservationSectionChiefView,
+		  r.repairNumber,
+		  r.warehouseTimeStart,
+		  r.warehouseTimeEnd
+		FROM
+			view_mould_repair_prevention_detail r
+		WHERE
+			r.repairUuid = #{uuid}
+    </select>
+    
+    
+    
+    
+</mapper>

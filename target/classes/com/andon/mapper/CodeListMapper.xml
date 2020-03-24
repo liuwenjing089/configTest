@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.CodeListDao">
+    <resultMap id="ResultMap" type="com.andon.bean.CodeList">
+        <result property="id" column="ID" />
+        <result property="parentId" column="PARENT_ID" />
+        <result property="codeType" column="CODE_TYPE" />
+        <result property="codeName" column="CODE_NAME" />
+        <result property="Info1" column="INFO_1" />
+        <result property="Info2" column="INFO_2" />
+        <result property="Info3" column="INFO_3" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <!--根据id查-->
+    <select id="selectById" resultType="com.andon.bean.CodeList"
+            parameterType="com.andon.bean.CodeList">
+        SELECT
+        b.ID AS id,
+        b.PARENT_ID AS parentId,
+        b.CODE_TYPE AS codeType,
+        b.CODE_NAME AS codeName,
+        b.INFO_1 AS Info1,
+        b.INFO_2 AS Info2,
+        b.INFO_3 AS Info3
+        FROM
+        code_list b
+        WHERE
+        1=1
+        AND b.id=#{id}
+        AND b.ISACTIVE = 1
+    </select>
+
+    <!--根据type查-->
+    <select id="selectByType" resultType="com.andon.bean.CodeList"
+            parameterType="com.andon.bean.CodeList">
+        SELECT
+        b.ID AS id,
+        b.PARENT_ID AS parentId,
+        b.CODE_TYPE AS codeType,
+        b.CODE_NAME AS codeName,
+        b.INFO_1 AS Info1,
+        b.INFO_2 AS Info2,
+        b.INFO_3 AS Info3
+        FROM
+        code_list b
+        WHERE
+        1=1
+        AND b.CODE_TYPE=#{codeType}
+        AND b.PARENT_ID = #{parentId}
+        AND b.ISACTIVE = 1
+    </select>
+</mapper>

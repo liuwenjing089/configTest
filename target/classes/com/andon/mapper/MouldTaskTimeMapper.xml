@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldTaskTimeDao">
+    <!--新建-->
+    <insert id="insert" parameterType="com.andon.bean.MouldTaskTime" >
+        <selectKey keyProperty="uuid" keyColumn="UUID" order="BEFORE" resultType="string">
+            select uuid()
+        </selectKey>
+        INSERT INTO mould_task_time(
+          UUID,
+          RE_ID,
+          TASK_BEGIN_TIME,
+          TASK_END_TIME,
+          CREATE_USER,
+          CREATE_TIME,
+          UPDATE_USER,
+          UPDATE_TIME
+        )
+        
+        VALUES (
+          #{uuid},
+          #{reId},
+          #{taskBeginTime},
+          #{taskEndTime},
+
+          #{createUser},
+          #{createTime},
+          
+          #{updateUser},
+          #{updateTime}
+        )
+    </insert>
+    
+    <!--更新主表-->
+    <update id="update" parameterType="com.andon.bean.MouldTaskTime">
+    UPDATE
+    	mould_task_time
+    <set>
+        TASK_END_TIME = #{taskEndTime},
+        UPDATE_TIME = #{updateTime},
+        UPDATE_USER = #{updateUser}
+    </set>
+    WHERE
+    UUID = #{uuid}
+    </update>
+    
+    
+    <!-- 查询结束时间为空的记录 -->
+    <select id="selectMouldTaskTime" resultType="com.andon.bean.MouldTaskTime" >
+            
+    SELECT
+    	v.UUID AS uuid
+    FROM 
+    	mould_task_time v
+    WHERE 
+    	v.RE_ID = #{reId}
+    AND
+    	v.TASK_END_TIME = ''
+    </select>
+    
+    <!-- 查询已存在的开始结束的条目数量 -->
+    <select id="selectCount" resultType="int" >
+            
+    SELECT
+    	COUNT(v.UUID)
+    FROM 
+    	mould_task_time v
+    WHERE 
+    	v.RE_ID = #{reId}
+    </select>
+    
+        <!--批量查询Eqname-->
+    <select id="selectRepairMouldState" resultType="com.andon.bean.dto.RepairMouldState"
+            parameterType="java.util.List">
+SELECT
+		ra.ID AS id,
+		ra.STATE AS state,
+		(
+			SELECT
+				COUNT(m.UUID)
+			FROM
+				mould_task_time m
+			WHERE
+				m.RE_ID = ra.ID
+		) AS mouldTaskTimeCount,
+		(
+			SELECT
+				COUNT(m1.UUID)
+			FROM
+				mould_task_time m1
+			WHERE
+				m1.RE_ID = ra.ID
+	    AND m1.TASK_END_TIME = ''
+		) AS mouldTaskTimeResult,
+		(
+			SELECT
+				COUNT(t.ID)
+			FROM
+				test_mould t
+			WHERE
+				t.DE_ID = ra.ID
+	    AND t.ISACTIVE = 1
+		) AS testMouldCount,
+	(
+			SELECT
+				COUNT(t1.ID)
+			FROM
+				test_mould t1
+			WHERE
+				t1.DE_ID = ra.ID
+	    AND t1.ISACTIVE = 1
+	    AND t1.TEST_MOULD_RESULT = 2
+		) AS testMouldToSucceed
+	FROM
+		`repair` ra
+	WHERE
+	    ra.ID IN
+	    <foreach collection="list" item="id" open="(" separator="," close=")">
+	        #{id}
+	    </foreach>
+    </select>
+    
+    
+            <!--批量查询Eqname-->
+    <select id="selectRepairPreventionMouldState" resultType="com.andon.bean.dto.RepairMouldState"
+            parameterType="java.util.List">
+SELECT
+		ra.UUID AS uuid,
+		ra.STATE AS state,
+		(
+			SELECT
+				COUNT(m.UUID)
+			FROM
+				mould_task_time m
+			WHERE
+				m.RE_ID = ra.UUID
+		) AS mouldTaskTimeCount,
+		(
+			SELECT
+				COUNT(m1.UUID)
+			FROM
+				mould_task_time m1
+			WHERE
+				m1.RE_ID = ra.UUID
+	    AND m1.TASK_END_TIME = ''
+		) AS mouldTaskTimeResult,
+		(
+			SELECT
+				COUNT(t.ID)
+			FROM
+				test_mould t
+			WHERE
+				t.DE_ID = ra.UUID
+	    AND t.ISACTIVE = 1
+		) AS testMouldCount,
+	(
+			SELECT
+				COUNT(t1.ID)
+			FROM
+				test_mould t1
+			WHERE
+				t1.DE_ID = ra.UUID
+	    AND t1.ISACTIVE = 1
+	    AND t1.TEST_MOULD_RESULT = 2
+		) AS testMouldToSucceed
+	FROM
+		`mould_prevention_repair` ra
+	WHERE
+	    ra.UUID IN
+	    <foreach collection="list" item="id" open="(" separator="," close=")">
+	        #{id}
+	    </foreach>
+    </select>
+</mapper>

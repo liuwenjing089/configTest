@@ -1,0 +1,202 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/dashboard.css" />
+
+<title>保全人员form</title>
+<style>
+	.row-cards a{
+		text-decoration: none;
+	}
+
+	input{
+		border-radius: 4px;
+	}
+</style>
+</head>
+<body>
+
+<div class="page-container">
+	<div class="col-lg-12">
+	
+		<!--<div class="alert alert-warning">-->
+			<!--<strong>1 #</strong> 号生产线 , 工号:<span>000000</span> , 保修时间:<span>YYYY-MM-DD HH:MM:SS</span>-->
+			<!--, 故障现象:<span>xxxxxxxxxxxxxx，xxxxxxx</span>-->
+		<!--</div>-->
+		<div class="card-footer text-right">
+			<button class="btn btn-primary" onclick="confirm()">确认完成</button>
+		</div>
+		
+		<form class="card">
+			<div class="card-body">
+		
+				<div class="form-group" >
+					故障是否属于首发:
+					<label class="custom-control custom-radio custom-control-inline">
+						<input type="radio" class="custom-control-input" id="isfirstEpisode1" value="1" disabled="disabled">
+						<span class="custom-control-label">首发</span>
+					</label>
+					<label class="custom-control custom-radio custom-control-inline">
+						<input type="radio" class="custom-control-input" id="isfirstEpisode2" value="2" disabled="disabled">
+						<span class="custom-control-label">再发</span>
+					</label>
+
+					<!--<select>-->
+						<!--<option value="STATUS_CODE">完成代码</option>-->
+						<!--<option value="JSON_BODY" selected>完了</option>-->
+						<!--<option value="HEADERS">应急处理</option>-->
+					<!--</select>-->
+				</div>
+
+
+				<div class="row">
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">开始作业时间</label>
+							<input type="text" name="beginTime" id="beginTime" value="" class="input-text" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">结束作业时间</label>
+							<input type="text" name="endTime" id="endTime" value="" class="input-text" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">实际停止时长</label>
+							<input type="text" id="stopTime" name="field-name" class="form-control" data-mask="00:00:00" data-mask-clearifnotmatch="true"  disabled="disabled"/>
+						</div>
+					</div>
+					
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<input type="text" class="form-control" id="mainTaskMan" value="" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<input type="text" class="form-control"  id="subTaskMan"  value="" disabled="disabled">
+						</div>
+					</div>
+					
+					<!--<div class="col-sm-6 col-md-6">-->
+						<!--<div class="form-group">-->
+							<!--<input type="text" class="form-control" placeholder="Username" value="作业时间">-->
+						<!--</div>-->
+					<!--</div>			-->
+
+					<div class="col-md-12">
+						<div class="form-group mb-5">
+							<textarea rows="5" id="appearance" class="form-control" placeholder="Here can be your description" disabled="disabled">
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="col-md-12">
+						<div class="form-group mb-5">
+							<textarea rows="5" id="reason" class="form-control" placeholder="Here can be your description" disabled="disabled">
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="col-md-12">
+						<div class="form-group mb-5">
+							<textarea rows="5" id="management" class="form-control" placeholder="Here can be your description" disabled="disabled">
+							</textarea>
+						</div>
+					</div>
+					
+					<div class="col-md-12">
+						<div class="form-group mb-5">
+							<textarea rows="5" id="preventPlan" class="form-control" placeholder="Here can be your description" disabled="disabled">
+							</textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					故障分类:
+					<!--<input type="text" class="form-control"  id="faultType"  value="" style="width: 10%" disabled="disabled">-->
+					<select style="width: 10%" id="faultType" disabled="disabled">
+						<option value="1" >设计不良</option>
+						<option value="2" >操作不良</option>
+						<option value="3">清扫不良</option>
+						<option value="4">老化</option>
+					</select>
+					<!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+				
+					维修用时分类:
+					<!--<input type="text" class="form-control"  id="repairUsetimeType"  value="" style="width: 10%" disabled="disabled">-->
+					<select style="width: 10%" id="repairUsetimeType" disabled="disabled">
+						<option value="1" >查找故障</option>
+						<option value="2" >维修用时</option>
+						<option value="3">备品用时</option>
+						<option value="4">作业不便</option>
+					</select>
+				</div>
+
+				<div class="form-group" id="kequeren"  align="right">
+				系长确认:
+					<input type="text" class="form-control"  id="loginuser1"  value="" style="width: 10%" disabled="disabled">
+				</div>
+				<div class="form-group" id="xiqueren"  align="right">
+				科长确认:
+					<input type="text" class="form-control"  id="loginuser2"  value="" style="width: 10%" disabled="disabled">
+				</div>
+				<!--<div class="form-group">-->
+					<!--<button type="submit" class="btn btn-primary">上传文件</button>-->
+				<!--</div>-->
+				<input type="text" class="form-control"  id="loginuser" style="display:none;">
+				<input type="text" class="form-control"  id="id"  style="display: none">
+				<input type="text" class="form-control"  id="type"  style="display: none">
+				<input type="text" class="form-control"  id="confirmType"  style="display: none">
+			</div>
+			
+		</form>
+	</div>
+
+<!-- page-container -->
+</div>
+
+
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>  -->
+<script type="text/javascript" src="./js/webJs/serviceman-form.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+
+</body>
+</html>

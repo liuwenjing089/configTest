@@ -1,0 +1,262 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--<meta http-equiv="refresh" content="3600">-->
+		<link rel="Bookmark" href="/favicon.ico">
+		<link rel="Shortcut Icon" href="/favicon.ico" />
+
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+		<!--/meta 作为公共模版分离出去-->
+		<style>
+			.input-text:hover,
+			.textarea:hover {
+				border: solid 1px #ddd;
+			}
+		</style>
+		
+		<style type="text/css">
+			body,select,option{font-family:"Trebuchet MS", Verdana, sans-serif;}
+	   </style>
+		<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		
+		<div class="page-container">
+			<div action="#" method="post" class="form form-horizontal" id="add">
+				<div class="row cl">
+					<label class="form-label col-xs-1 col-sm-1" style="display: none"><nobr>任务名称</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2" style="display: none">
+						<input type="text" class="input-text" id="spotName" name="spotName" style="width:90%" maxlength="20"  />
+					</div>
+
+					<label class="form-label col-xs-1 col-sm-1"><nobr>任务开始时间</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<input type="date" class="input-text" id="beginTime" name="beginTime" style="width:90%"><font color="#FF0000" size="4px">*</font>
+					</div>
+					
+					<label class="form-label col-xs-1 col-sm-1"><nobr>任务类型</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<select name="" id="spotType" class="input-text" style="width:90%">
+							<option value="9">请选择</option>
+							<option value="1">设备</option>
+							<option value="2">模具</option>
+						</select>
+						<font color="#FF0000" size="4px">*</font>
+					</div>
+					
+				</div>
+				<div class="row cl">
+
+
+				<div id="equipHtmlToSearch" style="display: none">
+					<label class="form-label col-xs-1 col-sm-1"><nobr>设备类型</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<input type="text" class="input-text" id="equipModel" name="equipModel" style="width:90%" placeholder="请输入搜索条件 ">
+						
+					</div>
+					
+					<button name="search" id="equipModelSearch" onclick="equipModelSearch()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+				</div>
+				
+				</div>
+				
+				<div class="row cl">
+				<div id="mouldCycle" style="display: none">
+					<label class="form-label col-xs-1 col-sm-1"><nobr>任务周期(次数)</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<!-- <input type="text" class="input-text" id="mouldInterval" name="mouldInterval" style="width:90%" onkeyup="value=value.replace(/[^\d]/g,'')"><label> -->
+						<select name="mouldInterval" id="mouldInterval" class="input-text" style="width:90% ;height:31px;">
+							<option value="">请选择</option>
+						</select>
+					<font color="#FF0000" size="4px">*</font></label>
+					</div>
+				</div>
+				<div id="mouldHtmlToSearch" style="display: none">
+<!-- 					<label class="form-label col-xs-4 col-sm-2">车种</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" id="vehicleType" name="vehicleType" style="width:20%" placeholder="请输入搜索条件 ">		
+					</div> -->
+					<label class="form-label col-xs-1 col-sm-1">图号</label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<input type="text" class="input-text" id="figureNumber" name="figureNumber" style="width:90%" placeholder="请输入搜索条件 ">						
+					</div>
+					<button name="search" id="equipModelSearch" onclick="mouldModelSearch()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+				</div>
+				</div>
+
+				
+
+
+				<div class="col-md-12" id="equipChoose" style="display: none;">
+					<div class="col-md-5">
+						<div data-options="region:'west',split:false" style="width: 100%; padding: 0px">
+							<h3 style="padding: 5px; border-bottom: 1px solid #DDDDDD;">查询列表</h3>
+							<div data-options="region:'center'" style="padding: 3px; height: 215px;" border="false">
+								<p class="col-md-12 text-c">
+									<span class="col-md-3">生产线</span>
+									<span class="col-md-3">设备编号</span>
+									<span class="col-md-3">设备名称</span>
+									<span class="col-md-3">设备型号</span>
+								</p>
+								<select multiple="multiple" id="menuFunc" style="width: 100%; height: 100%" style="border:1px solid #000;">
+
+								</select> <input type="hidden" name="func" id="func" value="" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2" style="margin-top: 100px">
+						<div data-options="region:'center'" style="height: 230px; line-height: 40px; text-align: center;">
+							<a href="javascript:;" class="button button-primary button-rounded button-small" onclick="toLeft('menuFunc','menuFuncBase','func')">&nbsp;
+								< &nbsp;</a> <br />
+									<a href="javascript:;" class="button button-primary button-rounded button-small" onclick="allToLeft('menuFunc','menuFuncBase','func')">
+										<< </a> <br />
+											<a href="javascript:;" class="button button-caution button-rounded button-small" onclick="toRight('menuFunc','menuFuncBase','func')">&nbsp;>&nbsp;</a><br />
+											<a href="javascript:;" class="button button-caution button-rounded button-flat" onclick="allToRight('menuFunc','menuFuncBase','func')">>></a><br />
+						</div>
+					</div>
+					<div class="col-md-5" id="UpdateDiv2">
+						<div data-options="region:'east'" style="width: 100%; padding: 0px">
+							<h3 style="padding: 5px; border-bottom: 1px solid #DDDDDD;">已选列表</h3>
+							<div data-options="region:'center'" style="padding: 3px; height: 215px;" border="false">
+								<p class="col-md-12 text-c">
+									<span class="col-md-3">生产线</span>
+									<span class="col-md-3">设备编号</span>
+									<span class="col-md-3">设备名称</span>
+									<span class="col-md-3">设备型号</span>
+								</p>
+								<select multiple="multiple" id="menuFuncBase" style="width: 100%; height: 100%">
+
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="page-container" style="padding-bottom:100px;display: none" id ="mouldTable" >
+					<div class="mt-20">
+						<table class="table table-border table-bordered table-responsive table-bg">
+							<thead>
+								<tr class="text-c">
+									<th style="width:15%;">选择</th>
+									<th>工厂</th>
+									<th>年产量</th>
+									<th>车种</th>
+									<th>图号</th>
+									<th>资产编码</th>
+									<th>型号</th>									
+								</tr>
+							</thead>
+							<tbody id="mouleList">
+							</tbody>
+						</table>
+					</div>
+                </div>
+                <div id="equipCycle" style="display: none">
+					<label class="form-label col-xs-1 col-sm-1"><nobr>任务周期</nobr></label>
+					<div class="formControls col-xs-2 col-sm-2">
+						<select name="" id="equiqInterval" class="input-text" style="width:90% ;height:31px;">
+							<option value="9">请选择</option>
+							<option value ="1">月检</option>
+						    <option value ="3">季度检</option>
+						    <option value ="6">半年检</option>
+						    <option value ="12">年检</option>
+						</select>
+						<font color="#FF0000" size="4px">*</font>
+					</div>
+								
+				</div>
+				<div class="row cl">
+					<div class="col-xs-2 col-sm-2 col-xs-offset-8 col-sm-offset-8">
+						<button id="saveEquipTask"  class="btn btn-primary radius" style="display: none"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+						<button id="saveMouldTask"  class="btn btn-primary radius" style="display: none"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+						
+						<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+					</div>
+				</div>
+				<div class="row cl" id="errorView" style="display: none">
+                    <p style="color:red;">已选列表中以下设备不存在已选任务周期的点检规则，请先创建其点检规则</p>
+                    <p>生产线:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    设备编号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    设备名称:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					        设备型号:</p>
+					        
+				</div>
+			</div>
+		</div>
+
+
+	<script type="text/javascript">
+		function toRight(l, r, v) {
+			$("#" + l + " option:selected").appendTo("#" + r);
+			$("#" + l + " option:selected").remove();
+			var str = $("#" + l + " option").map(function() {
+				return $(this).val();
+			}).get().join(", ")
+			$("#" + v).val(str);
+		}
+
+		function allToRight(l, r, v) {
+			$("#" + l + " option").appendTo("#" + r);
+			$("#" + l + " option").remove();
+			var str = $("#" + l + " option").map(function() {
+				return $(this).val();
+			}).get().join(", ")
+			$("#" + v).val(str);
+		}
+
+		function toLeft(l, r, v) {
+			$("#" + r + " option:selected").appendTo("#" + l);
+			$("#" + r + " option:selected").remove();
+			var str = $("#" + l + " option").map(function() {
+				return $(this).val();
+			}).get().join(", ")
+			$("#" + v).val(str);
+		}
+
+		function allToLeft(l, r, v) {
+			$("#" + r + " option").appendTo("#" + l);
+			$("#" + r + " option").remove();
+			var str = $("#" + l + " option").map(function() {
+				return $(this).val();
+			}).get().join(", ")
+			$("#" + v).val(str);
+		}
+	</script>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<script type="text/javascript" src="./js/jquery.form.js"></script>
+		<script type="text/javascript" src="./js/jquery.validate.js"></script>
+		<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+		<script type="text/javascript" src="./js/daterangepicker.js"></script>
+		<script type="text/javascript" src="./js/date.js"></script>
+		<script type="text/javascript" src="./js/front.js"></script>
+
+		<script type="text/javascript" src="./js/webJs/addTask.js"></script>
+		<script type="text/javascript" src="./js/common.js"></script>
+
+		<script type="text/javascript">
+		</script>
+	</body>
+
+</html>

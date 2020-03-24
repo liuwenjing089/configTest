@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldRepairKyDao">
+    <resultMap id="ResultMap" type="com.andon.bean.MouldRepairKy">
+        <result property="id" column="ID" />
+        <result property="reId" column="RE_ID" />
+        <result property="workName" column="WORK_NAME" />
+        <result property="proName" column="PRO_NAME" />
+        <result property="assetsNum" column="ASSETS_NUM" />
+        <result property="workTips" column="WORK_TIPS" />
+        <result property="commandMan" column="COMMAND_MAN" />
+        <result property="workMan" column="WORK_MAN" />
+        <result property="check1" column="CHECK1" />
+        <result property="check2" column="CHECK2" />
+        <result property="check3" column="CHECK3" />
+        <result property="check4" column="CHECK4" />
+        <result property="check5" column="CHECK5" />
+        <result property="check6" column="CHECK6" />
+        <result property="check7" column="CHECK7" />
+        <result property="check8" column="CHECK8" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+    <!--新建-->
+    <insert id="insert" parameterType="com.andon.bean.MouldRepairKy">
+        INSERT INTO mould_repair_ky(
+          RE_ID,
+          WORK_NAME,
+          PRO_NAME,
+          ASSETS_NUM,
+          WORK_TIPS,
+          COMMAND_MAN,
+          WORK_MAN,
+          CHECK1,
+          CHECK2,
+          CHECK3,
+          CHECK4,
+          CHECK5,
+          CHECK6,
+          CHECK7,
+          CHECK8,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{reId},
+          #{workName},
+          #{proName},
+          #{assetsNum},
+          #{workTips},
+          #{commandMan},
+          #{workMan},
+          #{check1},
+          #{check2},
+          #{check3},
+          #{check4},
+          #{check5},
+          #{check6},
+          #{check7},
+          #{check7},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+</mapper>

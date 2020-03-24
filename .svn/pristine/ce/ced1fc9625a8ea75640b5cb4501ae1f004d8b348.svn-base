@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.PictureDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Picture">
+        <result property="uuid" column="UUID" />
+        <result property="url" column="URL" />
+        <result property="pictureName" column="PICTURE_NAME" />
+        <result property="remarks" column="REMARKS" />
+        <result property="undefiend1" column="UNDEFIEND_1" />
+        <result property="undefiend2" column="UNDEFIEND_2" />
+        <result property="undefiend3" column="UNDEFIEND_3" />
+    </resultMap>
+
+    <!--插入-->
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO picture(
+        UUID,
+        URL,
+        PICTURE_NAME,
+        REMARKS,
+        UNDEFIEND_1,
+        UNDEFIEND_2,
+        UNDEFIEND_3
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.uuid},
+            #{item.url},
+            #{item.pictureName},
+            #{item.remarks},
+            #{item.undefiend1},
+            #{item.undefiend2},
+            #{item.undefiend3}
+            )
+        </foreach>
+    </insert>
+
+    <!--删除-->
+    <delete id="delete" >
+	     DELETE FROM picture
+	     WHERE
+	       UUID = #{uuid}
+	 </delete>
+
+
+
+    <!--查询-->
+    <select id="selectPicture" resultType="com.andon.bean.Picture"
+            parameterType="java.util.List">
+        SELECT
+        p.UUID AS uuid,
+        p.URL AS url,
+        p.PICTURE_NAME AS pictureName,
+        p.REMARKS AS remarks,
+        p.UNDEFIEND_1 AS undefiend1,
+        p.UNDEFIEND_2 AS undefiend2,
+        p.UNDEFIEND_3 AS undefiend3
+        FROM
+        picture p
+        WHERE
+        1=1
+        AND p.UUID IN
+        <foreach collection="list" item="uuid" open="(" separator="," close=")">
+            #{uuid}
+        </foreach>
+    </select>
+
+    <!--批量删除-->
+	<delete id="batchDeletePicture" parameterType="java.util.List">
+
+		delete from picture where uuid in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</delete>
+</mapper>

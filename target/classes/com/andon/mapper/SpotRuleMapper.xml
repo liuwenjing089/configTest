@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.SpotRuleDao">
+    <resultMap id="ResultMap" type="com.andon.bean.SpotRule">
+        <result property="id" column="ID" />
+        <result property="groupKey" column="GROUP_KEY" />
+        <result property="spotInspection" column="SPOT_INSPECTION" />    
+        <result property="spotPosition" column="SPOT_POSITION" />
+        <result property="checkProject" column="CHECK_PROJECT" />
+        <result property="checkMethod" column="CHECK_METHOD" />
+        <result property="type" column="TYPE" />
+        <result property="classification" column="CLASSIFICATION" />
+        <result property="cycle" column="CYCLE" />
+        <result property="remarks" column="REMARKS" />
+        <result property="prictureUrl" column="PRICTURE_URL" />
+        <result property="spotType" column="SPOT_TYPE" />   
+        <result property="undefined1" column="UNDEFINED_1" />   
+        <result property="undefined2" column="UNDEFINED_2" />   
+        <result property="undefined3" column="UNDEFINED_3" />           
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+	<sql id="Base_Column_List">
+	      ID,
+          GROUP_KEY,
+          SPOT_INSPECTION,
+          SPOT_POSITION,
+          CHECK_PROJECT,
+          CHECK_METHOD,
+          TYPE,
+          CLASSIFICATION,
+          CYCLE,
+          REMARKS,
+          PRICTURE_URL,
+          SPOT_TYPE,
+          UNDEFINED_1,
+          UNDEFINED_2,
+          UNDEFINED_3
+	</sql>
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO spot_rule(
+        GROUP_KEY,
+        SPOT_INSPECTION,
+        SPOT_POSITION,
+        SPOT_TYPE,
+        CHECK_PROJECT,
+        CHECK_METHOD,
+        TYPE,
+        CLASSIFICATION,   
+        CYCLE,
+        REMARKS,
+        PRICTURE_URL,
+        UNDEFINED_1,
+        UNDEFINED_2,
+        UNDEFINED_3,
+        CREATE_TIME,
+        CREATE_USER,
+        UPDATE_TIME,
+        UPDATE_USER,
+        ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.groupKey},
+            #{item.spotInspection},
+            #{item.spotPosition},
+            #{item.spotType},
+            #{item.checkProject},
+            #{item.checkMethod},
+            #{item.type},
+            #{item.classification},
+            #{item.cycle},
+            #{item.remarks},
+            #{item.prictureUrl},
+            #{item.undefined1},
+            #{item.undefined2},
+            #{item.undefined3},
+            #{item.createTime},
+            #{item.createUser},
+            #{item.updateTime},
+            #{item.updateUser},
+            #{item.isActive}
+            )
+        </foreach>
+    </insert>
+    
+    <!--检索规则列表-->
+    <select id="selectRuleList" resultMap="ResultMap" parameterType="com.andon.bean.SpotRule">
+            
+        SELECT
+			s.GROUP_KEY,
+			s.TYPE,
+			s.CLASSIFICATION,
+			s.CYCLE
+        FROM
+        	spot_rule s
+        WHERE
+        	1=1      	
+		AND s.TYPE = #{type}
+		AND s.CLASSIFICATION = #{classification}	
+        AND s.ISACTIVE = #{isActive}
+		GROUP BY s.GROUP_KEY			
+		ORDER BY s.CYCLE
+    </select>
+    
+    <!--规则详情-->
+    <select id="ruleDetail" resultType="com.andon.bean.SpotRule" parameterType="com.andon.bean.SpotRule">
+            
+        SELECT
+	      s.ID AS id,
+          s.GROUP_KEY AS groupKey,
+          s.SPOT_INSPECTION AS spotInspection,
+          s.SPOT_POSITION AS spotPosition,
+          s.CHECK_PROJECT AS checkProject,
+          s.CHECK_METHOD AS checkMethod,
+          s.TYPE AS type,
+          s.CLASSIFICATION AS classification,
+          s.CYCLE AS cycle,
+          s.REMARKS AS remarks,
+          s.PRICTURE_URL AS prictureUrl,
+          s.SPOT_TYPE AS spotType,
+          s.UNDEFINED_1 AS undefined1,
+          s.UNDEFINED_2 AS undefined2,
+          s.UNDEFINED_3 AS undefined3,
+          c.CODE_NAME AS spotTypeString
+        FROM
+        	spot_rule s 
+        LEFT JOIN 
+        	code_list c
+        ON 	
+        	s.SPOT_TYPE = c.ID
+        WHERE
+        	s.GROUP_KEY = #{groupKey}
+        AND
+            s.ISACTIVE = #{isActive}
+        ORDER BY 
+            s.ID
+    </select>
+
+    <!--检索-->
+    <select id="selectSpotRule" parameterType="com.andon.bean.SpotRule" resultType="com.andon.bean.SpotRule">
+        SELECT
+        s.ID AS id,
+        s.GROUP_KEY AS groupKey,
+        s.SPOT_INSPECTION AS spotInspection,
+        s.SPOT_POSITION AS spotPosition,
+        s.SPOT_TYPE AS spotType,
+        d.CODE_NAME AS spotTypeName,
+        s.CHECK_PROJECT AS checkProject,
+        s.CHECK_METHOD AS checkMethod,
+        s.TYPE AS type,
+        s.CLASSIFICATION AS classification,
+        s.CYCLE AS cycle,
+        s.REMARKS AS remarks,
+        s.PRICTURE_URL AS prictureUrl,
+        s.UNDEFINED_1 AS undefined1,
+        s.UNDEFINED_2 AS undefined2,
+        s.UNDEFINED_3 AS undefined3
+        FROM
+        	spot_rule s LEFT JOIN code_list d
+        	ON d.ID = s.SPOT_TYPE
+        WHERE
+        1=1
+        AND s.CLASSIFICATION= #{classification}
+        AND s.TYPE = #{type}
+        AND s.CYCLE = CONVERT(#{cycle},SIGNED)
+        AND s.ISACTIVE = 1
+    </select>
+
+    <!--删除规则-->
+    <update id="delRule" parameterType="com.andon.bean.SpotRule">
+        UPDATE
+        	spot_rule s
+        SET	      
+          s.ISACTIVE = #{isActive},
+          s.UPDATE_TIME = #{updateTime},
+          s.UPDATE_USER = #{updateUser}
+        WHERE
+          s.GROUP_KEY = #{groupKey}
+    </update>
+    
+    <!--编辑时候删除-->
+	<delete id="updateRulToDel" >
+	     DELETE FROM spot_rule  
+	     WHERE
+	       GROUP_KEY = #{groupKey}
+	     AND
+	       ISACTIVE = #{isActive}
+	</delete>
+	
+	<!--规则效验重复-->
+    <select id="validation" resultType="int" parameterType="com.andon.bean.SpotRule">
+            
+        SELECT
+			COUNT(ID)
+        FROM
+        	spot_rule s
+        WHERE
+        	s.TYPE = #{type}
+        AND 
+        	s.CLASSIFICATION = #{classification}
+        AND 
+        	s.CYCLE = #{cycle}	
+        AND
+            s.ISACTIVE = #{isActive}	    	
+
+    </select>
+    
+    <!--查询规则列表全部内容-->
+    <select id="selectSpotRuleByAll" resultMap="ResultMap" parameterType="com.andon.bean.SpotRule">           
+        SELECT
+			s.GROUP_KEY,
+			s.TYPE,
+			s.CLASSIFICATION,
+			s.CYCLE
+        FROM
+        	spot_rule s
+        WHERE
+        	1=1      	
+		AND s.TYPE = #{type}
+        AND s.ISACTIVE = #{isActive}
+        GROUP BY s.GROUP_KEY	
+        ORDER BY s.CYCLE		
+
+    </select>
+
+</mapper>

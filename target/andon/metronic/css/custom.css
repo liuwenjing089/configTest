@@ -1,0 +1,15 @@
+/* your styles go here */
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    text-align: center;
+}
+label {
+    display: inline-block;
+    margin-bottom: 0rem;
+    margin-left: 1.5rem;
+}
+section {
+  padding: 25px 0;
+}

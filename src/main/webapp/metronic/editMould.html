@@ -1,0 +1,189 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--<meta http-equiv="refresh" content="3600">-->
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+<!--/meta 作为公共模版分离出去-->
+<style>
+.input-text:hover, .textarea:hover {
+    border: solid 1px #ddd;
+}
+</style>
+<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<nav class="breadcrumb">
+	<span class="c-gray en"></span>修改<span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="mould-list.html"></a></span>
+</nav>
+<div class="page-container">
+  <form action="#" id ="registerForm" method="post">
+	<div action="#" method="post" class="form form-horizontal" id="add">
+		<div class="row cl">
+			<input type="text" id="id" name="id" style="display: none">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>工厂</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<select class="input-text" id="factory" name="factory" style="width:90%" maxlength="50" ></select>   
+				<label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>年产量</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text" id="annualOutput" name="annualOutput" style="width:90%" maxlength="50" ><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		</div>
+		
+		<div class="row cl">	
+			<label class="form-label col-xs-1 col-sm-1"><nobr>车种</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text" id="vehicleType" name="vehicleType" style="width:90%" maxlength="50" disabled="disabled"><label><font color="#FF0000" size="4px" >*</font></label>
+			</div>
+	
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具名称</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<input type="text" class="input-text"  id="anotherName" name="anotherName" style="width:95%" maxlength="20" ><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+						
+
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具品番</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="figureNumber" name="figureNumber" style="width:90%" maxlength="50" disabled="disabled"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		
+			<label class="form-label col-xs-1 col-sm-1"><nobr>资产编码</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="assetCoding" name="assetCoding" style="width:90%" maxlength="50"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			
+
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具完成时间</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="date" class="input-text"  id="moldCompletionTime" name="moldCompletionTime" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>型腔数</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="cavityNumber" name="cavityNumber" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		</div>
+
+		<div class="row cl">
+<!-- 			<label class="form-label col-xs-1 col-sm-1"><nobr>型号</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="model" name="model" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div> -->
+
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具类型</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<select class="input-text" id="drawingDeposit" name="drawingDeposit" style="width:90%" maxlength="50" ></select>   
+				<label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具量产日期</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="date" class="input-text"  id="useDate" name="useDate" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		</div>
+		
+		<div class="row cl">	
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具打切日期</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="date" class="input-text"  id="cuttingDate" name="cuttingDate" style="width:90%"><label><font color="#FF0000" size="4px"></font></label>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>总重量</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="totalWeight" name="totalWeight" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>外形尺寸</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="outlineDimension" name="outlineDimension" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具图纸位置</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<!-- <input type="file" class="input-text"  id="picture3D" name="picture3D" maxlength="20" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label> -->
+				<input type="text" class="input-text"  id="pictureUrl" name="pictureUrl" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+		</div>	
+		
+		<div class="row cl">	
+
+<!-- 			<label class="form-label col-xs-1 col-sm-1"><nobr>图纸存放处</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="drawingDeposit" name="drawingDeposit" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>
+			 -->
+			<label class="form-label col-xs-1 col-sm-1"><nobr>生产厂家</nobr></label>
+			<div class="formControls col-xs-5 col-sm-5">
+				<input type="text" class="input-text"  id="manufacturer" name="manufacturer" maxlength="50" style="width:90%"><label><font color="#FF0000" size="4px">*</font></label>
+			</div>					
+
+		</div>
+		
+		<div class="row cl">	
+
+			<label class="form-label col-xs-1 col-sm-1"><nobr></nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				
+				<button type="submit" class="btn btn-primary radius" id="save"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+				<button onClick="layer_close();" class="btn btn-danger radius" type="button">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>
+			
+			</div>
+			
+			
+		</div>
+
+    </div>
+    </form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+
+<script type="text/javascript" src="./js/webJs/editMould.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+
+<script type="text/javascript">
+</script>
+</body>
+</html>

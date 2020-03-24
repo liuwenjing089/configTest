@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.BeltlineDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Beltline">
+        <result property="id" column="ID" />
+        <result property="beltlineName" column="BELTLINE_NAME" />
+        <result property="beltlineDescription" column="BELTLINE_DESCRIPTION" />
+        <result property="lineType" column="LINE_TYPE" />
+        <result property="factory" column="FACTORY" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <!--新建-->
+    <insert id="insert" parameterType="com.andon.bean.Beltline">
+        INSERT INTO beltline(
+          FACTORY,
+          BELTLINE_NAME,
+          BELTLINE_DESCRIPTION,
+          LINE_TYPE,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{factory},
+          #{beltlineName},
+          #{beltlineDescription},
+          #{lineType},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+
+    <!--检索生产线-->
+    <select id="selectLine" resultType="com.andon.bean.Beltline"
+            parameterType="com.andon.bean.Beltline">
+        SELECT
+        b.ID AS id,
+        b.FACTORY AS factory,
+        b.LINE_TYPE AS lineType,
+        b.BELTLINE_NAME AS beltlineName,
+        b.BELTLINE_DESCRIPTION AS beltlineDescription
+        FROM
+        beltline b
+        WHERE
+        1=1
+        AND b.ISACTIVE = 1
+        <choose>  
+            <when test="factory == 0 ">  
+                AND FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND FACTORY = #{factory}
+            </otherwise>
+        </choose>
+        ORDER BY b.FACTORY
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <select id="selectLineCount" resultType="int"
+            parameterType="com.andon.bean.Beltline">
+        SELECT
+        COUNT(*)
+        FROM
+        beltline b
+        WHERE
+        1=1
+        AND
+        b.ISACTIVE = 1
+        <choose>  
+            <when test="factory == 0 ">  
+                AND FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND FACTORY = #{factory}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--检索生产线-->
+    <select id="selectLineByFirm" resultType="com.andon.bean.Beltline"
+            parameterType="com.andon.bean.Beltline">
+        SELECT
+        b.ID AS id,
+        b.FACTORY AS factory,
+        b.LINE_TYPE AS lineType,
+        b.BELTLINE_NAME AS beltlineName,
+        b.BELTLINE_DESCRIPTION AS beltlineDescription
+        FROM
+        beltline b
+        WHERE
+        1=1
+        <if test="lineType!=9">
+            AND b.LINE_TYPE = #{lineType}
+        </if>
+        <if test="beltlineName!=null and beltlineName!=''">
+            AND b.BELTLINE_NAME = #{beltlineName}
+        </if>
+        <if test="beltlineDescription!=null and beltlineDescription!=''">
+            AND b.BELTLINE_DESCRIPTION like"%"#{beltlineDescription}"%"
+        </if>
+        AND
+        b.ISACTIVE = 1
+        <choose>  
+            <when test="factory == 0 ">  
+                AND FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND FACTORY = #{factory}
+            </otherwise>
+        </choose>
+        ORDER BY b.FACTORY
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <select id="selectLineByid" resultType="com.andon.bean.Beltline"
+            parameterType="com.andon.bean.Beltline">
+        SELECT
+        b.ID AS id,
+        b.FACTORY AS factory,
+        b.LINE_TYPE AS lineType,
+        b.BELTLINE_NAME AS beltlineName,
+        b.BELTLINE_DESCRIPTION AS beltlineDescription
+        FROM
+        beltline b
+        WHERE
+        1=1
+        AND b.ID = #{id}
+        AND
+        b.ISACTIVE = 1
+    </select>
+
+    <!--分页-->
+    <select id="selectLineByFirmCount" resultType="int"
+            parameterType="com.andon.bean.Beltline">
+        SELECT
+        COUNT(*)
+        FROM
+        beltline b
+        WHERE
+        1=1
+        <if test="lineType!=9">
+            AND b.LINE_TYPE = #{lineType}
+        </if>
+        <if test="beltlineName!=null and beltlineName!=''">
+            AND b.BELTLINE_NAME = #{beltlineName}
+        </if>
+        <if test="beltlineDescription!=null and beltlineDescription!=''">
+            AND b.BELTLINE_DESCRIPTION like"%"#{beltlineDescription}"%"
+        </if>
+        AND
+        b.ISACTIVE = 1
+        <choose>  
+            <when test="factory == 0 ">  
+                AND FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND FACTORY = #{factory}
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="updateLine" parameterType="com.andon.bean.Beltline">
+        UPDATE
+        beltline b
+        SET
+        b.FACTORY = #{factory},
+        b.BELTLINE_NAME = #{beltlineName},
+        b.BELTLINE_DESCRIPTION = #{beltlineDescription},
+        b.LINE_TYPE = #{lineType},
+        b.UPDATE_USER = #{updateUser},
+        b.UPDATE_TIME = #{updateTime}
+        WHERE
+        1=1
+        AND
+        b.ISACTIVE=1
+        AND
+        b.ID = #{id}
+    </update>
+
+    <update id="deleteLine" parameterType="com.andon.bean.Beltline">
+        UPDATE
+        beltline b
+        SET
+        b.ISACTIVE = 0
+        WHERE
+        1=1
+        AND
+        b.ID = #{id}
+    </update>
+    
+    <!--检索生产线-->
+    <select id="selectLineByMould" resultType="com.andon.bean.Beltline" >
+            
+        SELECT
+        b.ID AS id,
+        b.FACTORY AS factory,
+        b.LINE_TYPE AS lineType,
+        b.BELTLINE_NAME AS beltlineName,
+        b.BELTLINE_DESCRIPTION AS beltlineDescription
+        FROM
+        beltline b
+        WHERE
+        1=1
+        AND b.ISACTIVE = #{isActive}
+        AND b.LINE_TYPE = #{lineType}
+    </select>
+
+    <!--检索设备生产线-->
+    <select id="selectEquipLine" resultType="com.andon.bean.Beltline">
+            
+        SELECT
+        b.ID AS id,
+        b.LINE_TYPE AS lineType,
+        b.BELTLINE_NAME AS beltlineName,
+        b.BELTLINE_DESCRIPTION AS beltlineDescription
+        FROM
+        beltline b
+        WHERE
+        1=1
+        AND b.ISACTIVE = 1
+        AND b.LINE_TYPE = 1
+        AND b.FACTORY = #{factory}
+    </select>
+</mapper>

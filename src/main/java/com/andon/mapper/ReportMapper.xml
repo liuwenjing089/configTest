@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.ReportDao">
+    <!-- 设备维修报表统计1 -->
+    <select id="equipReport" resultType="com.andon.bean.dto.EquipReportOutPut" >
+            
+    SELECT
+	    u.year AS year,
+	    u.month AS month,
+	    u.line_type AS lineType,
+	    u.line AS lineName,
+	    u.`影响`  AS cropMovementByFaultQuantity,
+	    u.`不影响`  AS cropMovementByNotFaultQuantity,
+	    u.`COUNT(*)` AS faultTotalQuantity,
+	    u.`影响稼动时长` AS  cropMovementByRepairTime,
+	
+		u.`不影响稼动时长`  AS cropMovementByNotRepairTime,
+	    u.`维修时常总计`  AS repairTotalTime,
+	    u.`长时停止件数` AS longStopQuantity,
+	    u.`长时停止时间` AS  longStopTime,    
+	    
+	    u.`设计不良`  AS poorDesign,
+	    u.`操作不良`  AS poorOperation,
+	    u.`清扫不良` AS badCleaning,
+	    u.`老化不良` AS  ageing,   
+	    
+	    u.`查找故障`  AS findFault,
+	    u.`维修用时`  AS maintenanceTime,
+	    u.`备品用时` AS productUseTime,
+	    u.`作业不便` AS  jobInconvenience
+    FROM view_kpi_equip_monthly u
+    WHERE
+      1 = 1
+      
+    ORDER BY u.line_type,u.year,u.month, u.line
+    </select>
+
+	<!-- 设备维修报表统计2 -->
+    <select id="equipRepairReport" resultType="com.andon.bean.dto.EquipRepairReport" >
+            
+    SELECT
+	    u.e_name AS equipName,
+	    u.`平均间隔时间`  AS averageIntervalTime,
+	    u.`维修时间` AS maintenanceTime,
+	    u.`平均维修时间` AS  averageMaintenanceTime
+    FROM view_kpi_equip_malfunction_statistics u
+    WHERE
+      1 = 1
+      
+    ORDER BY u.e_name
+    </select>
+    <!-- 设备上个月点检完成率 -->
+    <select id="equipSpotLastMonth" resultType="com.andon.bean.dto.EquipSpotReport" >
+            
+    SELECT
+    	v.year,
+    	v.month,
+    	v.plannedQuantity,
+    	v.finishQuantity,
+    	v.completionRate
+    FROM view_equip_spot_last_month v
+
+    </select>
+</mapper>

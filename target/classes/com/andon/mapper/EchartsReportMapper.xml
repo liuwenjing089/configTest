@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.EchartsRepairDao">
+
+    <select id="getFaultClassification" resultType="com.andon.bean.dto.EchartsReport" >
+            
+		SELECT
+			sum(v.`设计不良`) AS poorDesign,
+			sum(v.`操作不良`) AS poorOperation,
+			sum(v.`清扫不良`) AS badCleaning,
+			sum(v.`老化不良`) AS ageing
+		FROM
+			view_kpi_equip_monthly v
+		WHERE
+		1=1 
+		<if test="lineTypeProduction != 0">
+        AND  v.line_type = #{lineTypeProduction}
+        </if>
+
+
+    </select>
+    
+    <select id="getMaintenanceTimeClassification" resultType="com.andon.bean.dto.EchartsReport" >
+            
+		SELECT
+			sum(v.`查找故障`) AS findFault,
+			sum(v.`维修用时`) AS maintenanceTime,
+			sum(v.`备品用时`) AS productUseTime,
+			sum(v.`作业不便`) AS jobInconvenience
+		FROM
+			view_kpi_equip_monthly v
+		WHERE
+		1=1 
+		<if test="lineTypeProduction != 0">
+        AND  v.line_type = #{lineTypeProduction}
+        </if>
+
+
+    </select>
+
+</mapper>

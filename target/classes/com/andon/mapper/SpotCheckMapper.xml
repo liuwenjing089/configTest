@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.SpotCheckDao">
+    <resultMap id="ResultMap" type="com.andon.bean.SpotCheck">
+        <result property="id" column="ID" />
+        <result property="spotDetailId" column="SPOT_DETAIL_ID" />
+        <result property="type" column="TYPE" />
+        <result property="principalNumbe" column="PRINCIPAL_NUMBE" />
+        <result property="principalName" column="PRINCIPAL_NAME" />
+        <result property="department" column="DEPARTMENT" />
+        <result property="spotTypeName" column="SPOT_TYPE_NAME" />
+        <result property="spotInspection" column="SPOT_INSPECTION" />
+        <result property="spotPosition" column="SPOT_POSITION" />
+        <result property="checkProject" column="CHECK_PROJECT" />
+        <result property="checkMethod" column="CHECK_METHOD" />
+        <result property="spotInterval" column="SPOT_INTERVAL" />
+        <result property="planTime" column="PLAN_TIME" />
+        <result property="spotState" column="SPOT_STATE" />
+        <result property="spotTime" column="SPOT_TIME" />
+        <result property="isUnusual" column="IS_UNUSUAL" />
+        <result property="unusualText" column="UNUSUAL_TEXT" />
+        <result property="isUpdate" column="IS_UPDATE" />
+        <result property="updateText" column="UPDATE_TEXT" />
+        <result property="remarks" column="REMARKS" />
+        <result property="prictureUrl" column="PRICTURE_URL" />
+        <result property="uploadUrl" column="UPLOAD_URL" />
+        <result property="mouldRuleUrl" column="MOULD_RULE_URL" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO spot_check(
+        SPOT_DETAIL_ID,
+        TYPE,
+        PRINCIPAL_NUMBE,
+        PRINCIPAL_NAME,
+        DEPARTMENT,
+        SPOT_TYPE_NAME,
+        SPOT_INSPECTION,
+        SPOT_POSITION,
+        CHECK_PROJECT,
+        CHECK_METHOD,
+        SPOT_INTERVAL,
+        PLAN_TIME,
+        SPOT_STATE,
+        SPOT_TIME,
+        IS_UNUSUAL,
+        UNUSUAL_TEXT,
+        IS_UPDATE,
+        UPDATE_TEXT,
+        REMARKS,
+        PRICTURE_URL,
+        UPLOAD_URL,
+        MOULD_RULE_URL,
+        CREATE_TIME,
+        CREATE_USER,
+        UPDATE_TIME,
+        UPDATE_USER,
+        ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.spotDetailId},
+            #{item.type},
+            #{item.principalNumbe},
+            #{item.principalName},
+            #{item.department},
+            #{item.spotTypeName},
+            #{item.spotInspection},
+            #{item.spotPosition},
+            #{item.checkProject},
+            #{item.checkMethod},
+            #{item.spotInterval},
+            #{item.planTime},
+            #{item.spotState},
+            #{item.spotTime},
+            #{item.isUnusual},
+            #{item.unusualText},
+            #{item.isUpdate},
+            #{item.updateText},
+            #{item.remarks},
+            #{item.prictureUrl},
+            #{item.uploadUrl},
+            #{item.mouldRuleUrl},
+            #{item.createTime},
+            #{item.createUser},
+            #{item.updateTime},
+            #{item.updateUser},
+            #{item.isActive}
+            )
+        </foreach>
+    </insert>
+
+    <!--检索-->
+    <select id="selectSpotCheck" parameterType="com.andon.bean.SpotCheck" resultType="com.andon.bean.SpotCheck">
+        SELECT
+        s.ID AS id,
+        s.SPOT_DETAIL_ID AS spotDetailId,
+        s.TYPE AS type,
+        s.PRINCIPAL_NUMBE AS principalNumbe,
+        s.PRINCIPAL_NAME AS principalName,
+        s.DEPARTMENT AS department,
+        s.SPOT_TYPE_NAME AS spotTypeName,
+        s.SPOT_INSPECTION AS spotInspection,
+        s.SPOT_POSITION AS spotPosition,
+        s.CHECK_PROJECT AS checkProject,
+        s.CHECK_METHOD AS checkMethod,
+        s.SPOT_INTERVAL AS spotInterval,
+        s.PLAN_TIME AS planTime,
+        s.SPOT_STATE AS spotState,
+        s.SPOT_TIME AS spotTime,
+        s.IS_UNUSUAL AS isUnusual,
+        s.UNUSUAL_TEXT AS unusualText,
+        s.IS_UPDATE AS isUpdate,
+        s.UPDATE_TEXT AS updateText,
+        s.REMARKS AS remarks,
+        s.PRICTURE_URL AS prictureUrl,
+        s.UPLOAD_URL AS uploadUrl,
+        s.MOULD_RULE_URL AS mouldRuleUrl
+        FROM
+        spot_check s
+        WHERE
+        1=1
+        AND s.SPOT_DETAIL_ID= #{spotDetailId}
+        AND s.TYPE = #{type}
+        AND s.SPOT_INTERVAL= #{spotInterval}
+        AND s.ISACTIVE = 1
+        ORDER BY s.SPOT_TYPE_NAME
+    </select>
+
+    <!--批量删除-->
+    <update id="deleteCheckList" >
+        UPDATE
+        spot_check
+        SET
+	        ISACTIVE = 0,
+	        UPDATE_TIME = NOW(),
+	        UPDATE_USER = #{userName}
+        WHERE
+        SPOT_DETAIL_ID IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <!--批量更新-->
+    <update id="update"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index"  separator=";" close=";">
+            UPDATE spot_check s
+            <set>
+                <if test="item.planTime!=null and item.planTime!=''">
+                  s.PLAN_TIME=#{item.planTime},
+                </if>
+                <if test="item.spotState!=9">
+                  s.SPOT_STATE=#{item.spotState},
+                </if>
+                <if test="item.spotTime!=null and item.spotTime!=''">
+                  s.SPOT_TIME=#{item.spotTime},
+                </if>
+                <if test="item.isUnusual!=9 ">
+                    s.IS_UNUSUAL=#{item.isUnusual},
+                </if>
+                <if test="item.unusualText!=null and item.unusualText!=''">
+                    s.UNUSUAL_TEXT=#{item.unusualText},
+                </if>
+                <if test="item.isUpdate!=9 ">
+                    s.IS_UPDATE=#{item.isUpdate},
+                </if>
+                <if test="item.updateText!=null and item.updateText!=''">
+                    s.UPDATE_TEXT=#{item.updateText},
+                </if>
+                <if test="item.uploadUrl!=null and item.uploadUrl!=''">
+                    s.UPLOAD_URL=#{item.uploadUrl},
+                </if>
+            s.UPDATE_TIME=#{item.updateTime},
+            s.UPDATE_USER=#{item.updateUser}
+            </set>
+            <where>
+             s.ID=#{item.id}
+            </where>
+        </foreach>
+    </update>
+    
+    <!--根据sopt_detail表id的集合查询对应spot_check表的记录-->
+    <select id="selectChecksByTaskDetailIds" resultType="com.andon.bean.SpotCheck">
+	SELECT
+        s.ID AS id,
+        s.PRICTURE_URL as prictureUrl
+	from         
+		spot_check s
+	WHERE 
+		s.SPOT_DETAIL_ID IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+		  	#{item.id}
+		</foreach>
+	</select>
+
+</mapper>

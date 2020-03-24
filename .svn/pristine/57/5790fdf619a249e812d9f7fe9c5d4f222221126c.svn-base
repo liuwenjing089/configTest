@@ -1,0 +1,402 @@
+﻿	<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+	<title>保全作业安全检查表</title>
+	<style type="text/css">
+		canvas {
+			border: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="page-container">
+		<div style="border:1px solid #000; border-bottom:1px solid #fff;">
+			<p class="f-20 text-c">保全作业安全检查表</p>
+			<p class="text-r" style="border:1px solid #fff;padding-right: 10%;"><small>工机保全科</small></p>
+		</div>
+		<div style="border:1px solid #000;border-top:none; border-bottom:#fff;">
+			<table class="table table-border table-bordered ">
+				<tbody>
+					<tr class="text-c">
+						<td style="width:1%;" rowspan="8"></td>
+						<td style="width:1%;" rowspan="8">特定6大作业前确认</td>
+						<td style="width:1%;" rowspan="8">一般作业前确认</td>
+						<td style="width:40%; text-align: left; border-bottom:none;" colspan="2">作业名</td>
+						<td style="width:40%; border-bottom:none;">作业提示事项（特定6大作业要在确认现场的基础上进行作业指导）</td>
+						<td style="width:16%; border-bottom:none;">作业指挥者﹡1签字</td>
+						<td style="width:1%;" rowspan="8"></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align: left;" contentEditable="true" colspan="2" id="workName"></td>
+						<td rowspan="3" style="text-align: left;" contentEditable="true" id="workTips"></td>
+						<td rowspan="3" style="text-align: left;" contentEditable="true" id="commandMan"></td>
+					</tr>
+					<tr class="text-c">
+						<td style="width:20%;text-align:left;border-bottom:none;">工程名</td>
+						<td style="width:20%;text-align:left;border-bottom:none;">资产管理No.</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align: left;" contentEditable="true" id="proName"></td>
+						<td style="text-align: left;" contentEditable="true" id="assetsNum"></td>
+					</tr>
+					<tr class="text-c">
+						<td>【作业划分】</td>
+						<td>【确认】</td>
+						<td>【严守事项】</td>
+						<td>作业者签字（若遵守没问题，签字）</td>
+					</tr>
+					<tr class="text-c">
+						<td>
+							<span>1.全部保全作业</span>
+						</td>
+						<td rowspan="3">
+							<canvas id="myCanvas"></canvas>
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch1-1">
+							<span>保护用具（安全眼镜、安全帽、安全鞋）的穿戴</span>
+						</td>
+						<td rowspan="3" contentEditable="true" id="workMan"></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:right;"><input type="checkbox" value="" name="" id="check1" onclick="change1()"></td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch1-2">
+							<span>危险标识（修理中、禁止打开开关等）看板的悬挂</span>
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td>
+							<span>﹡2由作业者进行现场确认</span>
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch1-3">
+							<span>关闭电源、气、确认残压、惯性、控制盘内电压</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div style="border:1px solid #000;border-top:none;">
+			<table class="table table-border table-bordered ">
+				<tbody>
+					<tr class="text-c">
+						<td style="width:1%" rowspan="17"></td>
+						<td style="width:1%" rowspan="17"><small>作业指示者确认↓作业者签字</small></td>
+						<td style="width:1%" rowspan="17">特定6大作业 ↓2人以上实施</td>
+						<td style="width:20%; text-align: right;" rowspan="2">
+							<span style="padding-right:30%;">2.共同作业</span>
+							<input type="checkbox" value="" name="" id="check2" onclick="change2()">
+						</td>
+						<td style="width:20%" rowspan="2">
+							<canvas id="myCanvas1"></canvas>
+						</td>
+						<td style="width:40%;text-align:left;">
+							<input type="checkbox" value="" name="" id="ch2-1">
+							<span>确定指挥者</span>
+						</td>
+						<td style="width:16%;text-align:left;">指挥者姓名:</td>
+						<td style="width:1%" rowspan="17"></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch2-2">
+							<span>作业前集会</span>
+						</td>
+						<td style="text-align:left;">（作业内容、顺序、信号、复述）</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:right;" rowspan="3">
+							<span style="padding-right:20%;">3.安全装置无效化作业</span>
+							<input type="checkbox" value="" name="" id="check3" onclick="change3()">
+						</td>
+						<td rowspan="3">
+							<canvas id="myCanvas2"></canvas>
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch3-1">
+							<span>发行安全装置无效化许可证</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch3-2">
+							<span>【安全装置无效化中】标识板的悬挂</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch3-3">
+							<span>替代安全措施的严守、作业后恢复安全装置</span>
+						</td>
+						<td></td>
+					</tr>
+
+					<tr class="text-c">
+						<td style="text-align:right;" rowspan="4">
+							<span style="padding-right:30%;">4.操作重物</span>
+							<input type="checkbox" value="" name="" id="check4" onclick="change4()">
+						</td>
+						<td rowspan="4">
+							<canvas id="myCanvas3"></canvas>
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch4-1">
+							<span>设置防护快</span>
+						</td>
+						<td>
+							（防止因自重落下）
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch4-2">
+							<span>目测重量后，选用适合作业的吊具、手用、搬运工具</span>
+						</td>
+						<td>
+							<span>手操作重物：男20kg以下；女15kg以下</span>
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch4-3">
+							<span>悬吊操作禁止1根悬吊。不得不进行1根悬吊时要使用悬吊螺丝</span>
+
+						</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch4-4">
+							<span>确保立脚点、手的位置，并进行确认</span>
+						</td>
+						<td>
+							（是否被夹到）
+						</td>
+					</tr>
+
+					<tr class="text-c">
+						<td style="text-align:right;" rowspan="4">
+							<span style="padding-right:30%;">5.高空作业</span>
+							<input type="checkbox" value="" name="" id="check5" onclick="change5()"></td>
+						<td rowspan="8">
+							<canvas id="myCanvas4" height="400"></canvas>
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch5-1">
+							<span>佩戴保护用具</span>
+						</td>
+						<td>
+							（安全帽、安全带）
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch5-2">
+							<span>保证立脚点、必须使用安全带；确保立脚点，必须使用安全带</span>
+						</td>
+						<td>
+
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch5-3">
+							<span>竖幅幕布（高空作业中）的悬挂</span>
+
+						</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch6-1">
+							<span>动火作业许可证的揭示，作业结束30分钟后确认余</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+
+					<tr class="text-c">
+						<td style="text-align:right;" rowspan="2">
+							<span style="padding-right:30%;">6.动火作业</span>
+							<input type="checkbox" value="" name="" id="check6" onclick="change6()">
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch6-2">
+							<span>采取防火措施施如去除周围可燃物（油、灰尘）等，并安排看守人员</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch7-1">
+							<span>氧气浓度测量（作业负责任），进行换气</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr class="text-c">
+						<td style="text-align:right;">
+							<span style="padding-right:25%;">7.缺氧危险作业</span>
+							<input type="checkbox" value="" name="" id="check7" onclick="change7()">
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch7-2">
+							<span>安排监视人员，必要时穿戴保护用具</span>
+						</td>
+						<td>（空气呼吸器、救生索）</td>
+					</tr>
+					<tr class="text-c">
+						<td style="font-size: 20px;">
+							安全第一
+						</td>
+						<td style="text-align:left;">
+							<input type="checkbox" value="" name="" id="ch7-3">
+							<span>要有相关作业资质</span>
+						</td>
+						<td>（高空：特别教育，高空作业车技能学习。悬吊：技能学习。动火：气体熔接技能学习、电弧焊接特别教育。缺氧：作业负责任、特别教育）</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div style="border:1px solid #000;border-top:none;">
+			<table class="table table-border table-bordered ">
+				<tbody>
+					<tr class="text-c">
+						<td style="width:50%;">危险预测与防止对策（要点） ﹡3：作业者现地实施</td>
+						<td>﹡1：作业指示者：直接在现场指挥的保全FH以上或者指定的代理人</td>
+					</tr>
+					<tr>
+						<td style="border:none;"><u>重要危险</u>：隐藏着何种危险</td>
+						<td style="border:none; border-left:1px solid #ddd;"><u>防止对策</u>：我、我们这样确保安全</td>
+					</tr>
+					<tr>
+						<td contentEditable="true" style="border-top:none;">
+						</td>
+						<td contentEditable="true" style="border-top:none;">
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>
+	<button onClick="save();" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+	<input type="text" id="reId" name="reId" style="display: none" class="input-text">
+</body>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<script type="text/javascript" src="./js/webJs/mouldKy.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+
+<script type="text/javascript">
+
+	window.onload = function () {
+
+		//  arrow2("myCanvas",0,0,0,0,100,200)
+		//  arrow2("myCanvas",0,0,200,200,150,150)
+		//  arrow2("myCanvas",0,0,20,200,150,150)
+		//  arrow2("myCanvas",0,0,100,0,50,100)
+		arrow2("myCanvas", 0, -20, 0, 100, 300, 50)
+		arrow2("myCanvas", 0, 0, 0, 100, 300, 100)
+		arrow2("myCanvas", 0, 0, 0, 100, 300, 150)
+
+		arrow2("myCanvas1", 0, -20, 0, 100, 300, 50)
+
+		arrow2("myCanvas1", 0, 0, 0, 100, 300, 150)
+
+		arrow2("myCanvas2", 0, -20, 0, 100, 300, 50)
+		arrow2("myCanvas2", 0, 0, 0, 100, 300, 100)
+		arrow2("myCanvas2", 0, 0, 0, 100, 300, 150)
+
+		arrow2("myCanvas3", 0, -20, 0, 100, 300, 30)
+		arrow2("myCanvas3", 0, 0, 0, 100, 300, 80)
+		arrow2("myCanvas3", 0, 0, 0, 100, 300, 125)
+		arrow2("myCanvas3", 0, 0, 0, 100, 300, 160)
+
+		arrow2("myCanvas4", 0, -20, 0, 100, 300, 30)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 80)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 120)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 370)
+
+		arrow2("myCanvas4", 0, 130, 0, 100, 300, 30)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 80)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 240)
+
+		arrow2("myCanvas4", 0, 70, 0, 100, 300, 50)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 100)
+		arrow2("myCanvas4", 0, 0, 0, 100, 300, 170)
+
+
+	}
+	function arrow2(canId, ox, oy, x1, y1, x2, y2) {
+		//参数说明 canvas的 id ，原点坐标  第一个端点的坐标，第二个端点的坐标
+		var sta = new Array(x1, y1);
+		var end = new Array(x2, y2);
+
+		var canvas = document.getElementById(canId);
+		if (canvas == null) return false;
+		var ctx = canvas.getContext('2d');
+		//画线 
+		ctx.beginPath();
+		ctx.translate(ox, oy, 0); //坐标源点 
+		ctx.moveTo(sta[0], sta[1]);
+		ctx.lineTo(end[0], end[1]);
+		ctx.fill();
+		ctx.stroke();
+		ctx.save();
+
+
+
+		//画箭头 
+		ctx.translate(end[0], end[1]);
+		//我的箭头本垂直向下，算出直线偏离Y的角，然后旋转 ,rotate是顺时针旋转的，所以加个负号
+		var ang = (end[0] - sta[0]) / (end[1] - sta[1]);
+		ang = Math.atan(ang);
+		if (end[1] - sta[1] >= 0) {
+			ctx.rotate(-ang);
+		} else {
+			ctx.rotate(Math.PI - ang);//加个180度，反过来
+		}
+		ctx.lineTo(-5, -10);
+		ctx.lineTo(0, -5);
+		ctx.lineTo(5, -10);
+		ctx.lineTo(0, 0);
+		ctx.fill(); //箭头是个封闭图形
+		ctx.restore();   //恢复到堆的上一个状态，其实这里没什么用。
+		ctx.closePath();
+	}
+</script>
+
+</html>

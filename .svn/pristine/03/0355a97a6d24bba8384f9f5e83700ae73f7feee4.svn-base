@@ -1,0 +1,397 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--<meta http-equiv="refresh" content="3600">-->
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="zyupload/skins/zyupload-1.0.0.min.css " type="text/css">
+<script type="text/javascript" src="zyupload/zyupload-1.0.0.min.js"></script>
+<!-- <script type="text/javascript" src="./jedate/jedate.js"></script> -->
+<!--/meta 作为公共模版分离出去-->
+<style>
+.input-text:hover, .textarea:hover {
+    border: solid 1px #ddd;
+}
+
+
+.datainp{ width:200px; height:30px; border:1px #ccc solid;}
+.datep{ margin-bottom:40px;}
+</style>
+<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="page-container">
+<div id = "errorInfo" style="display: none;"></div>
+<form action="#" id ="registerForm" method="post">
+	<div action="#" method="post" class="form form-horizontal" id="add">
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>报修编号</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2 input-text inline" id="repairNumber" style="border:1px solid #fff;margin-left:16px;">
+				
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>成型机</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+
+				<select name="line" id="line" class="input-text" style="width:90%" disabled="disabled">
+				</select>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>报修人</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text"  id="applicant" name="applicant" maxlength="20" disabled="disabled">
+			</div>
+
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具名称</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text"  id="anotherName" name="anotherName" maxlength="20" disabled="disabled">
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>模具品番</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text"  id="figureNumber" name="figureNumber" maxlength="20" disabled="disabled">
+			</div>
+		</div>
+
+        <div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>生产报修时间</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="reportRepairDate" name="reportRepairDate" maxlength="20" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="reportRepairTime" name="reportRepairTime" maxlength="20" disabled="disabled">
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>故障时期</nobr></label>
+			
+			<div class="formControls col-xs-4 col-sm-4">
+
+				<select name="failurePeriod" id="failurePeriod" class="input-text" style="width:90%" disabled="disabled">
+				</select>
+			</div>
+			
+<!-- 			<div class="formControls col-xs-5 col-sm-5">
+			    
+				<nobr>
+					<div class="radio-box">
+						<input name="failurePeriod" type="radio" value="1" disabled/> <label>换模具 </label>
+					</div>
+					<div class="radio-box">
+						<input name="failurePeriod" type="radio" value="2" disabled/><label>成型开始 </label>
+					</div>
+					<div class="radio-box">
+						<input name="failurePeriod" type="radio" value="3" disabled/><label>生产中 </label>
+					</div>
+					<div class="radio-box">
+						<input name="failurePeriod" type="radio" value="4" disabled/><label>成型结束 </label>
+					</div> 
+				</nobr>
+			</div> -->
+        </div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>故障内容</nobr></label>
+			<div class="formControls col-xs-11 col-sm-11">
+				<textarea maxlength="300" id="phenomenalDescription" name="phenomenalDescription" disabled="disabled" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl jeitem">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>保全接单时间</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" id="orderTime" name="orderTime" class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" id="orderTimeToTime" name="orderTimeToTime" class="input-text" disabled="disabled">
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>维修开始时间</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" id="beginTime" name="beginTime" class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" id="beginTimeToTime" name="beginTimeToTime" class="input-text" disabled="disabled">
+			</div>
+		</div>
+
+		<div class="row cl jeitem">	
+			<label class="form-label col-xs-1 col-sm-1"><nobr>维修结束时间：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" id="endTime" name="endTime"  class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="endTimeToTime" name="reportRepairTime" disabled="disabled">
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>维修时长：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-1">
+				<input type="text" id="maintenanceTime" name="maintenanceTime" class="input-text" disabled="disabled" >
+			</div>
+			<div class="formControls col-xs-1 col-sm-1" style="padding-top:5px;">
+				<label>
+					<nobr>小时</nobr>
+				</label>
+			</div>
+			<div class="formControls col-xs-2 col-sm-1">
+				<input type="text" id="maintenanceTimeM" name="maintenanceTimeM" class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-1 col-sm-1" style="padding-top:5px;">
+				<label>
+					<nobr>分钟</nobr>
+				</label>
+			</div>	
+		</div>
+		
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>故障现象</nobr></label>
+			<div class="formControls col-xs-11 col-sm-11">
+				<textarea maxlength="300" id="appearance" name="appearance" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>原因</nobr></label>
+			<div class="formControls col-xs-11 col-sm-11">
+				<textarea maxlength="300" id="reason" name="reason" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>紧急处置</nobr></label>
+			<div class="formControls col-xs-11 col-sm-11">
+				<textarea maxlength="300" id="emergencyDisposal" name="emergencyDisposal" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>永久对策</nobr></label>
+			<div class="formControls col-xs-11 col-sm-11">
+				<textarea maxlength="300" id="permanentGame" name="permanentGame"  class="textarea"></textarea>
+			</div>
+		</div>
+		
+		<div class="row cl">
+		
+			<label class="form-label col-xs-1 col-sm-1" style="text-align:center;margin-top:0px;"><nobr><small style="padding:0px;">再发防止计划<br>实施日期</small></nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="date" id="warehouseTimeStart" name="warehouseTimeStart" class="input-text" >
+			</div>
+			<label class="form-label col-xs-1 col-sm-1" style="width:1%;text-align:left;">至</label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="date" id="warehouseTimeEnd" name="warehouseTimeEnd" class="input-text" >
+			</div>
+			
+		</div>
+		
+
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-1"><nobr>故障类型</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="faultType" style="height:31px;">
+				</select>
+			</div>
+			
+			<label class="form-label col-xs-1 col-sm-1"><nobr>故障原因</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="faultReason" class="select" id="faultReason" style="height:31px;">
+				</select>
+			</div>
+			
+		</div>
+<!-- 		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>损坏部件</nobr></label>
+		</div>
+		<div class="row cl">
+			<div id="addSe">
+			</div>
+			<input type="button"  class="btn btn-primary radius r" style="margin-top:5px;" value="增加损坏部件" id="addSelect"/>
+		</div> -->
+
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-1">部品信息</label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<table class="table table-border table-bordered table-responsive table-bg" id="table1">
+					<tr class="text-c">
+						<td style="width:15%">部品分类</td>
+						<td style="width:15%">部品名称</td>
+						<td style="width:30%">部品品番/型号</td>
+						<td style="width:15%">作业内容</td>
+						<td style="width:10%">数量</td>
+						<td style="width:15%">操作</td>
+					</tr>
+					<tbody id="partsList">
+					</tbody>
+				</table>
+				<input type="button"  class="btn btn-primary radius r" style="margin-top:5px;" value="增加" id="addTable"/>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-1 col-sm-1"><nobr><small>相同故障<br>再发清单</small></nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="preventionType" style="height:31px;">
+
+				</select>
+			</div>
+			
+			<div class="formControls col-xs-3 col-sm-3">
+				<a class='btn btn-primary radius' id='preventionTypeConfirm' onclick='preventionTypeConfirm()'>确定为相同故障</a>
+				<a class='btn btn-primary radius' id='preventionTypeDetail' onclick='preventionTypeDetail()'>详细</a>
+			</div>
+		
+		</div>
+
+		<input type="text" class="input-text" id="id" name="id" style="width:50%;display: none" value="0" />
+		<input type="text" class="input-text" id="reId" name="reId" style="width:50%;display: none" value="0" />
+
+		<div class="row cl" id="pictureView">
+		<label class="form-label col-xs-1 col-sm-1"><nobr></nobr></label>
+        	<button onClick="uploadPicture();" class="btn btn-danger radius" type="button">&nbsp;&nbsp;上传图片&nbsp;&nbsp;</button>
+        </div>
+        <div class="row cl">
+       	 	
+        	<label class="form-label col-xs-1 col-sm-1" style="font-size:20px"><nobr>制品不良照片</nobr></label>
+
+        </div>
+        
+		<div class="row cl" id="productView">
+
+			<input type="text" id="productUrl" style="display: none">
+		</div>
+		<div class="row cl">
+       	 	
+        	<label class="form-label col-xs-1 col-sm-1" style="font-size:20px"><nobr>模具不良照片</nobr></label>
+
+        </div>
+		<div class="row cl" id="faultLocationView">
+
+			<input type="text" id="faultLocationUrl" style="display: none">
+		</div>
+
+		<div class="row cl">
+       	 	
+        	<label class="form-label col-xs-1 col-sm-1" style="font-size:20px"><nobr>维修照片</nobr></label>
+
+        </div>
+		<div class="row cl" id="formingMachineView">
+
+			<input type="text" id="formingMachineUrl" style="display: none">
+		</div>
+		<div class="row cl">
+       	 	
+        	<label class="form-label col-xs-1 col-sm-1" style="font-size:20px"><nobr>维修完成照片</nobr></label>
+
+        </div>
+		<div class="row cl" id="maintenanceCompletedView">
+
+			<input type="text" id="maintenanceCompletedUrl" style="display: none">
+		</div>
+		  
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button type="button" onclick="save(9);" class="btn btn-primary radius" id="saveForm"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+				<button onClick="custom_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>
+			</div>
+		</div>
+		<input type="text" id="times" name="times" class="input-text" style="display: none">
+		<input type="text" id="listJson" name="listJson" class="input-text" style="display: none">
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+			$(function(){
+				// 初始化插件
+				$("#zyupload").zyUpload({
+					width            :   "",                 // 宽度
+					height           :   "",                 // 宽度
+					itemWidth        :   "140px",                 // 文件项的宽度
+					itemHeight       :   "115px",                 // 文件项的高度
+					url              :   "../file/ajaxFileUpload.do",  // 上传文件的路径
+					fileType         :   ["jpg","png","jpeg","JPG","PNG","JPEG"],// 上传文件的类型
+					fileSize         :   51200000,                // 上传文件的大小
+					multiple         :   true,                    // 是否可以多个文件上传
+					dragDrop         :   true,                    // 是否可以拖动上传文件
+					tailor           :   true,                    // 是否可以裁剪图片
+					del              :   true,                    // 是否可以删除文件
+					finishDel        :   false,  				  // 是否在上传文件完成后删除预览
+					/* 外部获得的回调接口 */
+					onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+						console.info("当前选择了以下文件：");
+						console.info(selectFiles);
+					},
+					onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
+						console.info("当前删除了此文件：");
+						console.info(file.name);
+						var prictureName = file.name;
+						var prictureId = prictureName.substring(0, prictureName.lastIndexOf("."));
+						$("#"+ prictureId).remove();
+					},
+					onSuccess: function(file, response){          // 文件上传成功的回调方法
+						console.info("此文件上传成功：");
+						console.info(file.name);
+						console.info("此文件上传到服务器地址：");
+						console.info(response);
+						var responseJson = JSON.parse(response);
+						data = responseJson.data;
+						var prictureName = file.name;
+						var prictureId = prictureName.substring(0, prictureName.lastIndexOf("."));
+						var fileUrl = "<p id='"+ prictureId +"'>" +
+						              "<input type='text' style='display: none' name='fileUrls' value='"+ data.value +"' /></p>";
+
+
+						$("#pictureView").append(fileUrl);
+					},
+					onFailure: function(file, response){          // 文件上传失败的回调方法
+						console.info("此文件上传失败：");
+						console.info(file.name);
+					},
+					onComplete: function(response){           	  // 上传完成的回调方法
+						console.info("文件上传完成");
+						console.info(response);
+					}
+				});
+
+			});
+		
+</script> 
+<!--_footer 作为公共模版分离出去-->
+<!-- <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="zyupload/skins/zyupload-1.0.0.min.css " type="text/css">
+<script type="text/javascript" src="zyupload/zyupload-1.0.0.min.js"></script> -->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/webJs/mouldReportReplenishPrevention.js"></script>
+
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

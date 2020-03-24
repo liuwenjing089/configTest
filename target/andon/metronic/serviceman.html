@@ -1,0 +1,170 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<title>保全人员</title>
+</head>
+<body>
+<div class="page-container" style="padding-bottom:100px;">
+	<div class="text-c">
+		线路选择：
+		<span class="select-box inline">
+			<select name="" class="select">
+				<option value="0">线别</option>
+				<option value="1">线别一</option>
+				<option value="2">线别二</option>
+			</select>
+		</span>
+		状态：
+		<span class="select-box inline">
+			<select name="" class="select">
+				<option value="0">状态</option>
+				<option value="1">维修中</option>
+				<option value="2">已完成</option>
+			</select>
+		</span>
+		生效开始时间:
+		<input type="date" id="effectBeginTime" name="effectBeginTime" style="width: 180px" class="input-text">
+		生效结束时间:
+		<input type="date" id="effectEndTime" name="effectEndTime" style="width: 180px" class="input-text">
+				
+		作业者：
+		<span class="select-box inline">
+			<select name="" class="select">
+				<option value="0">作业者</option>
+				<option value="1">aaa</option>
+				<option value="2">bbb</option>
+			</select>
+		</span>
+		<button name="" id="" class="btn btn-success radius" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+	</div>
+
+	<div class="mt-20">
+
+	<table class="table table-border table-bordered table-responsive table-bg">
+		<thead>
+			<tr class="text-c">
+				<th style="width:5%;">序号</th>
+				<th>线别</th>
+				<th>设备名</th>
+				<th>状态</th>
+				<th>保修时间</th>
+				<th>作业者</th>
+				<th style="width:15%;">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td>1</td>
+				<td><a href="">1#号线</a></td>
+				<td><a href="">设备1</a></td>
+				<td>报修</td>
+				<td>2017-11-03</td>
+				<td>作业者1</td>
+				<td>
+					<a class='btn btn-danger radius' style='margin-left:10px;'>指派</a>
+					<a class='btn btn-primary radius' style='margin-left:10px;'>详情</a>
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td>2</td>
+				<td><a href="">成型线</a></td>
+				<td><a href="">成型机</a></td>
+				<td>报修</td>
+				<td>2017-11-03</td>
+				<td>作业者1</td>
+				<td>
+					<a class='btn btn-danger radius' style='margin-left:10px;'>指派</a>
+					<a class='btn btn-primary radius' style='margin-left:10px;'>详情</a>
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td>3</td>
+				<td><a href="">1#号线</a></td>
+				<td><a href="">设备1</a></td>
+				<td>报修</td>
+				<td>2017-11-03</td>
+				<td>作业者1</td>
+				<td>
+					<a class='btn btn-danger radius' style='margin-left:10px;'>指派</a>
+					<a class='btn btn-primary radius' style='margin-left:10px;'>详情</a>
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td>4</td>
+				<td><a href="">5#号线</a></td>
+				<td><a href="">设备1</a></td>
+				<td>报修</td>
+				<td>2017-11-03</td>
+				<td>作业者1</td>
+				<td>
+					<a class='btn btn-danger radius' style='margin-left:10px;'>指派</a>
+					<a class='btn btn-primary radius' style='margin-left:10px;'>详情</a>
+				</td>
+			</tr>
+		
+		</tbody>
+	</table>
+
+</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+
+
+
+<!--_分页-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<script type="text/javascript">
+
+
+/*添加供应商*/
+function product1_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url,
+		area: ["100%", "100%"],
+
+	});
+
+}
+
+
+$('.table-sort').dataTable({
+	"aaSorting": [
+		//[1, "desc1"]
+	], //默认第几个排序
+	"bStateSave": true,//状态保存
+	"pading":false,
+	"aoColumnDefs": [
+	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+	  {"orderable":false,"aTargets":[0,1,2]}// 不参与排序的列
+	]
+});
+
+
+</script>
+</body>
+</html>

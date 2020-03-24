@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.SpotDetailDao">
+  <resultMap id="ResultMap" type="com.andon.bean.SpotDetail">
+        <result property="id" column="ID" />
+        <result property="taskId" column="TASK_ID" />
+        <result property="type" column="TYPE" />
+        <result property="detailId" column="DETAIL_ID" />
+        <result property="state" column="STATE" />
+        <result property="confirmState" column="CONFIRM_STATE" />
+        <result property="typeConfirmMan" column="TYPE_CONFIRM_MAN" />
+        <result property="typeConfirmTime" column="TYPE_CONFIRM_TIME" />
+        <result property="classConfirmMan" column="CLASS_CONFIRM_MAN" />
+        <result property="classConfirmTime" column="CLASS_CONFIRM_TIME" />
+        <result property="formingConfirmMan" column="FORMING_CONFIRM_MAN" />
+        <result property="formingConfirmTime" column="FORMING_CONFIRM_TIME" />
+        <result property="confirmCommander" column="CONFIRM_COMMANDER" />
+        <result property="confirmCommanderTime" column="CONFIRM_COMMANDER_TIME" />
+        <result property="confirmChief" column="CONFIRM_CHIEF" />
+        <result property="confirmChiefTime" column="CONFIRM_CHIEF_TIME" />
+        <result property="spotMan" column="SPOT_MAN" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO spot_detail(
+	        TASK_ID,
+	        TYPE,
+	        DETAIL_ID,
+	        STATE,
+	        CONFIRM_STATE,
+	        CREATE_TIME,
+	        CREATE_USER,
+	        UPDATE_TIME,
+	        UPDATE_USER,
+	        ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+	            #{item.taskId},
+	            #{item.type},
+	            #{item.detailId},
+	            #{item.state},
+	            #{item.confirmState},
+	            #{item.createTime},
+	            #{item.createUser},
+	            #{item.updateTime},
+	            #{item.updateUser},
+	            #{item.isActive}
+            )
+        </foreach>
+    </insert>
+
+    <!--根据id检索-->
+    <select id="selectSpotDetailById" parameterType="com.andon.bean.SpotDetail" resultType="com.andon.bean.SpotDetail">
+        SELECT
+        s.ID AS id,
+        s.TASK_ID AS taskId,
+        s.CONFIRM_COMMANDER AS confirmCommander,
+        s.CONFIRM_COMMANDER_TIME AS confirmCommanderTime,
+        s.CONFIRM_CHIEF AS confirmChief,
+        s.CONFIRM_CHIEF_TIME AS confirmChiefTime,
+        s.CLASS_CONFIRM_MAN AS classConfirmMan,
+        s.CLASS_CONFIRM_TIME AS classConfirmTime,
+        s.SPOT_MAN AS spotMan,
+        s.STATE AS state,
+        s.CONFIRM_STATE AS confirmState
+        FROM
+        spot_detail s
+        WHERE
+        1=1
+        AND s.ID= #{id}
+    </select>
+
+    <!--根据TaskId检索-->
+    <select id="selectSpotDetailByTaskId" parameterType="com.andon.bean.SpotDetail" resultType="com.andon.bean.SpotDetail">
+        SELECT
+        s.TASK_ID AS taskId,
+        s.CONFIRM_STATE AS confirmState,
+        s.CLASS_CONFIRM_MAN AS classConfirmMan,
+        s.CONFIRM_COMMANDER AS confirmCommander,
+        s.TYPE AS type
+        FROM
+        spot_detail s
+        WHERE
+        1=1
+        AND s.TASK_ID= #{id}
+    </select>
+
+    <!--检索  模具-->
+    <select id="selectSpotDetailMould" parameterType="com.andon.bean.dto.SpotDetailMould" resultType="com.andon.bean.dto.SpotDetailMould">
+        SELECT
+	        s.ID AS id,
+	        m.ID AS mouldId,
+	        m.VEHICLE_TYPE AS vehicleType,
+	        m.FIGURE_NUMBER AS figureNumber,
+	        m.ASSET_CODING AS assetCoding,
+	        s.STATE AS state,
+	        s.CONFIRM_STATE AS confirmState,
+	        st.SPOT_INTERVAL AS spotInterval,
+		    st.BEGIN_TIME AS beginTime,
+		    st.ID AS taskId
+        FROM
+        spot_detail s
+        JOIN spot_task st ON s.TASK_ID = st.ID
+        LEFT JOIN mould m
+        ON s.DETAIL_ID = m.ID
+        WHERE
+        1=1
+        <if test="vehicleType!=null and vehicleType!=''">
+            AND m.VEHICLE_TYPE = #{vehicleType}
+        </if>
+        <if test="figureNumber!=null and figureNumber!=''">
+            AND m.FIGURE_NUMBER = #{figureNumber}
+        </if>
+        <if test="assetCoding!=null and assetCoding!=''">
+            AND m.ASSET_CODING = #{assetCoding}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+            AND 1=1
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND s.TASK_ID= #{id}
+        AND s.TYPE = 2
+        AND s.ISACTIVE = 1
+        AND m.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--检索  模具-->
+    <select id="selectSpotDetailMouldCount" parameterType="com.andon.bean.dto.SpotDetailMould" resultType="com.andon.bean.dto.SpotDetailMould">
+        SELECT
+        COUNT(*)
+        FROM
+        spot_detail s
+        LEFT JOIN mould m
+        ON s.DETAIL_ID = m.ID
+        WHERE
+        1=1
+        <if test="vehicleType!=null and vehicleType!=''">
+            AND m.VEHICLE_TYPE = #{vehicleType}
+        </if>
+        <if test="figureNumber!=null and figureNumber!=''">
+            AND m.FIGURE_NUMBER = #{figureNumber}
+        </if>
+        <if test="assetCoding!=null and assetCoding!=''">
+            AND m.ASSET_CODING = #{assetCoding}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+                AND 1=1
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND s.TASK_ID= #{id}
+        AND s.TYPE = 2
+        AND s.ISACTIVE = 1
+        AND m.ISACTIVE = 1
+    </select>
+
+    <!--检索  设备-->
+    <select id="selectSpotDetailEquip" parameterType="com.andon.bean.dto.SpotDetailEquip" resultType="com.andon.bean.dto.SpotDetailEquip">
+        SELECT
+	        s.ID AS id,
+	        e.ID AS equipId,
+	        e.ASSET_NUM AS assetNum,
+	        e.EQUIP_NUM AS equipNum,
+	        e.EQUIP_NAME AS equipName,
+	        e.EQUIP_MODEL AS equipModel,
+	        e.STANDARD AS standard,
+	        s.STATE AS state,
+	        s.CONFIRM_STATE AS confirmState,
+	        st.SPOT_INTERVAL AS spotInterval,
+	        st.BEGIN_TIME AS beginTime,
+	        st.ID AS taskId
+        FROM
+        	spot_detail s
+        JOIN spot_task st ON s.TASK_ID = st.ID
+        LEFT JOIN equip e ON s.DETAIL_ID = e.ID      
+        WHERE
+        1=1
+        <if test="assetNum!=null and assetNum!=''">
+            AND e.ASSET_NUM = #{assetNum}
+        </if>
+        <if test="equipNum!=null and equipNum!=''">
+            AND e.EQUIP_NUM = #{equipNum}
+        </if>
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND s.TASK_ID= #{id}
+        AND s.TYPE = 1
+        AND s.ISACTIVE = 1
+        AND e.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--检索  设备-->
+    <select id="selectSpotDetailEquipCount" parameterType="com.andon.bean.dto.SpotDetailEquip" resultType="com.andon.bean.dto.SpotDetailEquip">
+        SELECT
+        COUNT(*)
+        FROM
+        spot_detail s
+        LEFT JOIN equip e
+        ON s.DETAIL_ID = e.ID
+        WHERE
+        1=1
+        <if test="assetNum!=null and assetNum!=''">
+            AND e.ASSET_NUM = #{assetNum}
+        </if>
+        <if test="equipNum!=null and equipNum!=''">
+            AND e.EQUIP_NUM = #{equipNum}
+        </if>
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND s.TASK_ID= #{id}
+        AND s.TYPE = 1
+        AND s.ISACTIVE = 1
+        AND e.ISACTIVE = 1
+    </select>
+
+    <!--删除任务-->
+    <update id="deleteTaskDetail" >
+        UPDATE
+        spot_detail s
+        SET
+        s.ISACTIVE = 0,
+        s.UPDATE_TIME = NOW(),
+	    s.UPDATE_USER = #{userName}
+        WHERE
+        1=1
+        AND
+        s.TASK_ID = #{id}
+    </update>
+
+    <select id="selectDeleteDetail" parameterType="com.andon.bean.SpotDetail" resultType="com.andon.bean.SpotDetail">
+        SELECT
+        s.ID AS id
+        FROM
+        spot_detail s
+        WHERE
+        1=1
+        AND s.TASK_ID= #{id}
+        AND s.ISACTIVE = 1
+    </select>
+
+    <!--更新完成状态-->
+    <update id="updateState" parameterType="com.andon.bean.SpotDetail">
+        UPDATE
+        spot_detail s
+        SET
+          s.SPOT_MAN = #{spotMan},
+          s.STATE = 1
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+    </update>
+
+    <!--更新确认状态-->
+    <update id="updateConfirmState" parameterType="com.andon.bean.SpotDetail">
+        UPDATE
+        spot_detail s
+        SET
+        <if test="classConfirmMan!=null and classConfirmMan!=''">
+           s.CLASS_CONFIRM_MAN = #{classConfirmMan},
+        </if>
+        <if test="classConfirmTime!=null and classConfirmTime!=''">
+           s.CLASS_CONFIRM_TIME = #{classConfirmTime},
+        </if>
+        <if test="confirmCommander!=null and confirmCommander!=''">
+           s.CONFIRM_COMMANDER = #{confirmCommander},
+        </if>
+        <if test="confirmCommanderTime!=null and confirmCommanderTime!=''">
+            s.CONFIRM_COMMANDER_TIME = #{confirmCommanderTime},
+        </if>
+        <if test="confirmChief!=null and confirmChief!=''">
+            s.CONFIRM_CHIEF = #{confirmChief},
+        </if>
+        <if test="confirmChiefTime!=null and confirmChiefTime!=''">
+            s.CONFIRM_CHIEF_TIME = #{confirmChiefTime},
+        </if>
+        <if test="confirmState!=9">
+            s.CONFIRM_STATE = #{confirmState},
+        </if>
+        s.UPDATE_TIME = #{updateTime}
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+        AND s.ISACTIVE =1
+    </update>
+
+    <!--日历检索模具-->
+    <select id="selectDateSpotDetailMould" parameterType="com.andon.bean.dto.SpotDetailMould" resultType="com.andon.bean.dto.SpotDetailMould">
+        SELECT
+        t.id AS taskId,
+        t.SPOT_INTERVAL AS spotInterval,
+        t.BEGIN_TIME AS beginTime,
+        s.ID AS id,
+        m.ID AS mouldId,
+        m.VEHICLE_TYPE AS vehicleType,
+        m.FIGURE_NUMBER AS figureNumber,
+        m.ASSET_CODING AS assetCoding,
+        s.STATE AS state,
+        s.CONFIRM_STATE AS confirmState
+        FROM
+        spot_task t
+        LEFT JOIN
+        spot_detail s
+        ON t.ID = s.TASK_ID
+        LEFT JOIN mould m
+        ON s.DETAIL_ID = m.ID
+        WHERE
+        1=1
+        <if test="vehicleType!=null and vehicleType!=''">
+            AND m.VEHICLE_TYPE = #{vehicleType}
+        </if>
+        <if test="figureNumber!=null and figureNumber!=''">
+            AND m.FIGURE_NUMBER = #{figureNumber}
+        </if>
+        <if test="assetCoding!=null and assetCoding!=''">
+            AND m.ASSET_CODING = #{assetCoding}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+                AND 1=1
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND t.BEGIN_TIME = #{beginTime}
+        AND s.TYPE = 2
+        AND s.ISACTIVE = 1
+        AND m.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+    <select id="selectDateSpotDetailMouldCount" parameterType="com.andon.bean.dto.SpotDetailMould" resultType="com.andon.bean.dto.SpotDetailMould">
+        SELECT
+        COUNT(*)
+        FROM
+        spot_task t
+        LEFT JOIN
+        spot_detail s
+        ON t.ID = s.TASK_ID
+        LEFT JOIN mould m
+        ON s.DETAIL_ID = m.ID
+        WHERE
+        1=1
+        <if test="vehicleType!=null and vehicleType!=''">
+            AND m.VEHICLE_TYPE = #{vehicleType}
+        </if>
+        <if test="figureNumber!=null and figureNumber!=''">
+            AND m.FIGURE_NUMBER = #{figureNumber}
+        </if>
+        <if test="assetCoding!=null and assetCoding!=''">
+            AND m.ASSET_CODING = #{assetCoding}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+                AND 1=1
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND t.BEGIN_TIME = #{beginTime}
+        AND s.TYPE = 2
+        AND s.ISACTIVE = 1
+        AND m.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+
+    <!--日历设备检索-->
+    <select id="selectDateSpotDetailEquip" parameterType="com.andon.bean.dto.SpotDetailEquip" resultType="com.andon.bean.dto.SpotDetailEquip">
+        SELECT
+        t.id AS taskId,
+        t.SPOT_INTERVAL AS spotInterval,
+        t.BEGIN_TIME AS beginTime,
+        s.ID AS id,
+        e.ID AS equipId,
+        e.ASSET_NUM AS assetNum,
+        e.EQUIP_NUM AS equipNum,
+        e.EQUIP_NAME AS equipName,
+        e.EQUIP_MODEL AS equipModel,
+        e.STANDARD AS standard,
+        s.STATE AS state,
+        s.CONFIRM_STATE AS confirmState
+        FROM
+        spot_task t
+        LEFT JOIN
+        spot_detail s
+        ON t.ID = s.TASK_ID
+        LEFT JOIN equip e
+        ON s.DETAIL_ID = e.ID
+        WHERE
+        1=1
+        <if test="assetNum!=null and assetNum!=''">
+            AND e.ASSET_NUM = #{assetNum}
+        </if>
+        <if test="equipNum!=null and equipNum!=''">
+            AND e.EQUIP_NUM = #{equipNum}
+        </if>
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND t.BEGIN_TIME = #{beginTime}
+        AND s.TYPE = 1
+        AND s.ISACTIVE = 1
+        AND e.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+    <select id="selectDateSpotDetailEquipCount" parameterType="com.andon.bean.dto.SpotDetailEquip" resultType="com.andon.bean.dto.SpotDetailEquip">
+        SELECT
+        COUNT(*)
+        FROM
+        spot_detail s
+        LEFT JOIN equip e
+        ON s.DETAIL_ID = e.ID
+        WHERE
+        1=1
+        <if test="assetNum!=null and assetNum!=''">
+            AND e.ASSET_NUM = #{assetNum}
+        </if>
+        <if test="equipNum!=null and equipNum!=''">
+            AND e.EQUIP_NUM = #{equipNum}
+        </if>
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        <if test="state != 9">
+            AND s.STATE = #{state}
+        </if>
+        <if test="confirmState != 9">
+            AND s.CONFIRM_STATE = #{confirmState}
+        </if>
+        <choose>
+            <when test="classConfirmMan==9">
+            </when>
+            <when test="classConfirmMan==1">
+                AND s.CLASS_CONFIRM_MAN  IS NOT NULL
+            </when>
+            <when test="classConfirmMan==0">
+                AND s.CLASS_CONFIRM_MAN  IS NULL
+            </when>
+        </choose>
+        AND t.BEGIN_TIME = #{beginTime}
+        AND s.TYPE = 1
+        AND s.ISACTIVE = 1
+        AND e.ISACTIVE = 1
+    </select>
+
+    <!--修改taskId-->
+    <update id="updateDetailTaskId" parameterType="com.andon.bean.SpotDetail">
+        UPDATE
+        spot_detail s
+        SET
+        s.TASK_ID = #{taskId},
+        s.UPDATE_USER = #{updateUser},
+        s.UPDATE_TIME = #{updateTime}
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+        AND
+        s.ISACTIVE=1
+    </update>
+    
+    <!--根据任务id集合批量查询出对应的spotDetail的记录-->
+    <select id="selectDetailsByTaskIds" resultType="com.andon.bean.SpotDetail">
+	SELECT
+		s.ID AS id
+	from 
+		spot_detail s
+	WHERE 
+		s.TASK_ID IN
+		<foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+		  #{id}
+		</foreach>
+	AND s.ISACTIVE = 1	
+	</select>
+
+    <!--批量删除-->
+    <update id="batchDeleteTaskDetail" >
+        UPDATE
+        	spot_detail
+        SET
+        	ISACTIVE = 0,
+        	UPDATE_TIME = NOW(),
+        	UPDATE_USER = #{userName}
+        	
+        WHERE
+        TASK_ID IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

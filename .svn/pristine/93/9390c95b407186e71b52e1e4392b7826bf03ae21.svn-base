@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.EquipRepairDao">
+    <resultMap id="ResultMap" type="com.andon.bean.EquipRepair">
+        <result property="id" column="ID" />
+        <result property="reId" column="RE_ID" />
+        <result property="equipUseDepartment" column="EQUIP_USE_DEPARTMENT" />
+        <result property="equipUseSystem" column="EQUIP_USE_SYSTEM" />
+        <result property="equipUseClass" column="EQUIP_USE_CLASS" />
+        <result property="equipState" column="EQUIP_STATE" />
+        <result property="operator" column="OPERATOR" />
+        <result property="safetyDeviceConfirm" column="SAFETY_DEVICE_CONFIRM" />
+        <result property="maintainer" column="MAINTAINER" />
+        <result property="taskConfirmMan" column="TASK_CONFIRM_MAN" />
+        <result property="mainTaskMan" column="MAIN_TASK_MAN" />
+        <result property="subTaskMan" column="SUB_TASK_MAN" />
+        <result property="newaddTaskMan" column="NEWADD_TASK_MAN" />
+        <result property="supplier" column="SUPPLIER" />
+        <result property="isfirstEpisode" column="ISFIRST_EPISODE" />
+        <result property="appearance" column="APPEARANCE" />
+        <result property="reason" column="REASON" />
+        <result property="management" column="MANAGEMENT" />
+        <result property="preventPlan" column="PREVENT_PLAN" />
+        <result property="saveConfirmChief" column="SAVE_CONFIRM_CHIEF" />
+        <result property="saveConfirmCommander" column="SAVE_CONFIRM_COMMANDER" />
+        <result property="faultType" column="FAULT_TYPE" />
+        <result property="repairUsetimeType" column="REPAIR_USETIME_TYPE" />
+        <result property="isOverNum" column="IS_OVER_NUM" />
+        <result property="locationUrl" column="LOCATION_URL" />
+        <result property="cropMovement" column="CROP_MOVEMENT" />
+        <result property="faultDescription" column="FAULT_DESCRIPTION" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+        <result property="undefined1" column="UNDEFINED1" />
+        <result property="undefined2" column="UNDEFINED2" />
+        <result property="undefined3" column="UNDEFINED3" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.andon.bean.EquipRepair">
+        INSERT INTO equip_repair(
+          RE_ID,
+          EQUIP_USE_DEPARTMENT,
+          EQUIP_USE_SYSTEM,
+          EQUIP_USE_CLASS,
+          OPERATOR,
+          SAFETY_DEVICE_CONFIRM,
+          MAINTAINER,
+          TASK_CONFIRM_MAN,
+          MAIN_TASK_MAN,
+          SUB_TASK_MAN,
+          NEWADD_TASK_MAN,
+          SUPPLIER,
+          ISFIRST_EPISODE,
+          APPEARANCE,
+          REASON,
+          MANAGEMENT,
+          PREVENT_PLAN,
+          SAVE_CONFIRM_CHIEF,
+          SAVE_CONFIRM_COMMANDER,
+          FAULT_TYPE,
+          REPAIR_USETIME_TYPE,
+          IS_OVER_NUM,
+          LOCATION_URL,
+          CROP_MOVEMENT,
+          FAULT_DESCRIPTION,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE,
+          UNDEFINED1,
+          UNDEFINED2,
+          UNDEFINED3
+        )
+        VALUES (
+          #{reId},
+          #{equipUseDepartment},
+          #{equipUseSystem},
+          #{equipUseClass},
+          #{operator},
+          #{safetyDeviceConfirm},
+          #{maintainer},
+          #{taskConfirmMan},
+          #{mainTaskMan},
+          #{subTaskMan},
+          #{newaddTaskMan},
+          #{supplier},
+          #{isfirstEpisode},
+          #{appearance},
+          #{reason},
+          #{management},
+          #{preventPlan},
+          #{saveConfirmChief},
+          #{saveConfirmCommander},
+          #{faultType},
+          #{repairUsetimeType},
+          #{isOverNum},
+          #{locationUrl},
+          #{cropMovement},
+          #{faultDescription},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive},
+          #{undefined1},
+          #{undefined2},
+          #{undefined3}
+        )
+    </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="com.andon.bean.dto.UpdateEquipRepair">
+        UPDATE
+        equip_repair
+        <set>
+        <if test="equipUseDepartment!=null and equipUseDepartment!=''">
+          EQUIP_USE_DEPARTMENT = #{equipUseDepartment},
+        </if>
+        <if test="equipUseSystem!=null and equipUseSystem!=''">
+          EQUIP_USE_SYSTEM = #{equipUseSystem},
+        </if>
+        <if test="equipUseClass!=null and equipUseClass!=''">
+          EQUIP_USE_CLASS = #{equipUseClass},
+        </if>
+        <if test="equipState!=null and equipState!=''">
+          EQUIP_STATE = #{equipState},
+        </if>
+        <if test="operator!=null and operator!=''">
+          OPERATOR = #{operator},
+        </if>
+        <if test="safetyDeviceConfirm!=null and safetyDeviceConfirm!=''">
+          SAFETY_DEVICE_CONFIRM = #{safetyDeviceConfirm},
+        </if>
+        <if test="maintainer!=null and maintainer!=''">
+          MAINTAINER = #{maintainer},
+        </if>
+        <if test="taskConfirmMan!=null and taskConfirmMan!=''">
+          TASK_CONFIRM_MAN = #{taskConfirmMan},
+        </if>
+        <if test="mainTaskMan!=null and mainTaskMan!=''">
+          MAIN_TASK_MAN = #{mainTaskMan},
+        </if>
+        <if test="subTaskMan!=null and subTaskMan!=''">
+          SUB_TASK_MAN = #{subTaskMan},
+        </if>
+        <if test="newaddTaskMan!=null and newaddTaskMan!=''">
+          NEWADD_TASK_MAN = #{newaddTaskMan},
+        </if>
+        <if test="supplier!=null and supplier!=''">
+          SUPPLIER = #{supplier},
+        </if>
+        <if test="isfirstEpisode!=null and isfirstEpisode!=''">
+          ISFIRST_EPISODE = #{isfirstEpisode},
+        </if>
+        <if test="appearance!=null and appearance!=''">
+          APPEARANCE = #{appearance},
+        </if>
+        <if test="reason!=null and reason!=''">
+          REASON = #{reason},
+        </if>
+        <if test="management!=null and management!=''">
+          MANAGEMENT = #{management},
+        </if>
+        <if test="preventPlan!=null and preventPlan!=''">
+          PREVENT_PLAN = #{preventPlan},
+        </if>
+        <if test="saveConfirmChief!=null and saveConfirmChief!=''">
+          SAVE_CONFIRM_CHIEF = #{saveConfirmChief},
+        </if>
+        <if test="saveConfirmCommander!=null and saveConfirmCommander!=''">
+          SAVE_CONFIRM_COMMANDER = #{saveConfirmCommander},
+        </if>
+          FAULT_TYPE = #{faultType},
+          REPAIR_USETIME_TYPE = #{repairUsetimeType},
+        <if test="isOverNum!=null and isOverNum!=''">
+          IS_OVER_NUM = #{isOverNum},
+        </if>
+        <if test="locationUrl!='' and locationUrl!=null">
+          LOCATION_URL = #{locationUrl},
+        </if>
+        <if test="cropMovement!=''">
+          CROP_MOVEMENT = #{cropMovement},
+        </if>
+        <if test="locationUrl!=''">
+          FAULT_DESCRIPTION = #{faultDescription},
+        </if>
+        <if test="undefined1=''">
+          UNDEFINED1 = #{undefined1},
+        </if>
+        <if test="undefined2=''">
+          UNDEFINED2 = #{undefined2},
+        </if>
+        <if test="undefined3=''">
+          UNDEFINED3 = #{undefined3},
+        </if>
+          ISACTIVE=1,
+          UPDATE_TIME = NOW()
+        </set>
+        WHERE
+        RE_ID = #{id}
+    </update>
+
+    <!--赋初始值-->
+    <select id="selectEquipRepair" resultType="com.andon.bean.dto.EquipRepairOutput"
+            parameterType="int">
+    SELECT
+    r.equipNum,
+    r.equipName,
+    r.anotherName,
+    r.reportRepairTime,
+    r.orderTime,
+    r.beginTime,
+    r.endTime,
+    r.equipUseDepartment,
+    r.maintainer,
+    r.mainTaskMan,
+    r.subTaskMan,
+    r.newaddTaskMan,
+    r.supplier,
+    r.operator,
+    r.appearance,
+    r.isfirstEpisode,
+    r.reason,
+    r.management,
+    r.preventPlan,
+    r.faultType,
+    r.repairUsetimeType,
+    r.isOverNum,
+    r.taskConfirmMan,
+    r.saveConfirmCommander,
+    r.saveConfirmChief,
+    r.repairId,
+    r.confirmationTime,
+    r.preDepChiefConTime,
+    r.preSecChiefConTime,
+    r.state,
+    r.locationUrl,
+    r.cropMovement,
+    r.faultDescription,
+    r.undefined1,
+    r.undefined2,
+    r.undefined3,
+    r.mainTaskManView,
+    r.taskConfirmManView,
+    r.saveConfirmCommanderView,
+    r.saveConfirmChiefView,
+    r.repairNumber
+
+    
+<!--     p.EQUIP_NUM AS equipNum,
+    p.EQUIP_NAME AS equipName,
+    p.ANOTHER_NAME AS anotherName,
+    r.REPORT_REPAIR_TIME AS reportRepairTime,
+    r.ORDER_TIME AS orderTime,
+    r.BEGIN_TIME AS beginTime,
+    r.END_TIME AS endTime,
+    e.EQUIP_USE_DEPARTMENT AS equipUseDepartment,
+    e.MAINTAINER AS maintainer,
+    e.MAIN_TASK_MAN AS mainTaskMan,
+    e.SUB_TASK_MAN AS subTaskMan,
+    e.NEWADD_TASK_MAN AS newaddTaskMan,
+    e.SUPPLIER AS supplier,
+    e.OPERATOR AS operator,
+    e.APPEARANCE AS appearance,
+    e.ISFIRST_EPISODE AS isfirstEpisode,
+    e.REASON AS reason,
+    e.MANAGEMENT AS management,
+    e.PREVENT_PLAN AS preventPlan,
+    e.FAULT_TYPE AS faultType,
+    e.REPAIR_USETIME_TYPE AS repairUsetimeType,
+    e.IS_OVER_NUM AS isOverNum,
+    e.TASK_CONFIRM_MAN AS taskConfirmMan,
+    e.SAVE_CONFIRM_COMMANDER AS saveConfirmCommander,
+    e.SAVE_CONFIRM_CHIEF AS saveConfirmChief,
+    r.ID AS repairId,
+    r.CONFIRMATION_TIME AS confirmationTime,
+    r.PRE_DEP_CHIEF_CON_TIME AS preDepChiefConTime,
+    r.PRE_SEC_CHIEF_CON_TIME AS preSecChiefConTime,
+    r.STATE AS state,
+    e.LOCATION_URL AS locationUrl,
+    concat(MAIN_TASK_MAN, '-', u1.EMPLOYEE_NAME) AS mainTaskManView -->
+    FROM
+		view_equip_repair_detail r
+
+    WHERE
+    r.repairId = #{id}
+
+   </select>
+   
+   
+    <!--修改设备维修表确认状态-->
+    <update id="updateDetailState" parameterType="com.andon.bean.dto.UpdateEquipRepair">
+        UPDATE
+        	equip_repair
+        <set>
+
+	        <if test="taskConfirmMan!=null and taskConfirmMan!=''">
+	          TASK_CONFIRM_MAN = #{taskConfirmMan},
+	        </if>
+	        <if test="saveConfirmChief!=null and saveConfirmChief!=''">
+	          SAVE_CONFIRM_CHIEF = #{saveConfirmChief},
+	        </if>
+	        <if test="saveConfirmCommander!=null and saveConfirmCommander!=''">
+	          SAVE_CONFIRM_COMMANDER = #{saveConfirmCommander},
+	        </if>
+
+	        UPDATE_TIME = #{updateTime},
+	        UPDATE_USER = #{updateUser}
+        </set>
+        WHERE
+        RE_ID = #{id}
+    </update>
+</mapper>

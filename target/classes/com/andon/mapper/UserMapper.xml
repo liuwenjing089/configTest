@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.UserDao">
+    <resultMap id="ResultMap" type="com.andon.bean.User">
+        <result property="id" column="ID" />
+        <result property="username" column="USERNAME" />
+        <result property="password" column="PASSWORD" />
+        <result property="userType" column="TYPE" />
+        <result property="factory" column="FACTORY" />
+        <result property="worksection" column="WORKSECTION" />
+        <result property="system" column="SYSTEM" />
+        <result property="classment" column="CLASSMENT" />
+        <result property="employeeName" column="EMPLOYEE_NAME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <select id="selectUser" resultType="com.andon.bean.User"
+            parameterType="com.andon.bean.User">
+    SELECT
+	    u.ID AS id,
+	    u.FACTORY AS factory,
+	    u.USERNAME AS username,
+	    u.PASSWORD AS password,
+	    u.TYPE AS userType,
+	    u.EMPLOYEE_NAME AS employeeName,
+	    u.USER_ClASS AS userClass
+    FROM user u
+    WHERE
+      u.USERNAME = #{username}
+      <if test="password !=null and password !=''">
+      	AND u.PASSWORD = #{password}
+      </if>
+    AND
+      u.ISACTIVE = 1
+    </select>
+
+    <!--获取所有保全人员-->
+    <select id="selectUserBaoquan" resultType="com.andon.bean.User"
+            parameterType="com.andon.bean.User">
+    SELECT
+	    u.USERNAME AS username,
+	    u.EMPLOYEE_NAME AS employeeName
+    FROM user u
+    WHERE
+      u.ISACTIVE = 1
+      AND
+      (u.TYPE = 4
+      OR
+      u.TYPE = 3)
+    </select>
+
+    <!--获取部门信息-->
+    <select id="selectDepartment" resultType="com.andon.bean.User"
+            parameterType="com.andon.bean.User">
+    SELECT
+	    u.WORKSECTION AS worksection,
+	    u.SYSTEM AS system,
+	    u.CLASSMENT AS classment,
+	    u.EMPLOYEE_NAME AS employeeName
+    FROM user u
+    WHERE
+      u.USERNAME = #{username}
+      AND
+      u.ISACTIVE = 1
+    </select>
+    
+    
+    <!--获取保全工作人员的状态-->
+    <select id="getUserRepairStauts" resultType="map" >
+            
+    SELECT
+	    u.USERNAME AS username,
+	    u.EMPLOYEE_NAME AS employeeName,
+	    u.STATE AS stauts
+    FROM 
+    	view_user_repair_status u
+
+    </select>
+</mapper>

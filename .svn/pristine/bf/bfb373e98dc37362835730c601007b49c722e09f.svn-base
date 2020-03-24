@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldPreventionTypeDao">
+    <!--新建-->
+    <insert id="insertMouldPreventionType" parameterType="com.andon.bean.MouldPreventionType" >
+        <selectKey keyProperty="uuid" keyColumn="UUID" order="BEFORE" resultType="string">
+            select uuid()
+        </selectKey>
+        INSERT INTO mould_prevention_type(
+          UUID,
+          RE_ID,
+          MOULD_ID,
+          GROUP_KEY,
+          REMARKS,
+          UNDEFINED_1,
+          UNDEFINED_2,
+          UNDEFINED_3,
+          CREATE_USER,
+          CREATE_TIME,
+          UPDATE_USER,
+          UPDATE_TIME,
+          ISACTIVE
+        )
+        
+        VALUES (
+          #{uuid},
+          #{reId},
+          #{mouldId},
+          #{groupKey},
+          #{remarks},
+          #{undefined1},
+          #{undefined2},
+          #{undefined3},
+          #{createUser},
+          #{createTime},      
+          #{updateUser},
+          #{updateTime},
+          #{isActive}
+        )
+    </insert>
+    
+    <!-- 查询属于该模具的类型集合group by key   -->
+    <select id="getMouldPreventionTypeList" parameterType="com.andon.bean.MouldPreventionType" resultType="com.andon.bean.MouldPreventionType" >
+            
+		SELECT
+			m.UUID AS uuid,
+			m.RE_ID AS reId,
+			m.MOULD_ID AS mouldId,
+			m.GROUP_KEY AS groupKey,
+			m.REMARKS AS remarks,
+			m.UNDEFINED_1 AS undefined1,
+			m.UNDEFINED_2 AS undefined2,
+			m.UNDEFINED_3 AS undefined3
+		
+		FROM
+			mould_prevention_type m
+		WHERE
+			m.MOULD_ID = #{mouldId}
+		AND m.ISACTIVE = #{isActive}
+		GROUP BY
+			m.GROUP_KEY
+	
+    </select>
+    
+    <!-- 根据group key 查询所有报修记录 -->
+    <select id="SelectRepairListByMouldPreventionTypeGroupKey" parameterType="com.andon.bean.MouldPreventionType" resultType="com.andon.bean.MouldPreventionType">
+            
+		SELECT
+			m.UUID AS uuid,
+			m.RE_ID AS reId,
+			m.MOULD_ID AS mouldId,
+			m.GROUP_KEY AS groupKey,
+			m.REMARKS AS remarks,
+			m.UNDEFINED_1 AS undefined1,
+			m.UNDEFINED_2 AS undefined2,
+			m.UNDEFINED_3 AS undefined3
+		FROM
+			mould_prevention_type m
+		WHERE
+			m.GROUP_KEY = #{groupKey}
+		AND m.ISACTIVE = #{isActive}
+    </select>
+
+    <!-- 根据group key 查询所有报修记录 -->
+    <select id="selectMouldPreventionTypeByReId" parameterType="com.andon.bean.MouldPreventionType" resultType="com.andon.bean.MouldPreventionType">
+            
+		SELECT
+			m.UUID AS uuid,
+			m.RE_ID AS reId,
+			m.MOULD_ID AS mouldId,
+			m.GROUP_KEY AS groupKey,
+			m.REMARKS AS remarks,
+			m.UNDEFINED_1 AS undefined1,
+			m.UNDEFINED_2 AS undefined2,
+			m.UNDEFINED_3 AS undefined3
+		FROM
+			mould_prevention_type m
+		WHERE
+			m.RE_ID = #{reId}
+		AND m.ISACTIVE = #{isActive}
+    </select>
+    
+     <!--修改记录-->
+    <update id="updateMouldPreventionType" parameterType="com.andon.bean.MouldPreventionType">
+        UPDATE
+        	mould_prevention_type m
+        SET	      
+          m.GROUP_KEY = #{groupKey},
+          m.REMARKS = #{remarks},
+ 
+		  m.UNDEFINED_1 = #{undefined1},
+		  m.UNDEFINED_2 = #{undefined2},
+		  m.UNDEFINED_3 = #{undefined3},
+          m.UPDATE_TIME = #{updateTime},
+          m.UPDATE_USER = #{updateUser}
+        WHERE
+        	m.UUID = #{uuid}
+        AND m.ISACTIVE = #{isActive}
+    </update>
+    
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.TestMouldDao">
+    <resultMap id="ResultMap" type="com.andon.bean.TestMould">
+        <result property="id" column="ID" />
+        <result property="deId" column="DE_ID" />       
+        <result property="predictedTestMouldTime" column="PREDICTED_TEST_MOULD_TIME" />        
+        <result property="testMouldStartTime" column="TEST_MOULD_START_TIME" />
+        <result property="testMouldEndTime" column="TEST_MOULD_END_TIME" />       
+        <result property="testMouldResult" column="TEST_MOULD_RESULT" />
+        <result property="completeness" column="COMPLETENESS" />
+        <result property="remarks" column="REMARKS" />       
+        <result property="remarks1" column="REMARKS1" />        
+        <result property="remarks2" column="REMARKS2" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+	<sql id="Base_Column_List">
+	      ID,
+          DE_ID,
+          PREDICTED_TEST_MOULD_TIME,
+          TEST_MOULD_START_TIME,
+          TEST_MOULD_END_TIME,
+          TEST_MOULD_RESULT,
+          COMPLETENESS,
+          REMARKS,
+          REMARKS1,
+          REMARKS2
+
+	</sql>
+
+    <!--新建模具-->
+    <insert id="insertTestMould" parameterType="com.andon.bean.TestMould">
+        INSERT INTO test_mould(
+          DE_ID,
+          PREDICTED_TEST_MOULD_TIME,
+          TEST_MOULD_START_TIME,
+          TEST_MOULD_END_TIME,
+          TEST_MOULD_RESULT,
+          COMPLETENESS,
+          REMARKS,
+          REMARKS1,
+          REMARKS2,
+          
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{deId},
+          #{predictedTestMouldTime},
+          #{testMouldStartTime},
+          #{testMouldEndTime},
+          #{testMouldResult},
+          #{completeness},
+          #{remarks},
+          #{remarks1},
+          #{remarks2},
+
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+    
+    <!--检索试模列表-->
+    <select id="getTestMouldList" resultMap="ResultMap" >
+            
+        SELECT
+			<include refid="Base_Column_List" />
+        FROM
+        	test_mould m
+        WHERE
+            m.DE_ID = #{deId}
+        AND    
+            m.COMPLETENESS = 1
+        AND    
+			m.ISACTIVE = #{isActive}
+		ORDER BY m.TEST_MOULD_END_TIME
+
+    </select>
+
+    <!--根据id查询一条记录-->
+    <select id="selectTestMouldById" resultType="com.andon.bean.TestMould" >
+            
+        SELECT
+	      ID AS id,
+	      DE_ID AS deId,
+          PREDICTED_TEST_MOULD_TIME AS predictedTestMouldTime,
+          TEST_MOULD_START_TIME AS testMouldStartTime,
+          TEST_MOULD_END_TIME AS testMouldEndTime,
+          TEST_MOULD_RESULT AS testMouldResult,
+          COMPLETENESS AS completeness,
+          REMARKS AS remarks,
+          REMARKS1 AS remarks1,
+          REMARKS2 AS remarks2
+
+        FROM
+        	test_mould m
+        WHERE
+        	m.COMPLETENESS = 0
+        AND 
+        	m.DE_ID = #{deId}
+        AND
+        	m.ISACTIVE = #{isActive}
+    </select>
+    
+    <!--修改试模-->
+    <update id="updateTestMould" parameterType="com.andon.bean.TestMould">
+        UPDATE
+        	test_mould m
+        SET	      
+          m.PREDICTED_TEST_MOULD_TIME = #{predictedTestMouldTime},
+          m.TEST_MOULD_START_TIME = #{testMouldStartTime},
+          m.TEST_MOULD_END_TIME = #{testMouldEndTime},
+          m.TEST_MOULD_RESULT = #{testMouldResult},
+          m.COMPLETENESS = #{completeness},
+          m.REMARKS = #{remarks},
+
+          m.UPDATE_TIME = #{updateTime},
+          m.UPDATE_USER = #{updateUser}
+        WHERE
+        	m.ID = #{id}
+        AND 
+            m.ISACTIVE = #{isActive}
+    </update>
+    
+     <!--查询试模记录中是否已经存在成功的记录-->
+    <select id="selectTestMouldToSucceedById" resultType="integer" >
+            
+        SELECT
+	      COUNT(m.ID)
+
+        FROM
+        	test_mould m
+        WHERE
+        	m.TEST_MOULD_RESULT = 2
+        AND 
+        	m.DE_ID = #{deId}
+        AND
+        	m.ISACTIVE = #{isActive}
+    </select>
+    
+    
+        <!--检索试模数量-->
+    <select id="getTestMouldCount" resultType="integer" >
+            
+        SELECT
+			COUNT(m.ID)
+        FROM
+        	test_mould m
+        WHERE
+            m.DE_ID = #{deId}
+        AND    
+            m.COMPLETENESS = 1
+        AND    
+			m.ISACTIVE = #{isActive}
+
+
+    </select>
+</mapper>

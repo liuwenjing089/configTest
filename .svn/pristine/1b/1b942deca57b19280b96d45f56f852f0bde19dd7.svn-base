@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>jQuery bootstrap-select可搜索多选下拉列表插件</title>
+  <script src="./bootstrapSelect/jquery.min.js"></script>
+  <script type="text/javascript" src="./bootstrapSelect/bootstrap-select.js">
+  </script>
+  <link rel="stylesheet" type="text/css" href="./bootstrapSelect/bootstrap-select.css">
+
+  <!-- 3.0 -->
+
+  <link href="./bootstrapSelect/bootstrap.min.css" rel="stylesheet">
+  <script src="./bootstrapSelect/bootstrap.min.js"></script>
+
+  <!-- 2.3.2
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+   
+
+ <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js"></script>
+    -->
+
+  <script type="text/javascript">
+    
+   
+ $(window).on('load', function () {
+
+           
+ $('.selectpicker').selectpicker({
+                'selectedText': 'cat'
+            });
+
+         
+   // $('.selectpicker').selectpicker('hide');
+        });
+ $(".selectpicker").change(function(){
+	 alert(1);
+ })
+ 
+  $("#id_select").change(function(){
+	 alert(1);
+ })
+ 
+ function ceshi(){
+	 alert(1);
+ }
+  </script>
+  </head>
+  <body>
+<label for="id_select"></label>
+<select id="id_select" class="selectpicker show-tick form-control" data-live-search="true" onchange="ceshi();">
+    <option>cow</option>
+    <option>bull</option>
+    <option>ASD</option>
+    <option >Bla</option>
+    <option>Ble</option>
+  </select>
+
+</div>
+</body>
+</html>

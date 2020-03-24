@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Mould">
+        <result property="id" column="ID" />
+        <result property="mouldKey" column="MOULD_KEY" />
+        <result property="vehicleType" column="VEHICLE_TYPE" />
+        <result property="figureNumber" column="FIGURE_NUMBER" />
+        <result property="assetCoding" column="ASSET_CODING" />
+        <result property="anotherName" column="ANOTHER_NAME" />
+        <result property="manufacturer" column="MANUFACTURER" />
+        <result property="moldCompletionTime" column="MOLD_COMPLETION_TIME" />
+        <result property="cavityNumber" column="CAVITY_NUMBER" />
+        <result property="model" column="MODEL" />
+        <result property="useDate" column="USE_DATE" />
+        <result property="cuttingDate" column="CUTTING_DATE" />
+        <result property="totalWeight" column="TOTAL_WEIGHT" />
+        <result property="outlineDimension" column="OUTLINE_DIMENSION" />
+        <result property="pictureUrl" column="PICTURE_URL" />
+        <result property="drawingDeposit" column="DRAWING_DEPOSIT" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+        <result property="factory" column="FACTORY" />
+        <result property="annualOutput" column="ANNUAL_OUTPUT" />
+        <result property="undefined1" column="UNDEFINED_1" />
+        <result property="undefined2" column="UNDEFINED_2" />
+        <result property="undefined3" column="UNDEFINED_3" />
+    </resultMap>
+
+	<sql id="Base_Column_List">
+	      ID,
+          MOULD_KEY,
+          FACTORY,
+          ANNUAL_OUTPUT,
+          VEHICLE_TYPE,
+          FIGURE_NUMBER,
+          ASSET_CODING,
+          ANOTHER_NAME,
+          MANUFACTURER,
+          MOLD_COMPLETION_TIME,
+          CAVITY_NUMBER,
+          MODEL,
+          USE_DATE,
+          CUTTING_DATE,
+          TOTAL_WEIGHT,
+          OUTLINE_DIMENSION,
+          PICTURE_URL,
+          DRAWING_DEPOSIT,
+          UNDEFINED_1,
+          UNDEFINED_2,
+          UNDEFINED_3
+	</sql>
+
+    <!--新建模具-->
+    <insert id="insertMould" parameterType="com.andon.bean.Mould">
+        INSERT INTO mould(
+          MOULD_KEY,
+          FACTORY,
+          ANNUAL_OUTPUT,
+          VEHICLE_TYPE,
+          FIGURE_NUMBER,
+          ASSET_CODING,
+          ANOTHER_NAME,
+          MANUFACTURER,
+          MOLD_COMPLETION_TIME,
+          CAVITY_NUMBER,
+          MODEL,
+          USE_DATE,
+          CUTTING_DATE,
+          TOTAL_WEIGHT,
+          OUTLINE_DIMENSION,
+          PICTURE_URL,
+          DRAWING_DEPOSIT,
+          UNDEFINED_1,
+          UNDEFINED_2,
+          UNDEFINED_3,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{mouldKey},
+          #{factory},
+          #{annualOutput},
+          #{vehicleType},
+          #{figureNumber},
+          #{assetCoding},
+          #{anotherName},
+          #{manufacturer},
+          #{moldCompletionTime},
+          #{cavityNumber},
+          #{model},
+          #{useDate},
+          #{cuttingDate},
+          #{totalWeight},
+          #{outlineDimension},
+          #{pictureUrl},
+          #{drawingDeposit},
+          #{undefined1},
+          #{undefined2},
+          #{undefined3},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+    
+    <!--检索模具-->
+    <select id="getMouldList" resultMap="ResultMap"
+            parameterType="com.andon.bean.Mould">
+        SELECT
+			<include refid="Base_Column_List" />
+        FROM
+        	mould m
+        WHERE
+        	1=1
+        <if test="factory!=null and factory!=''">
+			AND m.FACTORY = #{factory}
+		</if>	
+        <if test="vehicleType!=null and vehicleType!=''">
+			AND m.VEHICLE_TYPE LIKE "%"#{vehicleType}"%"
+		</if>
+		<if test="figureNumber!=null and figureNumber!=''">
+			AND m.FIGURE_NUMBER LIKE "%"#{figureNumber}"%"
+		</if>	
+		<if test="assetCoding!=null and assetCoding!=''">
+			AND m.ASSET_CODING LIKE "%"#{assetCoding}"%"
+		</if>	
+			
+        AND m.ISACTIVE = #{isActive}
+        ORDER BY m.CREATE_TIME DESC
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <select id="getMouldCount" resultType="int"
+            parameterType="com.andon.bean.Mould">
+        SELECT
+        	COUNT(*)
+        FROM
+        	mould m
+        WHERE
+        	1=1
+        	
+        <if test="factory!=null and factory!=''">
+			AND m.FACTORY = #{factory}
+		</if>		
+        <if test="vehicleType!=null and vehicleType!=''">
+            AND m.VEHICLE_TYPE LIKE "%"#{vehicleType}"%"
+        </if>
+        <if test="figureNumber!=null and figureNumber!=''">
+            AND m.FIGURE_NUMBER LIKE "%"#{figureNumber}"%"
+        </if>
+        <if test="assetCoding!=null and assetCoding!=''">
+            AND m.ASSET_CODING LIKE "%"#{assetCoding}"%"
+        </if>
+        AND
+        m.ISACTIVE = #{isActive}
+    </select>
+
+    <!--效验重复-->
+    <select id="checkForRecurrence" resultType="Integer" parameterType="com.andon.bean.Mould">
+            
+        SELECT
+			COUNT(m.ID)
+        FROM
+        	mould m
+        WHERE
+        	1=1
+        AND 
+        	m.FIGURE_NUMBER = #{figureNumber}
+        AND
+        	m.ISACTIVE = #{isActive}
+    </select>
+
+    <!--根据id查询一条模具-->
+    <select id="selectMouldById" resultType="com.andon.bean.Mould" >
+            
+        SELECT
+	      ID AS id,
+	      FACTORY AS factory,
+          ANNUAL_OUTPUT AS annualOutput,
+          VEHICLE_TYPE AS vehicleType,
+          FIGURE_NUMBER AS figureNumber,
+          ASSET_CODING AS assetCoding,
+          ANOTHER_NAME AS anotherName,
+          MANUFACTURER AS manufacturer,
+          MOLD_COMPLETION_TIME AS moldCompletionTime,
+          CAVITY_NUMBER AS cavityNumber,
+          MODEL AS model,
+          USE_DATE AS useDate,
+          CUTTING_DATE AS cuttingDate,
+          TOTAL_WEIGHT AS totalWeight,
+          OUTLINE_DIMENSION AS outlineDimension,
+          PICTURE_URL AS pictureUrl,
+          DRAWING_DEPOSIT AS drawingDeposit
+        FROM
+        	mould m
+        WHERE
+        	1=1
+        AND 
+        	m.ID = #{id}
+        AND
+        	m.ISACTIVE = #{isActive}
+    </select>
+
+    <!--修改模具-->
+    <update id="updateMouldById" parameterType="com.andon.bean.Mould">
+        UPDATE
+        	mould m
+        SET	      
+          m.FACTORY = #{factory},
+          m.ANNUAL_OUTPUT = #{annualOutput},
+          m.ASSET_CODING = #{assetCoding},
+          m.ANOTHER_NAME = #{anotherName},
+          m.MANUFACTURER = #{manufacturer},
+          m.MOLD_COMPLETION_TIME = #{moldCompletionTime},
+          m.CAVITY_NUMBER = #{cavityNumber},
+          m.MODEL = #{model},
+          m.USE_DATE = #{useDate},
+          m.CUTTING_DATE = #{cuttingDate},
+          m.TOTAL_WEIGHT = #{totalWeight}, 
+          m.OUTLINE_DIMENSION = #{outlineDimension},
+          
+          <if test="pictureUrl!=null and pictureUrl!=''">
+			m.PICTURE_URL = #{pictureUrl},
+		  </if>	
+
+          m.DRAWING_DEPOSIT = #{drawingDeposit},
+          m.UPDATE_TIME = #{updateTime},
+          m.UPDATE_USER = #{updateUser}
+        WHERE
+        	m.ID = #{id}
+    </update>
+    
+    <!--根据id查询一条模具-->
+    <select id="selectMouldByVehicleTypeAndFigureNumber" resultType="com.andon.bean.Mould" parameterType="com.andon.bean.Mould">
+            
+        SELECT
+	      ID AS id,
+	      FACTORY AS factory,
+          ANNUAL_OUTPUT AS annualOutput,
+          VEHICLE_TYPE AS vehicleType,
+          FIGURE_NUMBER AS figureNumber,
+          ASSET_CODING AS assetCoding,
+          ANOTHER_NAME AS anotherName,
+          MANUFACTURER AS manufacturer,
+          MOLD_COMPLETION_TIME AS moldCompletionTime,
+          CAVITY_NUMBER AS cavityNumber,
+          MODEL AS model,
+          USE_DATE AS useDate,
+          CUTTING_DATE AS cuttingDate,
+          TOTAL_WEIGHT AS totalWeight,
+          OUTLINE_DIMENSION AS outlineDimension,
+          PICTURE_URL AS pictureUrl,
+          DRAWING_DEPOSIT AS drawingDeposit
+        FROM
+        	mould m
+        WHERE
+        	1=1  	
+        AND 
+        	m.FIGURE_NUMBER LIKE "%"#{figureNumber}"%"
+        <if test="vehicleType!=null and vehicleType!=''">
+			AND  m.VEHICLE_TYPE = #{vehicleType}
+		</if>		
+        AND
+        	m.ISACTIVE = #{isActive}        	
+        <choose>  
+            <when test="factory == 0 ">  
+                AND m.FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND m.FACTORY = #{factory}
+            </otherwise>
+        </choose> 	
+    </select>
+    
+    
+    <!--根据id查询一条模具维修历史记录-->
+    <select id="mouldRepairHistoryList" resultType="com.andon.bean.dto.MouldRepairHistory" >
+            
+        SELECT
+           mouldId,
+           factory,
+           vehicleType,
+           anotherName,
+           figureNumber,
+	       repairId,
+           reportRepairTime,
+           orderTime,
+           endTime,
+           confirmationTime,
+           qualityMonitorTime,
+           preDepChiefConTime,
+           preSecChiefConTime,
+           failurePeriod,
+           phenomenalDescription,
+           emergencyDisposal,
+		   faultTypeCodeName,
+		   faultReasonCodeName,
+           mouldUserName,
+           shiftLeaderName,
+           preservationDepartmentName,
+	       testMouldResult,
+	       preservationSectionChiefName,
+           testMouldEndTime
+        FROM
+        	mould_repair_history
+        WHERE
+        	1=1  	
+        AND mouldId = #{id}
+        ORDER BY reportRepairTime
+    </select>
+    
+        <!--检索模具-->
+    <select id="getMouldListNew" resultMap="ResultMap"
+            parameterType="com.andon.bean.Mould">
+        SELECT
+			<include refid="Base_Column_List" />
+        FROM
+        	mould m
+        WHERE
+        	1=1
+        <if test="factory!=null and factory!=''">
+			AND m.FACTORY = #{factory}
+		</if>	
+        <if test="vehicleType!=null and vehicleType!=''">
+			AND m.VEHICLE_TYPE LIKE "%"#{vehicleType}"%"
+		</if>
+		<if test="figureNumber!=null and figureNumber!=''">
+			AND m.FIGURE_NUMBER LIKE "%"#{figureNumber}"%"
+		</if>	
+		<if test="drawingDeposit!=0">
+			AND m.DRAWING_DEPOSIT = #{drawingDeposit}
+		</if>	
+			
+        AND m.ISACTIVE = #{isActive}
+        ORDER BY m.CREATE_TIME DESC
+    </select>
+</mapper>

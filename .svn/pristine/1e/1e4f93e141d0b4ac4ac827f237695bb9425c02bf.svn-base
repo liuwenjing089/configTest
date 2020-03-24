@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.MouldFaultPartsDao">
+    <resultMap id="ResultMap" type="com.andon.bean.MouldFaultParts">
+        <result property="id" column="ID" />
+        <result property="reId" column="RE_ID" />
+        <result property="faultPartsNum" column="FAULT_PARTS_NUM" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO mould_fault_parts(
+        RE_ID,
+        MOULD_PARTS_INFO_UUID,
+        FAULT_PARTS_NUM,
+        PARTS_TYPE,
+        PARTS_NAME,
+        CONTENT,
+        QUANTITY,
+        CREATE_TIME,
+        CREATE_USER,
+        UPDATE_TIME,
+        UPDATE_USER,
+        ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.reId},
+            #{item.mouldPartsInfoUuid},
+            #{item.faultPartsNum},
+            #{item.partsType},
+            #{item.partsName},
+            #{item.content},
+            #{item.quantity},
+            #{item.createTime},
+            #{item.createUser},
+            #{item.updateTime},
+            #{item.updateUser},
+            #{item.isActive}
+            )
+        </foreach>
+    </insert>
+
+    <!--获取部品-->
+    <select id="selectParts" resultType="com.andon.bean.MouldFaultParts">
+        SELECT
+        RE_ID AS reId,
+        FAULT_PARTS_NUM AS faultPartsNum
+        FROM
+        mould_fault_parts
+        WHERE
+        1=1
+        AND
+        RE_ID = #{reId}
+        AND ISACTIVE=1
+    </select>
+
+    <!--批量删除-->
+    <delete id="delete" parameterType="com.andon.bean.MouldFaultParts">
+        DELETE FROM
+        mould_fault_parts
+        WHERE
+        RE_ID=#{reId}
+    </delete>
+
+    <!--获取部品-->
+    <select id="selectPartsByMouldHistory" parameterType="list" resultType="com.andon.bean.MouldFaultParts">
+        SELECT
+       		RE_ID AS reId,
+	        PARTS_TYPE AS partsType,
+	        PARTS_NAME AS partsName,
+	        PARTS_NUM AS partsNum
+        FROM
+        	view_mould_fault_parts_detail
+        WHERE
+
+        	RE_ID IN
+	        <foreach collection="list" item="item" open="(" separator="," close=")">
+	           	#{item.repairId}
+	       	</foreach>
+    </select>
+
+
+</mapper>

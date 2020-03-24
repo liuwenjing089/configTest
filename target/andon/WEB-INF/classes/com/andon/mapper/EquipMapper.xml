@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.EquipDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Equip">
+        <result property="id" column="ID" />
+        <result property="equipName" column="EQUIP_NAME" />
+        <result property="equipDescription" column="EQUIP_DESCRIPTION" />
+        <result property="useBeginTime" column="USE_BEGIN_TIME" />
+        <result property="yearsLimit" column="YEARS_LIMIT" />
+        <result property="equipModel" column="EQUIP_MODEL" />
+        <result property="standard" column="STANDARD" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <!--检索设备-->
+    <select id="selectEquip" resultType="com.andon.bean.Equip"
+            parameterType="com.andon.bean.Equip">
+        SELECT
+        e.ID AS id,
+        e.EQUIP_NAME AS equipName,
+        e.EQUIP_DESCRIPTION AS equipDescription,
+        e.USE_BEGIN_TIME AS useBeginTime,
+        e.YEARS_LIMIT AS yearsLimit,
+        e.EQUIP_MODEL AS equipModel,
+        e.STANDARD AS standard
+        FROM
+        equip e
+        WHERE
+        1=1
+        AND e.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <select id="selectEquipCount" resultType="int"
+            parameterType="com.andon.bean.Equip">
+        SELECT
+        COUNT(*)
+        FROM
+        equip e
+        WHERE
+        1=1
+        AND
+        e.ISACTIVE = 1
+    </select>
+
+    <!--检索设备-->
+    <select id="selectEquipByFirm" resultType="com.andon.bean.Equip"
+            parameterType="com.andon.bean.Equip">
+        SELECT
+        e.ID AS id,
+        e.EQUIP_NAME AS equipName,
+        e.EQUIP_DESCRIPTION AS equipDescription,
+        e.USE_BEGIN_TIME AS useBeginTime,
+        e.YEARS_LIMIT AS yearsLimit,
+        e.EQUIP_MODEL AS equipModel,
+        e.STANDARD AS standard
+        FROM
+        equip e
+        WHERE
+        1=1
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipDescription!=null and equipDescription!=''">
+            AND e.EQUIP_DESCRIPTION like"%"#{equipDescription}"%"
+        </if>
+        <if test="useBeginTime!=null and useBeginTime!=''">
+            AND e.USE_BEGIN_TIME = #{useBeginTime}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        AND
+        e.ISACTIVE = 1
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--分页-->
+    <select id="selectEquipByFirmCount" resultType="int"
+            parameterType="com.andon.bean.Equip">
+        SELECT
+        COUNT(*)
+        FROM
+        equip e
+        WHERE
+        1=1
+        <if test="equipName!=null and equipName!=''">
+            AND e.EQUIP_NAME = #{equipName}
+        </if>
+        <if test="equipDescription!=null and equipDescription!=''">
+            AND e.EQUIP_DESCRIPTION like"%"#{equipDescription}"%"
+        </if>
+        <if test="useBeginTime!=null and useBeginTime!=''">
+            AND e.USE_BEGIN_TIME = #{useBeginTime}
+        </if>
+        <if test="equipModel!=null and equipModel!=''">
+            AND e.EQUIP_MODEL = #{equipModel}
+        </if>
+        <if test="standard!=null and standard!=''">
+            AND e.STANDARD = #{standard}
+        </if>
+        AND
+        e.ISACTIVE = 1
+    </select>
+</mapper>

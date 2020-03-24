@@ -1,0 +1,7 @@
+<script type="text/javascript">
+function check(){
+window.location.href='TFDA/metronic/login.html'
+}
+</script>
+<body onload="check()">
+</body>

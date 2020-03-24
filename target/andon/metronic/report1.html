@@ -1,0 +1,348 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<title>报告书</title>
+<style>
+	input{
+		border:none;
+		border-bottom: 1PX solid #000;
+		text-align: center;
+
+	}
+</style>
+</head>
+<body>
+		
+
+<div class="page-container" style="padding-bottom:100px;">
+<div class="mt-20">
+
+	<table class="table table-border table-bordered table-responsive">
+		<thead>
+			<tr class="text-c">
+				<th colspan="3">维修过程</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td style="width:5%;text-align: left;">设备故障发生时间:</td>
+				<td style="width:80%;text-align: left;">
+					<input type="text" style="width:50px;">年
+					<input type="text" style="width:50px;">月
+					<input type="text" style="width:50px;">日
+					<input type="text" style="width:50px;">时
+					<input type="text" style="width:50px;">分
+				</td>
+				<td style="width:15%;text-align: right;">
+					❈时间以24小时制为单位
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td style="width:8%;text-align: left;">保全作业开始时间:</td>
+				<td style="width:20%;text-align: left;">
+					<input type="text" style="width:50px;">年
+					<input type="text" style="width:50px;">月
+					<input type="text" style="width:50px;">日
+					<input type="text" style="width:50px;">时
+					<input type="text" style="width:50px;">分
+				</td>
+				<td style="width:8%;text-align: right;">
+					
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td style="width:8%;text-align: left;">保全作业完了时间:</td>
+				<td style="width:20%;text-align: left;">
+					<input type="text" style="width:50px;">年
+					<input type="text" style="width:50px;">月
+					<input type="text" style="width:50px;">日
+					<input type="text" style="width:50px;">时
+					<input type="text" style="width:50px;">分
+				</td>
+				<td style="width:8%;text-align: right;">
+					实际停止时间(<input type="text" style="width:50px;">M)
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td style="width:8%;text-align: left;">
+					主作业者<input type="text" style="width:55px;">
+				</td>
+				<td style="width:20%;text-align: left;">
+					副作业者
+					<input type="text" style="width:80px;">&nbsp;&nbsp;
+					<input type="text" style="width:80px;">&nbsp;&nbsp;
+					<input type="text" style="width:80px;">
+				</td>
+				<td style="width:8%;text-align: right;">
+					作业时间(<input type="text" style="width:50px;">M)
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td style="width:8%;text-align: left;">
+					此次故障是否属于
+				</td>
+				<td style="width:20%;text-align: left;">
+					(再发<input type="text" style="width:80px;">首发<input type="text" style="width:80px;">)
+					在方格内用“√”标记
+				</td>
+				<td style="width:8%;text-align: right;">
+					作业时间(<input type="text" style="width:50px;">M)
+				</td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+
+	<table class="table table-border table-bordered table-responsive" style="margin-top:5px;">
+		<tbody>
+			<tr class="text-c">
+				<td rowspan="3" style="width:2%">现象描述</td>
+				<td style="width:18%;text-align: left;">(请具体记录不良发生处所的状况及使用环境)</td>
+				<td style="width:10%;text-align: left;">备注</td>
+				<td style="width:70%"></td>
+				
+				
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+				<td contentEditable="true" style="width:30%;text-align: left;"></td>
+				<td style="width:10%">
+
+					<table class="table table-border table-bordered table-responsive">
+						<thead>
+							<tr class="text-c">
+								<th colspan="4">故障分类(选项处打√)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-c">
+								<td style="width:25%">设计不良</td>
+								<td style="width:25%">操作不良</td>
+								<td style="width:25%">清扫不良</td>
+								<td style="width:25%">老化</td>
+							</tr>
+							<tr class="text-c">
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+							</tr>
+				
+						</tbody>
+				
+					</table>
+				
+				</td>
+				
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+				<td contentEditable="true" style="width:30%;text-align: left;"></td>
+				<td style="width:10%">
+
+					<table class="table table-border table-bordered table-responsive">
+						<thead>
+							<tr class="text-c">
+								<th colspan="4">维修用时分类(选项处打√)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-c">
+								<td style="width:25%">查找故障</td>
+								<td style="width:25%">维修用时</td>
+								<td style="width:25%">备品用时</td>
+								<td style="width:25%">作业不变</td>
+							</tr>
+							<tr class="text-c">
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+							</tr>
+				
+						</tbody>
+				
+					</table>
+
+				</td>
+				
+			</tr>
+	
+		</tbody>
+	
+	</table>
+
+
+
+
+	<table class="table table-border table-bordered table-responsive" style="margin-top:5px;">
+		<tbody>
+			<tr class="text-c">
+				<td rowspan="6" style="width:2%">原因追究</td>
+				<td style="width:18%;text-align: left;">(不断地问为什么直到找出故障的真正原因)</td>
+				<td style="width:80%">(略图或照片)</td>
+				
+				
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;"></td>
+				<td style="width:80%;text-align: left;" rowspan="5"></td>
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+			</tr>
+	
+		</tbody>
+	
+	</table>
+
+
+
+	<table class="table table-border table-bordered table-responsive" style="margin-top:5px;">
+		<tbody>
+			<tr class="text-c">
+				<td rowspan="3" style="width:2%">处置</td>
+				<td style="width:18%;text-align: left;">(应急处置或复原)</td>
+				<td style="width:80%"></td>						
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;"></td>
+				<td style="width:80%" rowspan="2">
+					<table class="table table-border table-bordered table-responsive">
+						<tbody>
+							<tr class="text-c">
+								<td style="width:25%">部品名</td>
+								<td style="width:25%">型式</td>
+								<td style="width:25%">品牌</td>
+								<td style="width:25%">数量</td>
+							</tr>
+							<tr class="text-c">
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+								<td style="width:25%" contentEditable="true"></td>
+							</tr>
+				
+						</tbody>
+				
+					</table>
+				
+				</td>
+				
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+				
+			</tr>
+	
+		</tbody>
+	
+	</table>
+
+
+
+	<table class="table table-border table-bordered table-responsive" style="margin-top:5px;">
+		<tbody>
+			<tr class="text-c">
+				<td rowspan="3" style="width:2%">再发防止</td>
+				<td style="width:18%;text-align: left;">(针对于再发的对策)</td>
+				<td style="width:80%"></td>						
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;"></td>
+				<td style="width:80%" rowspan="2">
+					指导事项
+				</td>
+				
+			</tr>
+			<tr class="text-c">
+				<td contentEditable="true" style="width:18%;text-align: left;">
+				</td>
+				
+			</tr>
+	
+		</tbody>
+	
+	</table>
+
+</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+
+
+
+<!--_分页-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<script type="text/javascript">
+
+
+/*添加供应商*/
+function product1_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url,
+		area: ["100%", "100%"],
+
+	});
+
+}
+
+
+$('.table-sort').dataTable({
+	"aaSorting": [
+		//[1, "desc1"]
+	], //默认第几个排序
+	"bStateSave": true,//状态保存
+	"pading":false,
+	"aoColumnDefs": [
+	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+	  {"orderable":false,"aTargets":[0,1,2]}// 不参与排序的列
+	]
+});
+
+
+</script>
+</body>
+</html>

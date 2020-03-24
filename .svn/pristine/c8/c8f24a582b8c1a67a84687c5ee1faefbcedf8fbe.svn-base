@@ -1,0 +1,73 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+<title>保全人员</title>
+</head>
+<body>
+<div class="page-container" style="padding-bottom:100px;">
+	<div class="text-c">
+		设备名称：
+		<input type="text" id="equipName" name="equipName" style="width: 160px" class="input-text">
+		设备描述：
+		<input type="text" id="equipDescription" name="equipDescription" style="width: 160px" class="input-text">
+		使用开始时间:
+		<input type="date" id="useBeginTime" name="useBeginTime" style="width: 160px" class="input-text">
+		规格:
+		<input type="text" id="equipModel" name="equipModel" style="width: 160px" class="input-text">
+		型号:
+		<input type="text" id="standard" name="standard" style="width: 160px" class="input-text">
+		<button name="search" id="search" onclick="search()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+	</div>
+
+	<div class="mt-20">
+
+	<table class="table table-border table-bordered table-responsive table-bg">
+		<thead>
+			<tr class="text-c">
+				<th style="width:5%;">序号</th>
+				<th>设备id</th>
+				<th>设备名称</th>
+				<th>设备描述</th>
+				<th>使用开始时间</th>
+				<th>年限</th>
+				<th>规格</th>
+				<th>型号</th>
+				<th style="width:15%;">操作</th>
+			</tr>
+		</thead>
+		<tbody id="equipList">
+		</tbody>
+	</table>
+
+</div>
+	<div id="Pagination" class="pagination" style="text-align:center"></div>
+</div>
+
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/webJs/equip.js"></script>
+<script type="text/javascript" src="./js/webJs/common.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+</body>
+</html>

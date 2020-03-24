@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.SpotTaskDao">
+    <resultMap id="ResultMap" type="com.andon.bean.SpotTask">
+        <result property="id" column="ID" />
+        <result property="spotType" column="SPOT_TYPE" />
+        <result property="spotName" column="SPOT_NAME" />
+        <result property="spotInterval" column="SPOT_INTERVAL" />
+        <result property="beginTime" column="BEGIN_TIME" />
+        <result property="endTime" column="END_TIME" />
+        <result property="state" column="STATE" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO spot_task(
+        SPOT_TYPE,
+        SPOT_NAME,
+        SPOT_INTERVAL,
+        BEGIN_TIME,
+        END_TIME,
+        STATE,
+        FACTORY,
+        CREATE_TIME,
+        CREATE_USER,
+        UPDATE_TIME,
+        UPDATE_USER,
+        ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.spotType},
+            #{item.spotName},
+            #{item.spotInterval},
+            #{item.beginTime},
+            #{item.endTime},
+            #{item.state},
+            #{item.factory},            
+            #{item.createTime},
+            #{item.createUser},
+            #{item.updateTime},
+            #{item.updateUser},
+            #{item.isActive}
+            )
+        </foreach>
+    </insert>
+
+    <!--检索-->
+    <select id="selectTask" parameterType="com.andon.bean.SpotTask" resultType="com.andon.bean.SpotTask">
+        SELECT
+        r.ID AS id,
+        r.SPOT_NAME AS spotName,
+        r.SPOT_TYPE AS spotType,
+        r.SPOT_INTERVAL AS spotInterval,
+        r.BEGIN_TIME AS beginTime,
+        r.STATE AS state
+        FROM
+        spot_task r
+        WHERE
+        1=1
+        <if test="spotType != 9">
+            AND r.SPOT_TYPE = #{spotType}
+        </if>
+        <if test="state != 9">
+            AND r.STATE = #{state}
+        </if>
+        <if test="spotInterval!=null and spotInterval!=''">
+            AND r.SPOT_INTERVAL = #{spotInterval}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  r.BEGIN_TIME &gt;= date_format(#{beginTime}, '%Y-%m-%d')      
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  r.BEGIN_TIME &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        AND r.ISACTIVE = 1
+        <choose>  
+            <when test="factory == 0 ">  
+                AND r.FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND r.FACTORY = #{factory}
+            </otherwise>
+        </choose>
+        ORDER BY r.CREATE_TIME DESC, r.BEGIN_TIME
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--检索-->
+    <select id="selectTaskCount" resultType="int" >
+        SELECT
+        COUNT(*)
+        FROM
+        spot_task r
+        WHERE
+        1=1
+        <if test="spotType != 9">
+            AND r.SPOT_TYPE = #{spotType}
+        </if>
+        <if test="state != 9">
+            AND r.STATE = #{state}
+        </if>
+        <if test="spotInterval!=null and spotInterval!=''">
+            AND r.SPOT_INTERVAL = #{spotInterval}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  r.BEGIN_TIME &gt;= date_format(#{beginTime}, '%Y-%m-%d')      
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  r.BEGIN_TIME &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <choose>  
+            <when test="factory == 0 ">  
+                AND r.FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND r.FACTORY = #{factory}
+            </otherwise>
+        </choose>
+        
+        AND r.ISACTIVE = 1
+    </select>
+    
+    <!--检验重复-->
+    <select id="selectTaskRepeat" resultType="int" parameterType="com.andon.bean.SpotTask">
+		SELECT
+			count(st.id)
+		FROM
+			spot_task st,
+			spot_detail sd
+		WHERE
+			st.ID = sd.TASK_ID
+		AND sd.TYPE = #{spotType}
+		AND sd.DETAIL_ID = #{detailId}
+		AND st.SPOT_INTERVAL = #{spotInterval}
+		AND st.BEGIN_TIME = #{beginTime}
+		AND sd.STATE = #{state}
+		AND st.ISACTIVE = #{isActive}
+		AND sd.ISACTIVE = #{isActive}
+    </select>
+
+    <!--删除任务-->
+    <update id="deleteTask" >
+        UPDATE
+        spot_task s
+        SET
+        s.ISACTIVE = 0,
+        s.UPDATE_TIME = NOW(),
+	    s.UPDATE_USER = #{userName}
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+    </update>
+
+    <!--更新状态-->
+    <update id="updateState" parameterType="com.andon.bean.SpotTask">
+        UPDATE
+        spot_task s
+        SET
+        s.STATE = 1
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+        AND s.ISACTIVE = 1
+    </update>
+
+    <!--点检日历-->
+    <select id="getTaskToCalender"  resultType="com.andon.bean.SpotTask">
+        SELECT
+			DISTINCT 
+			r.SPOT_TYPE AS spotType, 
+			r.BEGIN_TIME AS beginTime
+        FROM
+        	spot_task r
+        WHERE
+                
+        	r.ISACTIVE = #{isActive}
+        <choose>  
+            <when test="factory == 0 ">  
+                AND r.FACTORY OR NULL
+            </when >  
+
+			<otherwise>
+				AND r.FACTORY = #{factory}
+            </otherwise>
+        </choose>
+
+
+    </select>
+
+    <!--更新任务开始结束时间-->
+    <update id="updateTaskTime" parameterType="com.andon.bean.SpotTask">
+        UPDATE
+        spot_task s
+        SET
+        s.BEGIN_TIME = #{beginTime},
+        s.END_TIME = #{endTime}
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+        AND s.ISACTIVE = 1
+    </update>
+
+    <!--检索-->
+    <select id="selectTaskById" parameterType="com.andon.bean.SpotTask" resultType="com.andon.bean.SpotTask">
+        SELECT
+        r.ID AS id,
+        r.SPOT_NAME AS spotName,
+        r.SPOT_TYPE AS spotType,
+        r.SPOT_INTERVAL AS spotInterval,
+        r.BEGIN_TIME AS beginTime,
+        r.END_TIME AS endTime,
+        r.STATE AS state
+        FROM
+        spot_task r
+        WHERE
+        1=1
+        AND
+        r.ID=#{id}
+        AND r.ISACTIVE = 1
+    </select>
+
+    <!--div弹出层显示-->
+    <select id="selectDivName" parameterType="com.andon.bean.SpotTask" resultType="int">
+        SELECT
+        d.DETAIL_ID AS detailId
+        FROM
+        spot_task s
+        LEFT JOIN spot_detail d
+        ON s.ID=d.TASK_ID
+        WHERE
+        1=1
+        AND
+        s.ID = #{id}
+        AND s.SPOT_TYPE = #{spotType}
+    </select>
+    
+    <!--根据选择的id到设备点检视图中筛选  -->
+    <select id="checkSpot"  resultType="com.andon.bean.EquipSpot">
+		SELECT
+		  v.ID AS id,
+		  v.EQUIP_NUM AS equipNum,
+		  v.EQUIP_NAME AS equipName,
+		  v.EQUIP_MODEL AS equipModel,
+		  v.CLASSIFICATION AS classification,
+		  v.CYCLE AS cycle
+		FROM
+			view_equip_rule_list v
+		WHERE
+			id IN         
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+
+            #{item}
+        </foreach>
+        AND v.CYCLE = #{spotInterval}
+    </select>
+    
+    <!--批量删除-->
+    <update id="batchDeleteTask" >
+        UPDATE
+        	spot_task
+        SET
+        	ISACTIVE = 0,
+        	UPDATE_TIME = NOW(),
+        	UPDATE_USER = #{userName}
+        WHERE
+        	ID IN
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

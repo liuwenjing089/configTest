@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.PartsDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Parts">
+        <result property="id" column="ID" />
+        <result property="reId" column="RE_ID" />
+        <result property="partsName" column="PARTS_NAME" />
+        <result property="mould" column="MOULD" />
+        <result property="brand" column="BRAND" />
+        <result property="partsNumber" column="PARTS_NUMBER" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+
+    <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO parts(
+          RE_ID,
+          PARTS_NAME,
+          MOULD,
+          BRAND,
+          PARTS_NUMBER,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+         (
+          #{item.reId},
+          #{item.partsName},
+          #{item.mould},
+          #{item.brand},
+          #{item.partsNumber},
+          #{item.createTime},
+          #{item.createUser},
+          #{item.updateTime},
+          #{item.updateUser},
+          #{item.isActive}
+        )
+        </foreach>
+    </insert>
+
+    <!--获取部品-->
+    <select id="selectParts" resultType="com.andon.bean.Parts">
+        SELECT
+        RE_ID AS reId,
+        PARTS_NAME AS partsName,
+        MOULD AS mould,
+        BRAND AS brand,
+        PARTS_NUMBER AS partsNumber
+        FROM
+        parts
+        WHERE
+        1=1
+        AND
+        RE_ID = #{reId}
+        AND ISACTIVE=1
+    </select>
+
+    <!--批量删除-->
+    <update id="delete" parameterType="com.andon.bean.Parts">
+        UPDATE
+        parts
+        SET
+        ISACTIVE=0
+        WHERE
+        RE_ID=#{reId}
+    </update>
+
+</mapper>

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+<title>模具一览</title>
+</head>
+<body>
+<div class="page-container" style="padding-bottom:100px;">
+	<div class="text-c">
+		设备型号:
+		<input type="text" id="equipModel" name="equipModel" placeholder="请输入设备型号" style="width: 160px" class="input-text">
+		<button name="search" id="search" onclick="search()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+	<div class="mt-20">
+
+		<table class="table table-border table-bordered table-responsive table-bg">
+			<thead>
+				<tr class="text-c">
+					<th style="width:5%;">序号</th>
+					<th>设备型号</th>
+					<th>点检规则</th>
+					<th style="width:15%;">操作</th>
+				</tr>
+			</thead>
+			<tbody id="mouleList">
+			</tbody>
+		</table>
+
+	</div>
+	<div id="Pagination" class="pagination" style="text-align:center"></div>
+</div>
+
+<input type="text" id="transmit_id" style="display: none">
+<input type="text" id="transmit_figureNumber" style="display: none">
+<input type="text" id="transmit_model" style="display: none">
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/webJs/addEquipmentRule.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+</body>
+</html>

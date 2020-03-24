@@ -1,0 +1,314 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<!--<meta http-equiv="refresh" content="3600">-->
+	<link rel="Bookmark" href="/favicon.ico" >
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+	<!--/meta 作为公共模版分离出去-->
+	<style>
+		.input-text:hover, .textarea:hover {
+			border: solid 1px #ddd;
+		}
+		body{
+		overflow-x:hidden;
+		}
+	</style>
+	<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--<nav class="breadcrumb">-->
+	<!--<span class="c-gray en"></span>维修详情<span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href=""></a></span>-->
+<!--</nav>-->
+<div class="page-container">
+	<div class="form form-horizontal" id="add">
+		<input type="text" class="input-text" id="loginuser" name="loginuser" style="display: none">
+		<input type="text" class="input-text" id="employeeName" name="employeeName" style="display: none">
+		<input type="text" class="input-text" id="id" name="id" style="display: none">
+		<input type="text" class="input-text" id="userType" name="userType" style="display: none">
+
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>报修编号：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2" id="repairNumber">
+				
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>ky详情：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				
+				<a  id="kyDetail" >点击打开</a>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>设备名称(别名)：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				
+				<input type="text" name="equipName" id="equipName"  class="input-text" disabled="disabled">
+			</div>
+		</div>
+		<div class="row cl">
+		<div>
+			<label class="form-label col-xs-2 col-sm-2"><small><nobr>设备故障发生时间：</nobr></small></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="date" name="reportReapirTime1" id="reportReapirTime1"  class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="time" name="reportRepairTime2" id="reportRepairTime2"  class="input-text" disabled="disabled">
+			</div>
+		</div>
+		<div id="baoquan1">
+			<label class="form-label col-xs-1 col-sm-1"><nobr>接单时间：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="date" name="orderTime1" id="orderTime1"  class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="time" name="orderTime2" id="orderTime2"  class="input-text" disabled="disabled">
+			</div>
+		</div>
+		</div>
+		<div class="row cl" id="baoquan2">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>保全作业开始时间：</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<input type="text" class="input-text"  id="beginTime" name="beginTime" disabled="disabled">
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><small><nobr>保全作业完了时间：</nobr></small></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="date" name="endTime1" id="endTime1" class="input-text" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="time" name="endTime2" id="endTime2"  class="input-text" disabled="disabled">
+			</div>
+		</div>
+
+		<div class="row cl" id="produce">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>实际停止时间：</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<input type="text" class="input-text" id="stopTime" name="stopTime" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-4 col-sm-4">
+				M
+			</div>
+		</div>
+		
+		
+		<div class="row cl" id="baoquan3">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>作业时间：</nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<input type="text" class="input-text" id="doingTime" name="doingTime" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-4 col-sm-4">
+				M
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>作业者：</nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<nobr>主作业者：</nobr>
+				<input type="text" id="mainTaskMan" name="mainTaskMan" style="display: none">
+				<input type="text" class="input-text" id="mainTaskManView" name="mainTaskManView"   maxlength="30">
+				
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				
+				<nobr>副作业者：</nobr>
+				<input type="text" class="input-text" id="subTaskMan" name="subTaskMan"   maxlength="30">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<nobr>新增作业者：</nobr>
+				
+				<input type="text" class="input-text" id="newaddTaskMan" name="newaddTaskMan"  maxlength="30">
+				
+			</div>
+			<div class="formControls col-xs-3 col-sm-3">
+				
+				<nobr>供应商：</nobr>
+				<input type="text" class="input-text" id="supplier" name="supplier"  maxlength="30">
+			</div>
+		</div>
+		
+		
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>此次故障是否属于: </nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="isfirstEpisode" style="height:31px;" disabled="disabled">
+					<option value="9"></option>
+					<option value="1">首发</option>
+					<option value="2">再发</option>
+				</select>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>完了代码: </nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="isOverNum" style="height:31px;" disabled="disabled">
+					<option value="9"></option>
+					<option value="1">完了</option>
+					<option value="2">应急处置</option>
+				</select>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>是否影响稼动: </nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="radio" name="cropMovement" class="radio" value="2" disabled="disabled">否
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="radio" name="cropMovement" class="radio" value="1" disabled="disabled">是
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>现象描述: </nobr></label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<!--<input type="text" class="input-text" id="appearance" name="appearance" style="width:50%"  maxlength="30">-->
+				<textarea maxlength="300" id="appearance" name="appearance" disabled="disabled" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2">故障现象描述(维修人填写): </label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<!--<input type="text" class="input-text" id="appearance" name="appearance" style="width:50%"  maxlength="30">-->
+				<textarea  maxlength="300" id="faultDescription" name="faultDescription" class="textarea" disabled="disabled"></textarea>
+			</div>
+					
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>原因追究: </nobr></label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<textarea maxlength="300" id="reason" name="reason" disabled="disabled" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>处置: </nobr></label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<textarea maxlength="300" id="management" name="management" disabled="disabled" class="textarea"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>再发防止: </nobr></label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<textarea maxlength="300" id="preventPlan" name="preventPlan" disabled="disabled" class="textarea"></textarea>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2">安全环境问题点总结: </label>
+			<div class="formControls col-xs-9 col-sm-9">
+				<textarea maxlength="300" id="equipUseDepartment" name="equipUseDepartment" class="textarea" disabled="disabled"></textarea>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>故障分类: </nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="faultType"  style="height:31px; " disabled="disabled">
+				</select>
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>维修用时分类: </nobr></label>
+			<div class="formControls col-xs-4 col-sm-4">
+				<select name="" class="select" id="repairUsetimeType"  style="height:31px;" disabled="disabled">
+				</select>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>部品使用信息: </nobr></label>
+			<div class="formControls col-xs-9 col-sm-9">
+			<table class="table table-border table-bordered table-responsive" id="table1">
+				<tr class="text-c">
+					<td style="width:10%">部品名</td>
+					<td style="width:10%">型式</td>
+					<td style="width:10%">品牌</td>
+					<td style="width:10%">数量</td>
+				</tr>
+				<tbody id="partsList">
+				</tbody>
+			</table>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr></nobr></label>
+			<div class="formControls col-xs-3 col-sm-3">
+				<div class="row cl" id="pictureView">
+			    </div>
+			</div>
+		</div>
+		
+
+		
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>班长确认: </nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="taskConfirmMan" name="taskConfirmMan"  maxlength="30" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="confirmationTime" name="confirmationTime"  maxlength="30" disabled="disabled">
+			</div>
+			<label class="form-label col-xs-1 col-sm-1"><nobr>系长确认: </nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="saveConfirmCommander" name="saveConfirmCommander" style="display: none"   maxlength="30" disabled="disabled">
+				<input type="text" class="input-text" id="saveConfirmCommanderView" name="saveConfirmCommanderView"  maxlength="30" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+			    <input type="text" class="input-text" id="preDepChiefConTime" name="preDepChiefConTime"  maxlength="30" disabled="disabled">
+				
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-2 col-sm-2"><nobr>科长确认: </nobr></label>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="saveConfirmChief"  style="display: none" name="saveConfirmChief" maxlength="30" disabled="disabled">
+				<input type="text" class="input-text" id="saveConfirmChiefView" name="saveConfirmChiefView"  maxlength="30" disabled="disabled">
+			</div>
+			<div class="formControls col-xs-2 col-sm-2">
+				<input type="text" class="input-text" id="preSecChiefConTime" name="preSecChiefConTime" maxlength="30" disabled="disabled">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button onclick="confirm();" class="btn btn-primary radius" id="allconfirm" style="display: none"><i class="Hui-iconfont">&#xe632;</i> 确认</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+
+<!--_分页-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="./js/webJs/equipRepairDetail.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

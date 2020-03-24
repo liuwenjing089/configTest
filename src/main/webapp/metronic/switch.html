@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <!-- <link href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css" rel="stylesheet"> -->
+    <link href="./bootstrapTable/bootstrap-table.css" rel="stylesheet">
+    <link href="./bootstrapTable/bootstrap.min.css" rel="stylesheet">
+    <link href="./bootstrapTable/font-awesome.min.css" rel="stylesheet">
+    <link href="./bootstrapTable/bootstrap-table.min.css" rel="stylesheet">
+    <link href="./bootstrapTable/tranfer.css" rel="stylesheet">
+    
+  <script src="./bootstrapSelect/jquery.min.js" type="text/javascript"></script>
+ 
+  <!-- bootstrap -->
+  <link href="./bootstrapSelect/bootstrap.min.css" rel="stylesheet">
+  <script src="./bootstrapSelect/bootstrap.min.js" type="text/javascript"></script>
+  <!-- bootstrap-select -->
+  <link rel="stylesheet" href="./bootstrapSelect/bootstrap-select.min.css">
+  <script src="./bootstrapSelect/bootstrap-select.min.js"></script>
+
+
+    <style type="text/css">
+        .transferBox {
+            height: 100%;
+            border: 1px solid #beb8b8;
+            border-radius: 6px;
+        }
+        
+        .shuttleBtn {
+            height: 100%;
+        }
+        
+        .transferBtn .btn {
+            display: block;
+        }
+        
+        .transferBtn .btn:first-child {
+            margin-bottom: 20px;
+        }
+        
+        .transferBtn .btnList {
+            position: absolute;
+            width: 80%;
+            top: 50%;
+            margin-top: -40px;
+        }
+        
+        .transferBox .search {
+            width: 100%;
+        }
+        
+        .transferBtn .btn-default {
+            background: #ccc;
+            cursor: no-drop;
+        }
+    </style>
+</head>
+
+<body>
+	<div id="equipHtmlToSearch" >
+		<label class="form-label col-xs-1 col-sm-1"><nobr>设备类型</nobr></label>
+		<div class="formControls col-xs-2 col-sm-2">
+			<input type="text" class="input-text" id="equipModel" name="equipModel" style="width:90%" placeholder="请输入搜索条件 ">
+			
+		</div>
+		
+		<button name="search" id="equipModelSearch" onclick="equipModelSearch()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+	</div>
+
+    <div id="transferContainer" class="row" style="height: 700px;width: 950px;"></div>
+
+    <button id='refresh' class="btn btn-primary">刷新</button>
+       
+    <button name="save" id="save" onclick="getValue()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 取值</button>
+    
+    
+    <div class="form-group">
+ <label class="col-sm-3 control-label" for="state">经销商信息</label>
+ <div class="col-sm-3">
+  <select class="selectpicker show-tick form-control" data-live-search="true">
+    <option>四川(sichuan)</option>
+    <option>江西(jiangxi)</option>
+    <option>湖北(hubei)</option>
+    <option>上海(shanghai)</option>
+    <option>北京(beijing)</option>
+    <option>河北(hebei)</option>
+  </select>
+ </div>
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<!-- <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script> -->
+
+<script src="./bootstrapTable/bootstrap.min.js"></script>
+<script src="./bootstrapTable/bootstrap-table.min.js"></script>
+<script src="./bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+<script src="./bootstrapTable/Transfer.js"></script>
+<script src="./bootstrapTable/switch.js"></script>
+<!-- 中间点击按钮图标没显示出来没关系  是因为引入的cdn问题  正常下载引入bootstrap.css的话没问题的 -->
+<!-- 此处演示的数据源为一个 用falg去区分在哪个里面 -->
+<script type="text/javascript">
+    var data = [{
+
+        "id": "950258484706803712",
+        "name": "分数对比2026",
+        "num": "001",
+        "model":"型号1",
+        "flag": false,
+
+    }, {
+        "id": "95025848470680333",
+        "name": "分数对比3226",
+        "num": "002",
+        "model":"型号2",
+        "flag": false,
+    }, {
+        "id": "949202813861232640",
+        "name": "对比1",
+        "num": "003",
+        "model":"型号1",
+        "flag": false,
+    }, {
+        "id": "946590730653008647",
+        "name": "对比88",
+        "num": "003",
+        "model":"型号3",
+        "flag": true,
+    }]
+
+
+    $('#transferContainer').transfer({
+        titles: ['待选设备', '已选设备'],
+        search: true,
+        uniqueId: "id", //唯一id
+        dataSource: data,
+        maxSelect: 6,
+        diffKey: 'flag',
+        unselectColumns: [{
+            field: 'flag',
+            checkbox: true
+        }, {
+            field: 'num',
+            title: '设备编号'
+        },{
+            field: 'name',
+            title: '设备名称'
+        },
+        {
+            field: 'model',
+            title: '型号'
+        },]
+    });
+
+    $('#btn').click(function() {
+        var data = $('#transferContainer').transfer('getData', 'selectData', 'id');
+        console.log(data)
+    })
+
+    $('#refresh').click(function() {
+        $('#transferContainer').transfer('refresh', data)
+    })
+</script>

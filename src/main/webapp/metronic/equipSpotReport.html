@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+<script src="./js/echarts.min.js"></script>
+<style type="text/css">
+.container{
+        width:1000px;height:400px;
+        display:table;         /*table布局*/
+    }
+    .left{
+        width:500px; height:100%;;
+        display:table-cell;
+    }
+    .right{
+        width:500px;height:100%;;
+        display: table-cell;
+    }
+
+</style>
+<title>模具一览</title>
+</head>
+<body>
+<!-- <button type="button" onclick="ceshi()">测试关闭</button> -->
+<div class="page-container" style="padding-bottom:100px;">
+
+	
+	<div class="text-c" >
+		<legend>上月设备点检完成率</legend>
+	</div>
+    
+	<div class="mt-20">
+
+				<table class="table table-border table-bordered table-responsive table-bg">
+					<thead>
+						<tr class="text-c">
+							<th>计划年</th>
+							<th>计划月</th>
+							<th>计划台数</th>
+							<th>完成台数</th>
+							<th>完成率</th>
+						</tr>
+					</thead>
+				  <tbody id="equipSpotReportList">
+
+				  </tbody>
+				</table>
+
+	</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="./js/webJs/equipSpotReport.js"></script>
+<script type="text/javascript" src="./js/jquery.pagination.js"></script>
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/jquery.validate.js"></script>
+<script type="text/javascript" src="./js/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/date.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+</body>
+</html>

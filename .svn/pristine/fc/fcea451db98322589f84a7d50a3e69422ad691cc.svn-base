@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.andon.dao.RepairDao">
+    <resultMap id="ResultMap" type="com.andon.bean.Repair">
+        <result property="id" column="ID" />
+        <result property="detailId" column="DETAIL_ID" />
+        <result property="type" column="TYPE" />
+        <result property="state" column="STATE" />
+        <result property="applicant" column="APPLICANT" />
+        <result property="workMan" column="WORK_MAN" />
+        <result property="reportRepairTime" column="REPORT_REPAIR_TIME" />
+        <result property="orderTime" column="ORDER_TIME" />
+        <result property="beginTime" column="BEGIN_TIME" />
+        <result property="endTime" column="END_TIME" />
+        <result property="confirmationTime" column="CONFIRMATION_TIME" />
+        <result property="preDepChiefConTime" column="PRE_DEP_CHIEF_CON_TIME" />
+        <result property="preSecChiefConTime" column="PRE_SEC_CHIEF_CON_TIME" />
+        <result property="createUser" column="CREATE_USER" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateUser" column="UPDATE_USER" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="isActive" column="ISACTIVE" />
+    </resultMap>
+
+    <!--新建-->
+    <insert id="insert" parameterType="com.andon.bean.Repair"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO repair(
+          TYPE,
+          STATE,
+          REPAIR_NUMBER,
+          DETAIL_ID,
+          APPLICANT,
+          WORK_MAN,
+          REPORT_REPAIR_TIME,
+          ORDER_TIME,
+          BEGIN_TIME,
+          END_TIME,
+          CONFIRMATION_TIME,
+          PRE_DEP_CHIEF_CON_TIME,
+          PRE_SEC_CHIEF_CON_TIME,
+          CREATE_TIME,
+          CREATE_USER,
+          UPDATE_TIME,
+          UPDATE_USER,
+          ISACTIVE
+        )
+        VALUES (
+          #{type},
+          #{state},
+          #{repairNumber},
+          #{detailId},
+          #{applicant},
+          #{workMan},
+          #{reportRepairTime},
+          #{orderTime},
+          #{beginTime},
+          #{endTime},
+          #{confirmationTime},
+          #{preDepChiefConTime},
+          #{preSecChiefConTime},
+          #{createTime},
+          #{createUser},
+          #{updateTime},
+          #{updateUser},
+          #{isActive}
+        )
+    </insert>
+
+    <!--检索设备-->
+    <select id="selectRepair" parameterType="com.andon.bean.dto.RepairSearchInput" resultType="com.andon.bean.Repair">
+        SELECT
+	        r.ID AS id,
+	        r.TYPE AS type,
+	        r.STATE AS state,
+	        r.DETAIL_ID AS detailId,
+	        r.APPLICANT AS applicant,
+	        r.WORK_MAN AS workMan,
+	        r.REPORT_REPAIR_TIME AS reportRepairTime,
+	        r.ORDER_TIME AS orderTime,
+	        r.BEGIN_TIME AS beginTime,
+	        r.END_TIME AS endTime,
+	        r.CONFIRMATION_TIME AS confirmationTime,
+	        r.PRE_DEP_CHIEF_CON_TIME AS preDepChiefConTime,
+	        r.PRE_SEC_CHIEF_CON_TIME AS preSecChiefConTime
+        FROM
+		(
+			SELECT
+				r1.ID AS ID,
+				r1.TYPE AS TYPE,
+				r1.STATE AS STATE,
+	      		r1.DETAIL_ID AS DETAIL_ID,
+		   	    r1.APPLICANT AS APPLICANT,
+	      	    r1.WORK_MAN AS WORK_MAN,
+				r1.REPORT_REPAIR_TIME AS REPORT_REPAIR_TIME,
+		        r1.ORDER_TIME AS ORDER_TIME,
+	            r1.BEGIN_TIME AS BEGIN_TIME,
+	      		r1.END_TIME AS END_TIME,
+	      		r1.CONFIRMATION_TIME AS CONFIRMATION_TIME,
+	      		r1.PRE_DEP_CHIEF_CON_TIME AS PRE_DEP_CHIEF_CON_TIME,
+	      		r1.PRE_SEC_CHIEF_CON_TIME AS PRE_SEC_CHIEF_CON_TIME
+
+			FROM
+				`repair` r1
+			JOIN equip e ON r1.DETAIL_ID = e.ID
+			AND e.ISACTIVE = 1
+			JOIN beltline b ON e.LINE_ID = b.ID
+			AND b.ISACTIVE = 1
+	        <choose>  
+	            <when test="factory == 0 ">  
+	                AND b.FACTORY OR NULL
+	            </when >  
+	
+				<otherwise>
+					AND b.FACTORY = #{factory}
+	            </otherwise>
+	        </choose>
+			WHERE
+				r1.ISACTIVE = 1
+			AND r1.TYPE = 1
+			
+			UNION ALL
+			
+			SELECT
+				r2.ID AS ID,
+				r2.TYPE AS TYPE,
+				r2.STATE AS STATE,
+	      		r2.DETAIL_ID AS DETAIL_ID,
+		    	r2.APPLICANT AS APPLICANT,
+	     	    r2.WORK_MAN AS WORK_MAN,
+				r2.REPORT_REPAIR_TIME AS REPORT_REPAIR_TIME,
+		        r2.ORDER_TIME AS ORDER_TIME,
+	      	    r2.BEGIN_TIME AS BEGIN_TIME,
+	      	    r2.END_TIME AS END_TIME,
+	      		r2.CONFIRMATION_TIME AS CONFIRMATION_TIME,
+	     	    r2.PRE_DEP_CHIEF_CON_TIME AS PRE_DEP_CHIEF_CON_TIME,
+	      		r2.PRE_SEC_CHIEF_CON_TIME AS PRE_SEC_CHIEF_CON_TIME
+				FROM
+					`repair` r2
+				JOIN mould m ON r2.DETAIL_ID = m.ID
+				AND m.ISACTIVE = 1
+		        <choose>  
+		            <when test="factory == 0 ">  
+		                AND m.FACTORY OR NULL
+		            </when >  
+		
+					<otherwise>
+						AND m.FACTORY = #{factory}
+		            </otherwise>
+		        </choose>
+				WHERE
+					r2.ISACTIVE = 1
+				AND r2.TYPE = 2
+		) r 
+        WHERE
+        1=1
+        <if test="type != 9">
+            AND r.TYPE = #{type}
+        </if>
+        <if test="state != 9">
+            AND r.STATE = #{state}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  CONCAT(r.REPORT_REPAIR_TIME,'YYYY/MM/DD hh:mm')>= CONCAT(#{beginTime},'YYYY/MM/DD hh:mm')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  CONCAT(#{endTime},'YYYY/MM/DD hh:mm')>= CONCAT(r.REPORT_REPAIR_TIME,'YYYY/MM/DD hh:mm')
+        </if>
+        <if test="createUser!=null and createUser!=''">
+            AND  r.CREATE_USER = #{createUser}
+        </if>
+        <if test="workMan!=null and workMan!=''">
+            AND  r.WORK_MAN = #{workMan}
+        </if>
+        ORDER BY r.REPORT_REPAIR_TIME DESC
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--检索设备查视图-->
+    <select id="selectRepairFromView" parameterType="com.andon.bean.dto.RepairSearchInput" resultType="com.andon.bean.Repair">
+        SELECT
+	        r.id,
+	        r.repairNumber,
+	        r.type,
+	        r.state,
+	        r.detailId,
+	        r.applicant,
+	        r.workMan,
+	        r.reportRepairTime,
+	        r.orderTime,
+	        r.beginTime,
+	        r.endTime,
+	        r.confirmationTime,
+	        r.preDepChiefConTime,
+	        r.preSecChiefConTime,
+	        r.factory,
+	        r.userName,
+	        r.applicantUserName
+        FROM
+
+			view_repair_list r
+
+        WHERE
+        1=1
+        <choose>  
+           <when test="factory == 0 ">  
+               AND r.factory OR NULL
+           </when >  
+
+		   <otherwise>
+			AND r.factory = #{factory}
+           </otherwise>
+		</choose>
+        
+        
+        <if test="type != 9">
+            AND r.type = #{type}
+        </if>
+        <if test="state != 9">
+            AND r.state = #{state}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  DATE_FORMAT(r.reportRepairTime,'%Y-%m-%d')>= DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  DATE_FORMAT(#{endTime},'%Y-%m-%d')>= DATE_FORMAT(r.reportRepairTime,'%Y-%m-%d')
+        </if>
+        <if test="workMan!=null and workMan!=''">
+            AND  r.workMan = #{workMan}
+        </if>
+        <if test="repairNumber!=null and repairNumber!=''">
+            AND  r.repairNumber like "%" #{repairNumber} "%" 
+        </if>
+        
+        ORDER BY r.reportRepairTime DESC
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+
+    <!--分页-->
+    <select id="selectRepairCount" resultType="int">
+        SELECT	       
+			COUNT(r.id)
+        FROM
+
+			view_repair_list r
+
+        WHERE
+        1=1
+        <choose>  
+           <when test="factory == 0 ">  
+               AND r.factory OR NULL
+           </when >  
+
+		   <otherwise>
+			AND r.factory = #{factory}
+           </otherwise>
+		</choose>
+        
+        
+        <if test="type != 9">
+            AND r.type = #{type}
+        </if>
+        <if test="state != 9">
+            AND r.state = #{state}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  DATE_FORMAT(r.reportRepairTime,'%Y-%m-%d')>= DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  DATE_FORMAT(#{endTime},'%Y-%m-%d')>= DATE_FORMAT(r.reportRepairTime,'%Y-%m-%d')
+        </if>
+        <if test="workMan!=null and workMan!=''">
+            AND  r.workMan = #{workMan}
+        </if>
+        <if test="repairNumber!=null and repairNumber!=''">
+            AND  r.repairNumber like "%" #{repairNumber} "%" 
+        </if>
+        
+    </select>
+
+    <!--更新主表-->
+    <update id="update" parameterType="com.andon.bean.Repair">
+    UPDATE
+    repair
+    <set>
+        <if test="workMan!=null and workMan!=''">
+            WORK_MAN = #{workMan},
+        </if>
+        <if test="orderTime!=null and orderTime!=''">
+            ORDER_TIME = #{orderTime},
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            BEGIN_TIME = #{beginTime},
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            END_TIME = #{endTime},
+        </if>
+        <if test="confirmationTime!=null and confirmationTime!=''">
+            CONFIRMATION_TIME = #{confirmationTime},
+        </if>
+        <if test="qualityMonitorTime!=null and qualityMonitorTime!=''">
+            QUALITY_MONITOR_TIME = #{qualityMonitorTime},
+        </if>
+        <if test="preDepChiefConTime!=null and preDepChiefConTime!=''">
+            PRE_DEP_CHIEF_CON_TIME = #{preDepChiefConTime},
+        </if>
+        <if test="preSecChiefConTime!=null and preSecChiefConTime!=''">
+            PRE_SEC_CHIEF_CON_TIME = #{preSecChiefConTime},
+        </if>
+        <if test="state!=9">
+            STATE = #{state},
+        </if>
+        UPDATE_TIME = #{updateTime},
+        UPDATE_USER = #{updateUser}
+    </set>
+    WHERE
+    ID = #{id}
+    AND ISACTIVE = #{isActive}
+    </update>
+    
+    <!--查询当前报修编号最大的当中最后2位数字-->
+    <select id="selectRepairNum" resultType="map"
+            >
+		SELECT
+			RIGHT (MAX(r.REPAIR_NUMBER), 2) AS num
+		FROM
+			`repair` r
+		WHERE
+			DATE_FORMAT(
+				LEFT (r.REPAIR_NUMBER, 8),
+				'%Y-%m-%d'
+			) = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+    
+    
+    <!--根据id查询详情-->
+    <select id="selectRepairDetail" resultType="com.andon.bean.Repair">
+            
+		SELECT
+		    
+		    r.ID AS id,
+			r.DETAIL_ID AS detailId,
+			r.STATE as state
+		FROM
+			`repair` r
+		WHERE
+			r.ID = #{id}
+		AND 
+		    r.ISACTIVE = #{isActive}	
+    </select>
+
+
+    <!--检索设备查视图-->
+    <select id="selectRepairFromViewToMouldPrevention" parameterType="com.andon.bean.dto.RepairSearchInput" resultType="com.andon.bean.SameRecurrenceRapir">
+        SELECT
+	        r.ID AS id,
+	        r.REPAIR_NUMBER AS repairNumber,
+	        r.TYPE AS type,
+	        r.STATE AS state,
+	        r.DETAIL_ID AS detailId,
+	        r.APPLICANT AS applicant,
+	        r.WORK_MAN AS workMan,
+	        r.REPORT_REPAIR_TIME AS reportRepairTime,
+	        r.ORDER_TIME AS orderTime,
+	        r.BEGIN_TIME AS beginTime,
+	        r.END_TIME AS endTime,
+	        r.CONFIRMATION_TIME AS confirmationTime,
+	        r.PRE_DEP_CHIEF_CON_TIME AS preDepChiefConTime,
+	        r.PRE_SEC_CHIEF_CON_TIME AS preSecChiefConTime,
+	        r.FACTORY AS factory,
+	        r.USERNAME AS userName,
+	        r.APPLICANT_USERNAME AS applicantUserName,
+	        
+	        r.PHENOMENAL_DESCRIPTION AS appearance,
+	        r.VEHICLE_TYPE AS vehicleType,
+	        r.ANOTHER_NAME AS equipName,
+	        r.BELTLINE_NAME AS lineName,
+	        r.REPAIR_TYPE AS repairType
+	        
+        FROM
+
+			view_mould_all_repair_list r
+
+        WHERE
+        1=1
+        <choose>  
+           <when test="factory == 0 ">  
+               AND r.FACTORY OR NULL
+           </when >  
+
+		   <otherwise>
+			AND r.FACTORY = #{factory}
+           </otherwise>
+		</choose>
+        
+        
+        <if test="type != 9">
+            AND r.TYPE = #{type}
+        </if>
+        <if test="state != 9">
+            AND r.STATE = #{state}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  DATE_FORMAT(r.REPORT_REPAIR_TIME,'%Y-%m-%d')>= DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  DATE_FORMAT(#{endTime},'%Y-%m-%d')>= DATE_FORMAT(r.REPORT_REPAIR_TIME,'%Y-%m-%d')
+        </if>
+        <if test="mouldPreventionTypeList!=null">
+            AND
+            r.id IN
+            <foreach collection="mouldPreventionTypeList" item="item" open="(" separator="," close=")">
+            	#{item.reId}
+        	</foreach>
+        </if>        
+
+        ORDER BY r.REPORT_REPAIR_TIME DESC
+        limit #{beginIndex},#{pageSize}
+    </select>
+
+    <!--分页-->
+    <select id="selectRepairCountToMouldPrevention" resultType="int">
+        SELECT	       
+			COUNT(r.ID)
+        FROM
+
+			view_mould_all_repair_list r
+
+        WHERE
+        1=1
+        <choose>  
+           <when test="factory == 0 ">  
+               AND r.FACTORY OR NULL
+           </when >  
+
+		   <otherwise>
+			AND r.FACTORY = #{factory}
+           </otherwise>
+		</choose>
+        
+        
+        <if test="type != 9">
+            AND r.TYPE = #{type}
+        </if>
+        <if test="state != 9">
+            AND r.STATE = #{state}
+        </if>
+        <if test="beginTime!=null and beginTime!=''">
+            AND  DATE_FORMAT(r.REPORT_REPAIR_TIME,'%Y-%m-%d')>= DATE_FORMAT(#{BEGIN_TIME},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND  DATE_FORMAT(#{END_TIME},'%Y-%m-%d')>= DATE_FORMAT(r.REPORT_REPAIR_TIME,'%Y-%m-%d')
+        </if>
+        <if test="mouldPreventionTypeList!=null">
+            AND
+            r.id IN
+            <foreach collection="mouldPreventionTypeList" item="item" open="(" separator="," close=")">
+            	#{item.reId}
+        	</foreach>
+        </if> 
+
+    </select>
+</mapper>
